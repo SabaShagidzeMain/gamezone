@@ -34,6 +34,7 @@
 }
 
 .list_item {
+  color: #001219;
   list-style-type: none;
 }
 
@@ -50,11 +51,11 @@
 }
 
 .navbar h2 {
-  color: #000;
+  color: #001219;
 }
 
 .nav_link {
-  color: #000;
+  color: #001219;
   cursor: pointer;
   border: none;
   background: none;
@@ -73,7 +74,7 @@
 
 .dropdownToggle {
   cursor: pointer;
-  color: #000;
+  color: #001219;
   display: flex;
   align-items: center;
   gap: 0.2rem;
@@ -99,7 +100,7 @@
   left: 0;
   width: 100vw;
   background-color: #fff;
-  color: #000;
+  color: #001219;
   list-style: none;
   height: 7rem;
   display: flex;
