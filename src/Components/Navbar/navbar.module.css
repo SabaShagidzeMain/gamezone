@@ -10,7 +10,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 999;
 }
 
 .navbar_left {
@@ -35,6 +35,18 @@
 
 .list_item {
   list-style-type: none;
+}
+
+.dropdown_list_item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dropdown_logo {
+  font-size: 3rem;
 }
 
 .navbar h2 {
@@ -73,6 +85,10 @@
   transform-origin: center;
 }
 
+.dropdownToggle_icon:hover {
+  color: #9b2226;
+}
+
 .dropdownToggle_icon.rotated {
   transform: rotate(180deg);
 }
@@ -85,17 +101,19 @@
   background-color: #fff;
   color: #000;
   list-style: none;
-  padding: 0;
-  margin: 0;
-  transform: translateY(-10px);
+  height: 7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-1rem);
   opacity: 0;
   visibility: hidden;
   transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 999;
 }
 
 .dropdownMenu ul {
   display: flex;
+  gap: 2rem;
 }
 
 .dropdownMenu.show {

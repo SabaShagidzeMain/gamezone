@@ -5,6 +5,15 @@ import Link from "next/link";
 import styles from "./navbar.module.css";
 
 import { FaArrowDown } from "react-icons/fa";
+import {
+  SiOculus,
+  SiPlaystation5,
+  SiPlaystation4,
+  SiXbox,
+  SiNintendoswitch,
+} from "react-icons/si";
+import { PiGameControllerLight } from "react-icons/pi";
+import { GiConsoleController } from "react-icons/gi";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -67,15 +76,26 @@ const Navbar = () => {
           activeDropdown === "consoles" ? styles.show : ""
         }`}
       >
-        <ul>
-          <li className={styles.list_item}>
-            <Link href="/consoles/ps5">PS5</Link>
+        <ul className={styles.dropdown_list}>
+          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
+            <Link href="/consoles/ps5">
+              <SiPlaystation5 className={styles.dropdown_logo} />
+            </Link>
           </li>
-          <li className={styles.list_item}>
-            <Link href="/consoles/xbox">Xbox</Link>
+          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
+            <Link href="/consoles/ps4">
+              <SiPlaystation4 className={styles.dropdown_logo} />
+            </Link>
           </li>
-          <li className={styles.list_item}>
-            <Link href="/consoles/nintendo">Nintendo</Link>
+          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
+            <Link href="/consoles/xbox">
+              <SiXbox className={styles.dropdown_logo} />
+            </Link>
+          </li>
+          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
+            <Link href="/consoles/nintendo">
+              <SiNintendoswitch className={styles.dropdown_logo} />
+            </Link>
           </li>
         </ul>
       </div>
@@ -85,14 +105,21 @@ const Navbar = () => {
         }`}
       >
         <ul>
-          <li className={styles.list_item}>
-            <Link href="/games/action">Action</Link>
+          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
+            <PiGameControllerLight className={styles.dropdown_logo} />
+            <Link href="/games/adventure">Ps5 თამშები</Link>
           </li>
-          <li className={styles.list_item}>
-            <Link href="/games/adventure">Adventure</Link>
+          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
+            <GiConsoleController className={styles.dropdown_logo} />
+            <Link href="/games/adventure">Ps4 თამაშები</Link>
           </li>
-          <li className={styles.list_item}>
-            <Link href="/games/sports">Sports</Link>
+          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
+            <SiNintendoswitch className={styles.dropdown_logo} />
+            <Link href="/games/sports">Nintendo თამაშები</Link>
+          </li>
+          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
+            <SiOculus className={styles.dropdown_logo} />
+            <Link href="/games/sports">VR თამაშები</Link>
           </li>
         </ul>
       </div>
