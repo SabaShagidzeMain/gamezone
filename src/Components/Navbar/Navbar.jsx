@@ -22,6 +22,60 @@ const Navbar = () => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
 
+  const consolesLinks = [
+    {
+      id: "ps5",
+      href: "/consoles/ps5",
+      icon: <SiPlaystation5 className={styles.dropdown_logo} />,
+      label: "PS5",
+    },
+    {
+      id: "ps4",
+      href: "/consoles/ps4",
+      icon: <SiPlaystation4 className={styles.dropdown_logo} />,
+      label: "PS4",
+    },
+    {
+      id: "xbox",
+      href: "/consoles/xbox",
+      icon: <SiXbox className={styles.dropdown_logo} />,
+      label: "Xbox",
+    },
+    {
+      id: "nintendo",
+      href: "/consoles/nintendo",
+      icon: <SiNintendoswitch className={styles.dropdown_logo} />,
+      label: "Nintendo",
+    },
+  ];
+
+  const gamesLinks = [
+    {
+      id: "ps5-adventure",
+      href: "/games/adventure",
+      icon: <PiGameControllerLight className={styles.dropdown_logo} />,
+      label: "Ps5 თამშები",
+    },
+    {
+      id: "ps4-adventure",
+      href: "/games/adventure",
+      icon: <GiConsoleController className={styles.dropdown_logo} />,
+      label: "Ps4 თამაშები",
+    },
+    {
+      id: "nintendo-sports",
+      href: "/games/sports",
+      icon: <SiNintendoswitch className={styles.dropdown_logo} />,
+      label: "Nintendo თამაშები",
+    },
+    {
+      id: "vr-sports",
+      href: "/games/sports",
+      icon: <SiOculus className={styles.dropdown_logo} />,
+      label: "VR თამაშები",
+    },
+  ];
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.navbar_left}>
@@ -71,56 +125,50 @@ const Navbar = () => {
       <div className={styles.navbar_right}>
         <button className={styles.navbar_button}>პროფილი</button>
       </div>
+
+      {/* Dropdown for Consoles */}
       <div
         className={`${styles.dropdownMenu} ${
           activeDropdown === "consoles" ? styles.show : ""
         }`}
       >
         <ul className={styles.dropdown_list}>
-          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
-            <Link href="/consoles/ps5">
-              <SiPlaystation5 className={styles.dropdown_logo} />
-            </Link>
-          </li>
-          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
-            <Link href="/consoles/ps4">
-              <SiPlaystation4 className={styles.dropdown_logo} />
-            </Link>
-          </li>
-          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
-            <Link href="/consoles/xbox">
-              <SiXbox className={styles.dropdown_logo} />
-            </Link>
-          </li>
-          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
-            <Link href="/consoles/nintendo">
-              <SiNintendoswitch className={styles.dropdown_logo} />
-            </Link>
-          </li>
+          {consolesLinks.map((link) => (
+            <li
+              key={link.id}
+              className={`${styles.list_item} ${styles.dropdown_list_item}`}
+            >
+              <Link href={link.href} className={styles.link_container}>
+                <div className={styles.link_flex}>
+                  {link.icon}
+                  <span>{link.label}</span>
+                </div>
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
+
+      {/* Dropdown for Games */}
       <div
         className={`${styles.dropdownMenu} ${
           activeDropdown === "games" ? styles.show : ""
         }`}
       >
         <ul>
-          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
-            <PiGameControllerLight className={styles.dropdown_logo} />
-            <Link href="/games/adventure">Ps5 თამშები</Link>
-          </li>
-          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
-            <GiConsoleController className={styles.dropdown_logo} />
-            <Link href="/games/adventure">Ps4 თამაშები</Link>
-          </li>
-          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
-            <SiNintendoswitch className={styles.dropdown_logo} />
-            <Link href="/games/sports">Nintendo თამაშები</Link>
-          </li>
-          <li className={`${styles.list_item} ${styles.dropdown_list_item}`}>
-            <SiOculus className={styles.dropdown_logo} />
-            <Link href="/games/sports">VR თამაშები</Link>
-          </li>
+          {gamesLinks.map((link) => (
+            <li
+              key={link.id}
+              className={`${styles.list_item} ${styles.dropdown_list_item}`}
+            >
+              <Link href={link.href} className={styles.link_container}>
+                <div className={styles.link_flex}>
+                  {link.icon}
+                  <span>{link.label}</span>
+                </div>
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
     </nav>
