@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import styles from "./FeaturedProducts.module.css";
 
@@ -51,38 +50,47 @@ const featuredGames = [
 const FeaturedProducts = () => {
   const [activeGame, setActiveGame] = useState(featuredGames[0]);
 
-  return (
-    <>
-      <div className={styles.carousel_container}>
-        <div
-          className={styles.big_box}
-          style={{ backgroundImage: `url(${activeGame.background})` }}
-        >
-          <div key={activeGame.id} className={styles.big_box_inner}>
-            <Image src={activeGame.logo} alt="logo" width={400} height={200} />
-            <h2 className={styles.title}>{activeGame.title}</h2>
-            <p className={styles.desc}>{activeGame.desc}</p>
-            <button className={styles.button}>გაიგე მეტი</button>
-          </div>
-        </div>
+  // Destructure activeGame
+  const { logo, title, desc, background } = activeGame;
 
-        <div className={styles.thumbnails}>
-          {featuredGames.map((game) => (
-            <div
-              key={game.id}
-              className={`${styles.thumbnail} ${
-                activeGame.id === game.id ? styles.active : ""
-              }`}
-              onClick={() => {
-                console.log("Clicked game:", game); // Log the clicked game
-                setActiveGame(game);
-              }}
-              style={{ backgroundImage: `url(${game.thumbnail})` }}
-            ></div>
-          ))}
+  // Function to handle image loading errors
+  const handleImageError = (gameTitle) => {
+    console.error(`Failed to load logo for: ${gameTitle}`);
+  };
+
+  return (
+    <div className={styles.carousel_container}>
+      <div
+        className={styles.big_box}
+        style={{ backgroundImage: `url(${background})` }}
+      >
+        <div className={styles.big_box_inner}>
+          <Image
+            src={logo}
+            alt={`${title} Logo`}
+            width={400}
+            height={200}
+            onError={() => handleImageError(title)}
+          />
+          <h2 className={styles.title}>{title}</h2>
+          <p className={styles.desc}>{desc}</p>
+          <button className={styles.button}>გაიგე მეტი</button>
         </div>
       </div>
-    </>
+
+      <div className={styles.thumbnails}>
+        {featuredGames.map((game) => (
+          <div
+            key={game.id}
+            className={`${styles.thumbnail} ${
+              activeGame.id === game.id ? styles.active : ""
+            }`}
+            onClick={() => setActiveGame(game)}
+            style={{ backgroundImage: `url(${game.thumbnail})` }}
+          ></div>
+        ))}
+      </div>
+    </div>
   );
 };
 
