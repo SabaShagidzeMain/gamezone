@@ -79,5 +79,6 @@
 
 .active {
   box-shadow: 0 0 0 4px #9b2226;
+  border: 2px solid #fff;
   padding: 2rem;
 }
