@@ -24,39 +24,31 @@ const featuredGames = [
   },
   {
     id: 3,
-    title: "Warhammer: Space Marine 2",
-    logo: "/images/featured/logo/logo-space-marine.webp",
-    background: "/images/featured/background/bck-space-marine.jpeg",
-    thumbnail: "/images/featured/thumbnail/thmb-space-marine.jpeg",
-    desc: "Warhammer 40,000: Space Marine 2 on Steam. Embody the superhuman skill and brutality of a Space Marine. Unleash deadly abilities and devastating weaponry to obliterate the relentless Tyranid swarms. Defend the Imperium in spectacular third-person action in solo or multiplayer modes.",
+    title: "CyberPunk 2077",
+    logo: "/images/featured/logo/logo-cyberpunk.png",
+    background: "/images/featured/background/bck-cyberpunk.jpg",
+    thumbnail: "/images/featured/thumbnail/thmb-cyberpunk.jpg",
+    desc: "Star Wars Outlaws is an open world video game developed by Massive Entertainment and published by Ubisoft in collaboration with Lucasfilm Games. The game is story-driven, features an open world, and utilizes Massive Entertainment's proprietary Snowdrop game engine.",
   },
   {
     id: 4,
-    title: "Warhammer: Space Marine 2",
-    logo: "/images/featured/logo/logo-space-marine.webp",
-    background: "/images/featured/background/bck-wukong.jpg",
-    thumbnail: "/images/featured/thumbnail/thmb-wukong.jpg",
+    title: "Marvel: Spiderman 2",
+    logo: "/images/featured/logo/logo-spiderman.png",
+    background: "/images/featured/background/bck-spiderman.jpg",
+    thumbnail: "/images/featured/thumbnail/thmb-spiderman.jpg",
     desc: "Warhammer 40,000: Space Marine 2 on Steam. Embody the superhuman skill and brutality of a Space Marine. Unleash deadly abilities and devastating weaponry to obliterate the relentless Tyranid swarms. Defend the Imperium in spectacular third-person action in solo or multiplayer modes.",
   },
   {
     id: 5,
-    title: "Warhammer: Space Marine 2",
-    logo: "/images/featured/logo/logo-space-marine.webp",
-    background: "/images/featured/background/bck-space-marine.jpeg",
-    thumbnail: "/images/featured/thumbnail/thmb-space-marine.jpeg",
-    desc: "Warhammer 40,000: Space Marine 2 on Steam. Embody the superhuman skill and brutality of a Space Marine. Unleash deadly abilities and devastating weaponry to obliterate the relentless Tyranid swarms. Defend the Imperium in spectacular third-person action in solo or multiplayer modes.",
-  },
-  {
-    id: 6,
-    title: "Warhammer: Space Marine 2",
-    logo: "/images/featured/logo/logo-space-marine.webp",
-    background: "/images/featured/background/bck-wukong.jpg",
-    thumbnail: "/images/featured/thumbnail/thmb-wukong.jpg",
+    title: "Ghost Of Tsushima",
+    logo: "/images/featured/logo/logo-ghost.png",
+    background: "/images/featured/background/bck-ghost.jpg",
+    thumbnail: "/images/featured/thumbnail/thmb-ghost.jpg",
     desc: "Warhammer 40,000: Space Marine 2 on Steam. Embody the superhuman skill and brutality of a Space Marine. Unleash deadly abilities and devastating weaponry to obliterate the relentless Tyranid swarms. Defend the Imperium in spectacular third-person action in solo or multiplayer modes.",
   },
 ];
 
-const FeaturedPoducts = () => {
+const FeaturedProducts = () => {
   const [activeGame, setActiveGame] = useState(featuredGames[0]);
 
   return (
@@ -66,7 +58,7 @@ const FeaturedPoducts = () => {
           className={styles.big_box}
           style={{ backgroundImage: `url(${activeGame.background})` }}
         >
-          <div className={styles.big_box_inner}>
+          <div key={activeGame.id} className={styles.big_box_inner}>
             <Image src={activeGame.logo} alt="logo" width={400} height={200} />
             <h2 className={styles.title}>{activeGame.title}</h2>
             <p className={styles.desc}>{activeGame.desc}</p>
@@ -81,7 +73,10 @@ const FeaturedPoducts = () => {
               className={`${styles.thumbnail} ${
                 activeGame.id === game.id ? styles.active : ""
               }`}
-              onClick={() => setActiveGame(game)}
+              onClick={() => {
+                console.log("Clicked game:", game); // Log the clicked game
+                setActiveGame(game);
+              }}
               style={{ backgroundImage: `url(${game.thumbnail})` }}
             ></div>
           ))}
@@ -91,4 +86,4 @@ const FeaturedPoducts = () => {
   );
 };
 
-export default FeaturedPoducts;
+export default FeaturedProducts;
