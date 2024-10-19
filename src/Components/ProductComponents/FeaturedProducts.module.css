@@ -1,0 +1,47 @@
+.carousel_container {
+  width: 100%;
+  height: fit-content;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 2rem;
+}
+
+.big_box {
+  width: 100%;
+  height: 30rem;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 2rem;
+}
+
+.thumbnails {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.thumbnail {
+  width: 10rem;
+  height: 6rem;
+  background-size: cover;
+  cursor: pointer;
+  background-position: center;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.thumbnail:hover {
+  transform: translateY(-1rem);
+}
+
+.active {
+  box-shadow: 0 0 0 4px #9b2226;
+  padding: 2rem;
+}
