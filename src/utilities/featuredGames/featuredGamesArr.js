@@ -1,4 +1,4 @@
-const featuredGames = [
+const featuredGamesArr = [
   {
     id: 1,
     title: "Warhammer: Space Marine 2",
@@ -41,4 +41,4 @@ const featuredGames = [
   },
 ];
 
-export default featuredGames;
+export default featuredGamesArr;

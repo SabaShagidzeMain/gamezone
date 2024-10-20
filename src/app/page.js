@@ -1,6 +1,6 @@
 import Navbar from "@/Components/Navbar/Navbar";
 import styles from "./page.module.css";
-import FeaturedPoducts from "@/Components/ProductComponents/FeaturedPoducts";
+import FeaturedGames from "@/Components/FeaturedGames/FeaturedGames";
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
         <Navbar />
       </header>
       <main>
-        <FeaturedPoducts />
+        <FeaturedGames />
       </main>
       <footer></footer>
     </div>

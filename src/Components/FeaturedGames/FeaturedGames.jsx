@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import styles from "./FeaturedProducts.module.css";
-import featuredGames from "@/utilities/featuredGames/featuredGames";
+import styles from "./FeaturedGames.module.css";
+import featuredGamesArr from "@/utilities/featuredGames/featuredGamesArr";
 
-const FeaturedProducts = () => {
-  const [activeGame, setActiveGame] = useState(featuredGames[0]);
+const FeaturedGames = () => {
+  const [activeGame, setActiveGame] = useState(featuredGamesArr[0]);
 
   const { logo, title, desc, background } = activeGame;
 
@@ -34,7 +34,7 @@ const FeaturedProducts = () => {
         </div>
       </div>
       <div className={styles.thumbnails}>
-        {featuredGames.map((game) => (
+        {featuredGamesArr.map((game) => (
           <div
             key={game.id}
             className={`${styles.thumbnail} ${
@@ -49,4 +49,4 @@ const FeaturedProducts = () => {
   );
 };
 
-export default FeaturedProducts;
+export default FeaturedGames;
