@@ -1,30 +1,74 @@
 .accessories_section {
-  border: 1px solid blue;
-  padding: 2rem 0;
+  padding: 0 2rem;
+  padding-bottom: 2rem;
 }
 
 .accessory_swiper {
-  padding: 0 2rem;
+  padding: 2rem 2rem;
+  margin: 0 2rem;
 }
 
 .accessory_card {
-  height: 8rem;
-  width: 15rem;
+  height: 7rem;
+  width: 11rem;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid #9b2226;
+  /* border: 3px solid #9b2226; */
   border-radius: 20px;
+  box-shadow: 15px 15px 15px #979797;
 }
 
 .selected_product {
-  border: 1px solid purple;
+  height: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 3rem;
+}
+
+.selected_product_button_container {
+  display: flex;
+  gap: 1rem;
 }
 
 .selected_product_info {
-  border: 1px solid green;
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  width: 30%;
+  height: 100%;
   color: black;
+}
+
+.selected_product_header {
+  font-size: 4rem;
+}
+
+.selected_product_name {
+  font-size: 1.5rem;
+}
+
+.selected_product_desc {
+  font-size: 0.8rem;
+}
+
+.selected_product_button {
+  width: 6rem;
+  height: 2rem;
+  border-radius: 10px;
+  background: #001219;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.selected_product_image {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

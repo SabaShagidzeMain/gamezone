@@ -27,7 +27,8 @@ const accessories = [
     id: 3,
     name: "Pulse 3D Wireless Headset",
     description: "Enjoy A Seamless, Wireless Audio Experience,",
-    image: "/images/featuredAccessories/PULSE-Elite-headset-thumbnail-01-en-08sep23.webp",
+    image:
+      "/images/featuredAccessories/PULSE-Elite-headset-thumbnail-01-en-08sep23.webp",
   },
   {
     id: 4,
@@ -54,7 +55,8 @@ const accessories = [
     id: 7,
     name: "Pulse 3D Wireless Headset",
     description: "Enjoy A Seamless, Wireless Audio Experience,",
-    image: "/images/featuredAccessories/PULSE-Elite-headset-thumbnail-01-en-08sep23.webp",
+    image:
+      "/images/featuredAccessories/PULSE-Elite-headset-thumbnail-01-en-08sep23.webp",
   },
   {
     id: 8,
@@ -75,24 +77,36 @@ const FeaturedAccessories = () => {
   return (
     <>
       <div className={styles.accessories_section}>
-        <h2>Discover All Accessories</h2>
         <div className={styles.selected_product}>
           <div className={styles.selected_product_info}>
-            <h3>{selectedAccessory.name}</h3>
-            <p>{selectedAccessory.description}</p>
+            <h2 className={styles.selected_product_header}>
+              Discover All Accessories
+            </h2>
+            <h3 className={styles.selected_product_name}>
+              {selectedAccessory.name}
+            </h3>
+            <p className={styles.selected_product_desc}>
+              {selectedAccessory.description}
+            </p>
+            <div className={styles.selected_product_button_container}>
+              <button className={styles.selected_product_button}>გაიგე მეტი</button>
+              <button className={styles.selected_product_button}>შეძენა</button>
+            </div>
           </div>
-          <Image
-            src={selectedAccessory.image}
-            alt={selectedAccessory.name}
-            width={800}
-            height={400}
-          />
+          <div className={styles.selected_product_image}>
+            <Image
+              src={selectedAccessory.image}
+              alt={selectedAccessory.name}
+              width={800}
+              height={450}
+            />
+          </div>
         </div>
 
         <Swiper
           className={styles.accessory_swiper}
-          spaceBetween={10}
-          slidesPerView={7}
+          spaceBetween={5}
+          slidesPerView={6}
           navigation={true}
           modules={[Navigation]}
         >
@@ -106,7 +120,7 @@ const FeaturedAccessories = () => {
                   src={accessory.image}
                   alt={accessory.name}
                   width={150}
-                  height={100}
+                  height={80}
                 />
               </div>
             </SwiperSlide>

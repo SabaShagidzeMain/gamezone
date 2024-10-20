@@ -35,6 +35,21 @@ a {
   text-decoration: none;
 }
 
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: #001219 !important;
+  color: #fff !important;
+  border-radius: 50px;
+  width: 3rem !important;
+  height: 3rem !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 1.5rem !important;
+  font-weight: bold;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
