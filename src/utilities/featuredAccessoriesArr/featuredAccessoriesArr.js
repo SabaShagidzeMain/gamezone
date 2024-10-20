@@ -1,4 +1,4 @@
-const featuredAccessoriesArr = [
+const featuredAccessories = [
   {
     id: 1,
     name: "DualSense Wireless Controller",
@@ -71,4 +71,4 @@ const featuredAccessoriesArr = [
   },
 ];
 
-export default featuredAccessoriesArr;
+export default featuredAccessories;
