@@ -1,6 +1,7 @@
 import Navbar from "@/Components/Navbar/Navbar";
 import styles from "./page.module.css";
 import FeaturedGames from "@/Components/FeaturedGames/FeaturedGames";
+import FeaturedAccessories from "@/Components/FeaturedAccessories/FeaturedAccessories";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       </header>
       <main>
         <FeaturedGames />
+        <FeaturedAccessories />
       </main>
       <footer></footer>
     </div>

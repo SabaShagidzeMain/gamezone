@@ -1,0 +1,37 @@
+.accessory_swiper {
+  padding: 0 2rem;
+}
+
+.accessory_card {
+    
+}
+
+.accessories-section {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.selected-product img {
+  width: 300px;
+  height: auto;
+}
+
+.selected-product h3 {
+  margin-top: 10px;
+  font-size: 24px;
+}
+
+.selected-product p {
+  font-size: 18px;
+  color: #666;
+}
+
+.accessory_card img {
+  width: 150px;
+  height: auto;
+}
+
+.accessory_card h4 {
+  font-size: 16px;
+  margin-top: 5px;
+}
