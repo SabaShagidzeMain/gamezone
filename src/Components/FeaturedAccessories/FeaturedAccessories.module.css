@@ -72,3 +72,9 @@
   justify-content: center;
   align-items: center;
 }
+
+.active {
+  transition: all 0.3s ease;
+  border-left: 1.5px solid #001219;
+  border-top: 1.5px solid #001219;
+}

@@ -13,9 +13,11 @@ const FeaturedAccessories = () => {
   const [selectedAccessory, setSelectedAccessory] = useState(
     featuredAccessoriesArr[0]
   );
+  const [activeIndex, setActiveIndex] = useState(0); // Track active slide index
 
-  const handleProductClick = (accessory) => {
+  const handleProductClick = (accessory, index) => {
     setSelectedAccessory(accessory);
+    setActiveIndex(index); // Update active index when a slide is clicked
   };
 
   const { name, description, image: selectedImage } = selectedAccessory;
@@ -48,12 +50,14 @@ const FeaturedAccessories = () => {
         navigation={true}
         modules={[Navigation]}
       >
-        {featuredAccessoriesArr.map((accessory) => (
-          <SwiperSlide
-            key={accessory.id}
-            onClick={() => handleProductClick(accessory)}
-          >
-            <div className={styles.accessory_card}>
+        {featuredAccessoriesArr.map((accessory, index) => (
+          <SwiperSlide key={accessory.id}>
+            <div
+              className={`${styles.accessory_card} ${
+                activeIndex === index ? styles.active : ""
+              }`}
+              onClick={() => handleProductClick(accessory, index)}
+            >
               <Image
                 src={accessory.image}
                 alt={accessory.name}
