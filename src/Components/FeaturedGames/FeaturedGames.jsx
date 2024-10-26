@@ -1,40 +1,61 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./FeaturedGames.module.css";
-import featuredGamesArr from "@/utilities/featuredGames/featuredGamesArr";
+import axios from "axios";
 
 const FeaturedGames = () => {
-  const [activeGame, setActiveGame] = useState(featuredGamesArr[0]);
+  const [activeGame, setActiveGame] = useState(null);
+  const [featuredGames, setFeaturedGames] = useState([]);
 
-  const { logo, title, desc, background } = activeGame;
+  useEffect(() => {
+    const fetchFeaturedGames = async () => {
+      try {
+        const response = await axios.get("/api/games");
+        const featured = response.data.filter((game) => game.featured);
+        setFeaturedGames(featured);
+        setActiveGame(featured[0]);
+      } catch (error) {
+        console.error("Error fetching games:", error);
+      }
+    };
 
-  const handleImageError = (gameTitle) => {
-    console.error(`Failed to load logo for: ${gameTitle}`);
+    fetchFeaturedGames();
+  }, []);
+
+  if (!activeGame) return <div>Loading...</div>;
+
+  const { logo, name, desc, additionalImages } = activeGame;
+
+  const backgroundImage =
+    additionalImages.length > 0 ? additionalImages[0] : "";
+
+  const handleImageError = (name) => {
+    console.error(`Failed to load logo for: ${name}`);
   };
 
   return (
     <div className={styles.carousel_container}>
       <div
         className={styles.big_box}
-        style={{ backgroundImage: `url(${background})` }}
+        style={{ backgroundImage: `url(${backgroundImage})` }}
       >
         <div className={styles.big_box_inner}>
           <Image
             src={logo}
-            alt={`${title} Logo`}
+            alt={`${name} Logo`}
             width={400}
             height={200}
-            onError={() => handleImageError(title)}
+            onError={() => handleImageError(name)}
           />
-          <h2 className={styles.title}>{title}</h2>
+          <h2 className={styles.title}>{name}</h2>
           <p className={styles.desc}>{desc}</p>
           <button className={styles.button}>გაიგე მეტი</button>
         </div>
       </div>
       <div className={styles.thumbnails}>
-        {featuredGamesArr.map((game) => (
+        {featuredGames.map((game) => (
           <div
             key={game.id}
             className={`${styles.thumbnail} ${
