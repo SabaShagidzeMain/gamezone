@@ -1,137 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
-import styles from "./GameShowcase.module.css"; // Import your styles
-
-const newReleases = [
-  {
-    id: 1,
-    title: "Game 1",
-    image: "/images/gameShowcase/new/outlaws-cover.jpg",
-  },
-  {
-    id: 2,
-    title: "Game 1",
-    image: "/images/gameShowcase/new/outlaws-cover.jpg",
-  },
-  {
-    id: 3,
-    title: "Game 1",
-    image: "/images/gameShowcase/new/outlaws-cover.jpg",
-  },
-  {
-    id: 4,
-    title: "Game 1",
-    image: "/images/gameShowcase/new/outlaws-cover.jpg",
-  },
-  {
-    id: 5,
-    title: "Game 1",
-    image: "/images/gameShowcase/new/outlaws-cover.jpg",
-  },
-  {
-    id: 6,
-    title: "Game 1",
-    image: "/images/gameShowcase/new/outlaws-cover.jpg",
-  },
-  {
-    id: 7,
-    title: "Game 1",
-    image: "/images/gameShowcase/new/outlaws-cover.jpg",
-  },
-  {
-    id: 8,
-    title: "Game 1",
-    image: "/images/gameShowcase/new/outlaws-cover.jpg",
-  },
-  {
-    id: 9,
-    title: "Game 1",
-    image: "/images/gameShowcase/new/outlaws-cover.jpg",
-  },
-  {
-    id: 10,
-    title: "Game 1",
-    image: "/images/gameShowcase/new/outlaws-cover.jpg",
-  },
-  {
-    id: 11,
-    title: "Game 1",
-    image: "/images/gameShowcase/new/outlaws-cover.jpg",
-  },
-  {
-    id: 12,
-    title: "Game 1",
-    image: "/images/gameShowcase/new/outlaws-cover.jpg",
-  },
-];
-
-const comingSoon = [
-  {
-    id: 1,
-    title: "Game 1",
-    image: "/images/gameShowcase/soon/dragonage-cover.jpg",
-  },
-  {
-    id: 2,
-    title: "Game 1",
-    image: "/images/gameShowcase/soon/dragonage-cover.jpg",
-  },
-  {
-    id: 3,
-    title: "Game 1",
-    image: "/images/gameShowcase/soon/dragonage-cover.jpg",
-  },
-  {
-    id: 4,
-    title: "Game 1",
-    image: "/images/gameShowcase/soon/dragonage-cover.jpg",
-  },
-  {
-    id: 5,
-    title: "Game 1",
-    image: "/images/gameShowcase/soon/dragonage-cover.jpg",
-  },
-  {
-    id: 6,
-    title: "Game 1",
-    image: "/images/gameShowcase/soon/dragonage-cover.jpg",
-  },
-  {
-    id: 7,
-    title: "Game 1",
-    image: "/images/gameShowcase/soon/dragonage-cover.jpg",
-  },
-  {
-    id: 8,
-    title: "Game 1",
-    image: "/images/gameShowcase/soon/dragonage-cover.jpg",
-  },
-  {
-    id: 9,
-    title: "Game 1",
-    image: "/images/gameShowcase/soon/dragonage-cover.jpg",
-  },
-  {
-    id: 10,
-    title: "Game 1",
-    image: "/images/gameShowcase/soon/dragonage-cover.jpg",
-  },
-  {
-    id: 11,
-    title: "Game 1",
-    image: "/images/gameShowcase/soon/dragonage-cover.jpg",
-  },
-  {
-    id: 12,
-    title: "Game 1",
-    image: "/images/gameShowcase/soon/dragonage-cover.jpg",
-  },
-];
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import styles from "./GameShowcase.module.css";
 
 const GameShowcase = () => {
+  const [games, setGames] = useState([]);
   const [showComingSoon, setShowComingSoon] = useState(false);
   const [hoveredCardId, setHoveredCardId] = useState(null);
+
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        const response = await axios.get("/api/games");
+        setGames(response.data);
+      } catch (error) {
+        console.error("Error fetching games:", error);
+      }
+    };
+
+    fetchGames();
+  }, [setGames]);
 
   const handleNewReleasesClick = () => {
     setShowComingSoon(false);
@@ -141,7 +30,9 @@ const GameShowcase = () => {
     setShowComingSoon(true);
   };
 
-  const displayedGames = showComingSoon ? comingSoon : newReleases;
+  const displayedGames = showComingSoon
+    ? games.filter((game) => game.coming)
+    : games.filter((game) => game.new);
 
   return (
     <div className={styles.game_showcase_section}>
@@ -175,9 +66,9 @@ const GameShowcase = () => {
           >
             <div
               className={styles.game_card_image}
-              style={{ backgroundImage: `url(${game.image})` }}
+              style={{ backgroundImage: `url(${game.thumbnail})` }}
             ></div>
-            <h3>{game.title}</h3>
+            <h3 className={styles.game_title}>{game.name}</h3>
           </div>
         ))}
       </div>
