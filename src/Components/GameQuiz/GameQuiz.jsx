@@ -10,7 +10,7 @@ const GameQuiz = () => {
   const [answers, setAnswers] = useState({});
   const [games, setGames] = useState([]);
   const [started, setStarted] = useState(false);
-  const [randomThumbnail, setRandomThumbnail] = useState(null); // State for random thumbnail
+  const [finalThumbnail, setFinalThumbnail] = useState(null); // State for the final thumbnail
 
   const questions = [
     {
@@ -40,14 +40,14 @@ const GameQuiz = () => {
   }, []);
 
   const handleAnswer = (answer) => {
-    setAnswers({ ...answers, [questions[step].id]: answer });
+    setAnswers((prev) => ({ ...prev, [questions[step].id]: answer }));
 
-    // Select a random game thumbnail from the array
+    // Select a random game thumbnail from the array after each answer
     const randomGame = games[Math.floor(Math.random() * games.length)];
     console.log("Random Game Selected:", randomGame); // Log the selected game
-    setRandomThumbnail(randomGame); // Update the random thumbnail state
+    setFinalThumbnail(randomGame); // Update the random thumbnail state
 
-    setStep(step + 1);
+    setStep((prev) => prev + 1);
   };
 
   const Result = () => {
@@ -55,38 +55,59 @@ const GameQuiz = () => {
       Object.keys(answers).every((key) => game[key] === answers[key])
     );
 
+    // Get the thumbnail of the first recommended game if available
+    const finalGameThumbnail =
+      recommendedGames.length > 0 ? recommendedGames[0].thumbnail : null;
+
     return (
-      <div className={styles.result}>
-        <div className={styles.quiz_left}>
-          <h2>Recommended Games:</h2>
-          {recommendedGames.length > 0 ? (
-            recommendedGames.map((game) => (
-              <div key={game.id}>
-                <h3>{game.name}</h3>
-                <p>Genre: {game.genre}</p>
-                <p>Difficulty: {game.difficulty}</p>
-              </div>
-            ))
-          ) : (
-            <p>No Games Found Matching Your Criteria</p>
-          )}
+      <>
+        <div className={styles.result}>
+          <div className={styles.quiz_left}>
+            <h2>Recommended Games:</h2>
+            {recommendedGames.length > 0 ? (
+              recommendedGames.map((game) => (
+                <div key={game.id}>
+                  <h3>{game.name}</h3>
+                  <p>Genre: {game.genre}</p>
+                  <p>Difficulty: {game.difficulty}</p>
+                </div>
+              ))
+            ) : (
+              <p>No Games Found Matching Your Criteria</p>
+            )}
+          </div>
+          <div className={styles.quiz_right}>
+            {finalThumbnail &&
+              step < questions.length && ( // Show random thumbnail after each answer
+                <div className={styles.final_result}>
+                  <h3>Random Game Thumbnail:</h3>
+                  <Image
+                    src={finalThumbnail.thumbnail} // Ensure this is the correct property
+                    alt={finalThumbnail.name}
+                    className={styles.thumbnail}
+                    width={200} // Add width
+                    height={300} // Add height
+                  />
+                  <p>{finalThumbnail.name}</p>
+                </div>
+              )}
+            {step === questions.length &&
+              finalGameThumbnail && ( // Display the final answer's thumbnail and title
+                <div className={styles.final_result}>
+                  <h3>Your Selected Game:</h3>
+                  <Image
+                    src={finalGameThumbnail} // Use the thumbnail of the first recommended game
+                    alt={recommendedGames[0].name}
+                    className={styles.thumbnail}
+                    width={200} // Add width
+                    height={300} // Add height
+                  />
+                  <p>{recommendedGames[0].name}</p>
+                </div>
+              )}
+          </div>
         </div>
-        <div className={styles.quiz_right}>
-          {randomThumbnail && ( // Display the final answer's thumbnail and title
-            <div className={styles.final_result}>
-              <h3>Your Selected Game:</h3>
-              <Image
-                src={randomThumbnail.thumbnail} // Ensure this is the correct property
-                alt={randomThumbnail.name}
-                className={styles.thumbnail}
-                width={200} // Add width
-                height={300} // Add height
-              />
-              <p>{randomThumbnail.name}</p>
-            </div>
-          )}
-        </div>
-      </div>
+      </>
     );
   };
 
@@ -102,7 +123,7 @@ const GameQuiz = () => {
             Start Quiz
           </button>
         ) : step < questions.length ? (
-          <div>
+          <div className={styles.question_container}>
             <h2 className={styles.title}>{questions[step].text}</h2>
             {questions[step].options.map((option) => (
               <button
