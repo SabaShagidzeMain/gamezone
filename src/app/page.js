@@ -15,7 +15,6 @@ export default function Home() {
         <FeaturedGames />
         <FeaturedAccessories />
         <GameShowcase />
-        <GameQuiz />
       </main>
       <footer></footer>
     </div>

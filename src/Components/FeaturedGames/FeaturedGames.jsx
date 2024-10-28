@@ -8,6 +8,7 @@ import axios from "axios";
 const FeaturedGames = () => {
   const [activeGame, setActiveGame] = useState(null);
   const [featuredGames, setFeaturedGames] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchFeaturedGames = async () => {
@@ -18,54 +19,73 @@ const FeaturedGames = () => {
         setActiveGame(featured[0]);
       } catch (error) {
         console.error("Error fetching games:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchFeaturedGames();
   }, []);
 
-  if (!activeGame) return <div>Loading...</div>;
-
-  const { logo, name, desc, additionalImages } = activeGame;
-
-  const backgroundImage =
-    additionalImages.length > 0 ? additionalImages[0] : "";
-
   const handleImageError = (name) => {
     console.error(`Failed to load logo for: ${name}`);
   };
 
+  const { logo, name, desc, additionalImages } = activeGame || {};
+  const backgroundImage =
+    additionalImages && additionalImages.length > 0 ? additionalImages[0] : "";
+
   return (
     <div className={styles.carousel_container}>
-      <div
-        className={styles.big_box}
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-      >
-        <div className={styles.big_box_inner}>
-          <Image
-            src={logo}
-            alt={`${name} Logo`}
-            width={400}
-            height={200}
-            onError={() => handleImageError(name)}
-          />
-          <h2 className={styles.title}>{name}</h2>
-          <p className={styles.desc}>{desc}</p>
-          <button className={styles.button}>გაიგე მეტი</button>
+      {isLoading ? (
+        <div className={styles.loadingContainer}>
+          <div className={`${styles.big_box} ${styles.loadingEffect}`}>
+            <div className={styles.shimmer}></div>
+          </div>
+          <div className={styles.thumbnailLoadingContainer}>
+            {[...Array(4)].map((_, i) => (
+              <div
+                key={i}
+                className={`${styles.thumbnail} ${styles.loadingEffect}`}
+              >
+                <div className={styles.shimmer}></div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className={styles.thumbnails}>
-        {featuredGames.map((game) => (
+      ) : (
+        <>
           <div
-            key={game.id}
-            className={`${styles.thumbnail} ${
-              activeGame.id === game.id ? styles.active : ""
-            }`}
-            onClick={() => setActiveGame(game)}
-            style={{ backgroundImage: `url(${game.thumbnail})` }}
-          ></div>
-        ))}
-      </div>
+            className={styles.big_box}
+            style={{ backgroundImage: `url(${backgroundImage})` }}
+          >
+            <div className={styles.big_box_inner}>
+              <Image
+                src={logo}
+                alt={`${name} Logo`}
+                width={400}
+                height={200}
+                onError={() => handleImageError(name)}
+              />
+              <h2 className={styles.title}>{name}</h2>
+              <p className={styles.desc}>{desc}</p>
+              <button className={styles.button}>გაიგე მეტი</button>
+            </div>
+          </div>
+          <div className={styles.thumbnails}>
+            {featuredGames.map((game) => (
+              <div
+                key={game.id}
+                className={`${styles.thumbnail} ${
+                  activeGame.id === game.id ? styles.active : ""
+                }`}
+                onClick={() => setActiveGame(game)}
+                style={{ backgroundImage: `url(${game.thumbnail})` }}
+              ></div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

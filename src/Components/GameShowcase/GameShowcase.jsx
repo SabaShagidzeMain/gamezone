@@ -8,19 +8,23 @@ const GameShowcase = () => {
   const [games, setGames] = useState([]);
   const [showComingSoon, setShowComingSoon] = useState(false);
   const [hoveredCardId, setHoveredCardId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchGames = async () => {
       try {
+        setLoading(true); // Set loading to true while fetching
         const response = await axios.get("/api/games");
         setGames(response.data);
       } catch (error) {
         console.error("Error fetching games:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetch completes
       }
     };
 
     fetchGames();
-  }, [setGames]);
+  }, []);
 
   const handleNewReleasesClick = () => {
     setShowComingSoon(false);
@@ -55,22 +59,37 @@ const GameShowcase = () => {
         </button>
       </div>
       <div className={styles.game_cards}>
-        {displayedGames.map((game) => (
-          <div
-            key={game.id}
-            className={`${styles.game_card} ${
-              hoveredCardId && hoveredCardId !== game.id ? styles.dimmed : ""
-            }`}
-            onMouseEnter={() => setHoveredCardId(game.id)}
-            onMouseLeave={() => setHoveredCardId(null)}
-          >
-            <div
-              className={styles.game_card_image}
-              style={{ backgroundImage: `url(${game.thumbnail})` }}
-            ></div>
-            <h3 className={styles.game_title}>{game.name}</h3>
-          </div>
-        ))}
+        {loading
+          ? Array.from({ length: displayedGames.length || 6 }).map(
+              (_, index) => (
+                <div key={index} className={styles.loading_game_card}>
+                  <div className={styles.loading_game_card_image}>
+                    <div className={styles.shimmer}></div>
+                  </div>
+                  <div className={styles.loading_game_title}>
+                    <div className={styles.shimmer}></div>
+                  </div>
+                </div>
+              )
+            )
+          : displayedGames.map((game) => (
+              <div
+                key={game.id}
+                className={`${styles.game_card} ${
+                  hoveredCardId && hoveredCardId !== game.id
+                    ? styles.dimmed
+                    : ""
+                }`}
+                onMouseEnter={() => setHoveredCardId(game.id)}
+                onMouseLeave={() => setHoveredCardId(null)}
+              >
+                <div
+                  className={styles.game_card_image}
+                  style={{ backgroundImage: `url(${game.thumbnail})` }}
+                ></div>
+                <h3 className={styles.game_title}>{game.name}</h3>
+              </div>
+            ))}
       </div>
     </div>
   );

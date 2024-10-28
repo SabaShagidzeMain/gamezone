@@ -1,7 +1,6 @@
 .carousel_container {
   height: fit-content;
   width: 100%;
-  height: fit-content;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -21,6 +20,8 @@
   text-align: left;
   color: #fff;
   font-weight: bold;
+  position: relative; /* Added for positioning of shimmer */
+  overflow: hidden; /* Ensure overflow is hidden */
 }
 
 .big_box_inner {
@@ -71,6 +72,8 @@
   background-position: center;
   border-radius: 10px;
   transition: all 0.3s ease-in-out;
+  position: relative; /* Added for positioning of shimmer */
+  overflow: hidden; /* Ensure overflow is hidden */
 }
 
 .thumbnail:hover {
@@ -81,4 +84,68 @@
   box-shadow: 0 0 0 4px #9b2226;
   border: 2px solid #fff;
   padding: 2rem;
+}
+
+.loadingContainer {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.big_box.loadingEffect {
+  background-color: #001219;
+}
+
+.big_box.loadingEffect::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.5s infinite;
+  clip-path: inset(0); /* Ensures shimmer is clipped to the container */
+}
+
+.thumbnail.loadingEffect {
+  background-color: #001219;
+}
+
+.thumbnail.loadingEffect::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.5s infinite;
+  clip-path: inset(0); /* Ensures shimmer is clipped to the container */
+}
+
+.thumbnailLoadingContainer {
+  display: flex;
+  gap: 15px;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
