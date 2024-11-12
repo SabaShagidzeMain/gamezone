@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import styles from "./navbar.module.css";
 
+import { useTranslations } from "next-intl";
+
 import { FaArrowDown } from "react-icons/fa";
 import {
   SiOculus,
@@ -16,6 +18,7 @@ import { PiGameControllerLight } from "react-icons/pi";
 import { GiConsoleController } from "react-icons/gi";
 
 const Navbar = () => {
+  const t = useTranslations();
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   const toggleDropdown = (dropdown) => {
@@ -90,7 +93,7 @@ const Navbar = () => {
               onClick={() => toggleDropdown("consoles")}
               className={styles.dropdownToggle}
             >
-              <button className={styles.nav_link}>კონსოლები</button>
+              <button className={styles.nav_link}>{t("HomePage.test")}</button>
               <FaArrowDown
                 className={`${styles.dropdownToggle_icon} ${
                   activeDropdown === "consoles" ? styles.rotated : ""

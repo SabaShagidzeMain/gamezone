@@ -1,0 +1,13 @@
+{
+  "HomePage": {
+    "test": "Test!"
+  },
+  "Header": {
+    "consoles": "Consoles",
+    "games": "Games",
+    "accessories": "Accessories",
+    "about": "About Us",
+    "contact": "Contact",
+    "profile": "Profile"
+  }
+}
