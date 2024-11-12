@@ -1,13 +1,10 @@
 {
-  "HomePage": {
-    "test": "ტესტ!"
-  },
-  "Header": {
-    "consoles": "Consoles",
-    "games": "Games",
-    "accessories": "Accessories",
-    "about": "About Us",
-    "contact": "Contact",
-    "profile": "Profile"
+  "header": {
+    "consoles": "კონსოლები",
+    "games": "თამაშები",
+    "accessories": "აქსესუარები",
+    "about": "ჩვენს შესახებ",
+    "contact": "კონტაქტი",
+    "profile": "პროფილი"
   }
 }

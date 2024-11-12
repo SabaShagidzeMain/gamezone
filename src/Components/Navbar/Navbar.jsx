@@ -17,6 +17,8 @@ import {
 import { PiGameControllerLight } from "react-icons/pi";
 import { GiConsoleController } from "react-icons/gi";
 
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+
 const Navbar = () => {
   const t = useTranslations();
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -57,25 +59,25 @@ const Navbar = () => {
       id: "ps5-adventure",
       href: "/games/adventure",
       icon: <PiGameControllerLight className={styles.dropdown_logo} />,
-      label: "Ps5 თამშები",
+      label: `PS5 ${t("header.games")}`,
     },
     {
       id: "ps4-adventure",
       href: "/games/adventure",
       icon: <GiConsoleController className={styles.dropdown_logo} />,
-      label: "Ps4 თამაშები",
+      label: `PS4 ${t("header.games")}`,
     },
     {
       id: "nintendo-sports",
       href: "/games/sports",
       icon: <SiNintendoswitch className={styles.dropdown_logo} />,
-      label: "Nintendo თამაშები",
+      label: `Nintendo ${t("header.games")}`,
     },
     {
       id: "vr-sports",
       href: "/games/sports",
       icon: <SiOculus className={styles.dropdown_logo} />,
-      label: "VR თამაშები",
+      label: `VR ${t("header.games")}`,
     },
   ];
 
@@ -93,7 +95,9 @@ const Navbar = () => {
               onClick={() => toggleDropdown("consoles")}
               className={styles.dropdownToggle}
             >
-              <button className={styles.nav_link}>{t("HomePage.test")}</button>
+              <button className={styles.nav_link}>
+                {t("header.consoles")}
+              </button>
               <FaArrowDown
                 className={`${styles.dropdownToggle_icon} ${
                   activeDropdown === "consoles" ? styles.rotated : ""
@@ -106,7 +110,7 @@ const Navbar = () => {
               onClick={() => toggleDropdown("games")}
               className={styles.dropdownToggle}
             >
-              <button className={styles.nav_link}>თამაშები</button>
+              <button className={styles.nav_link}>{t("header.games")}</button>
               <FaArrowDown
                 className={`${styles.dropdownToggle_icon} ${
                   activeDropdown === "games" ? styles.rotated : ""
@@ -115,18 +119,21 @@ const Navbar = () => {
             </div>
           </li>
           <li className={styles.list_item}>
-            <button className={styles.nav_link}>აქსესუარები</button>
+            <button className={styles.nav_link}>
+              {t("header.accessories")}
+            </button>
           </li>
           <li className={styles.list_item}>
-            <button className={styles.nav_link}>ჩვენს შესახებ</button>
+            <button className={styles.nav_link}>{t("header.about")}</button>
           </li>
           <li className={styles.list_item}>
-            <button className={styles.nav_link}>კონტაქტი</button>
+            <button className={styles.nav_link}>{t("header.contact")}</button>
           </li>
         </ul>
       </div>
       <div className={styles.navbar_right}>
-        <button className={styles.navbar_button}>პროფილი</button>
+        <button className={styles.navbar_button}>{t("header.profile")}</button>
+        <LanguageSwitcher/>
       </div>
 
       {/* Dropdown for Consoles */}

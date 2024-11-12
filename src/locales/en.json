@@ -1,8 +1,5 @@
 {
-  "HomePage": {
-    "test": "Test!"
-  },
-  "Header": {
+  "header": {
     "consoles": "Consoles",
     "games": "Games",
     "accessories": "Accessories",
