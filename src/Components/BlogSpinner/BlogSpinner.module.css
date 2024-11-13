@@ -2,7 +2,6 @@
   padding: 2rem;
 }
 
-/* BlogSpinner.module.css */
 .blogCard {
   display: flex;
   flex-direction: column;
@@ -10,6 +9,7 @@
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .cardContent {
@@ -32,13 +32,4 @@
   font-size: 1rem;
   color: #555;
   margin-bottom: 15px;
-}
-
-.button {
-  background-color: #0070f3;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 }

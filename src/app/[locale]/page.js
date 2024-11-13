@@ -4,6 +4,7 @@ import FeaturedGames from "@/Components/FeaturedGames/FeaturedGames";
 import FeaturedAccessories from "@/Components/FeaturedAccessories/FeaturedAccessories";
 import GameShowcase from "@/Components/GameShowcase/GameShowcase";
 import BlogSpinner from "@/Components/BlogSpinner/BlogSpinner";
+import Footer from "@/Components/Footer/Footer";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         <FeaturedAccessories />
         <GameShowcase />
         <BlogSpinner />
+        <Footer />
       </main>
       <footer></footer>
     </div>
