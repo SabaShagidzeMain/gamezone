@@ -8,7 +8,6 @@ const LanguageSwitcher = () => {
   const router = useRouter();
   const pathname = usePathname();
   const currentLocale = pathname.startsWith("/ge") ? "ge" : "en";
-  console.log(currentLocale);
   const toggleLanguage = () => {
     const newLocale = currentLocale === "en" ? "ge" : "en";
 

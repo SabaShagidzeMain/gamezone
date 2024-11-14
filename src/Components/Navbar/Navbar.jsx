@@ -5,7 +5,9 @@ import Link from "next/link";
 import styles from "./navbar.module.css";
 
 import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
 
+import { MdDensitySmall } from "react-icons/md";
 import { FaArrowDown } from "react-icons/fa";
 import {
   SiOculus,
@@ -21,6 +23,8 @@ import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
 
 const Navbar = () => {
   const t = useTranslations();
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1];
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   const toggleDropdown = (dropdown) => {
@@ -56,28 +60,40 @@ const Navbar = () => {
 
   const gamesLinks = [
     {
-      id: "ps5-adventure",
-      href: "/games/adventure",
+      id: "ps5-games",
+      href: "/games?console=ps5",
       icon: <PiGameControllerLight className={styles.dropdown_logo} />,
       label: `PS5 ${t("header.games")}`,
     },
     {
-      id: "ps4-adventure",
-      href: "/games/adventure",
+      id: "ps4-games",
+      href: "/games?console=ps4",
       icon: <GiConsoleController className={styles.dropdown_logo} />,
       label: `PS4 ${t("header.games")}`,
     },
     {
-      id: "nintendo-sports",
-      href: "/games/sports",
+      id: "Xbox",
+      href: "/games?console=xbox",
+      icon: <SiXbox className={styles.dropdown_logo} />,
+      label: `XBox ${t("header.games")}`,
+    },
+    {
+      id: "nintendo-games",
+      href: "/games?console=nintendo",
       icon: <SiNintendoswitch className={styles.dropdown_logo} />,
       label: `Nintendo ${t("header.games")}`,
     },
     {
-      id: "vr-sports",
-      href: "/games/sports",
+      id: "vr-games",
+      href: "/games?console=vr",
       icon: <SiOculus className={styles.dropdown_logo} />,
       label: `VR ${t("header.games")}`,
+    },
+    {
+      id: "all-games",
+      href: `/${locale}/games`,
+      icon: <MdDensitySmall className={styles.dropdown_logo} />,
+      label: `${t("header.all-games")}`,
     },
   ];
 
@@ -133,7 +149,7 @@ const Navbar = () => {
       </div>
       <div className={styles.navbar_right}>
         <button className={styles.navbar_button}>{t("header.profile")}</button>
-        <LanguageSwitcher/>
+        <LanguageSwitcher />
       </div>
 
       {/* Dropdown for Consoles */}
