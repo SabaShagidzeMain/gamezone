@@ -14,7 +14,9 @@ const GameShowcase = () => {
     const fetchGames = async () => {
       try {
         setLoading(true); // Set loading to true while fetching
-        const response = await axios.get("/api/games");
+        const response = await axios.get(
+          `/api/games?showComingSoon=${showComingSoon}`
+        );
         setGames(response.data);
       } catch (error) {
         console.error("Error fetching games:", error);
@@ -24,7 +26,7 @@ const GameShowcase = () => {
     };
 
     fetchGames();
-  }, []);
+  }, [showComingSoon]); // Fetch games whenever `showComingSoon` changes
 
   const handleNewReleasesClick = () => {
     setShowComingSoon(false);
@@ -33,10 +35,6 @@ const GameShowcase = () => {
   const handleComingSoonClick = () => {
     setShowComingSoon(true);
   };
-
-  const displayedGames = showComingSoon
-    ? games.filter((game) => game.coming)
-    : games.filter((game) => game.new);
 
   return (
     <div className={styles.game_showcase_section}>
@@ -60,19 +58,17 @@ const GameShowcase = () => {
       </div>
       <div className={styles.game_cards}>
         {loading
-          ? Array.from({ length: displayedGames.length || 6 }).map(
-              (_, index) => (
-                <div key={index} className={styles.loading_game_card}>
-                  <div className={styles.loading_game_card_image}>
-                    <div className={styles.shimmer}></div>
-                  </div>
-                  <div className={styles.loading_game_title}>
-                    <div className={styles.shimmer}></div>
-                  </div>
+          ? Array.from({ length: 6 }).map((_, index) => (
+              <div key={index} className={styles.loading_game_card}>
+                <div className={styles.loading_game_card_image}>
+                  <div className={styles.shimmer}></div>
                 </div>
-              )
-            )
-          : displayedGames.map((game) => (
+                <div className={styles.loading_game_title}>
+                  <div className={styles.shimmer}></div>
+                </div>
+              </div>
+            ))
+          : games.map((game) => (
               <div
                 key={game.id}
                 className={`${styles.game_card} ${

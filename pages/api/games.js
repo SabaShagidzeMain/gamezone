@@ -523,10 +523,21 @@ export default function handler(req, res) {
     },
   ];
 
+  // Featured Filtering
   const { featured } = req.query;
   if (featured === "true") {
     games = games.filter((game) => game.featured === true);
   }
 
-  res.status(200).json(games);
+  // New/Coming Filtering
+  const { showComingSoon } = req.query;
+  let filteredGames = games.filter((game) => {
+    if (showComingSoon === "true") {
+      return game.coming;
+    }
+    return game.new;
+  });
+
+  // Return filtered games
+  res.status(200).json(filteredGames);
 }
