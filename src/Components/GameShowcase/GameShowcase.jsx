@@ -7,32 +7,42 @@ import styles from "./GameShowcase.module.css";
 const GameShowcase = () => {
   const [games, setGames] = useState([]);
   const [showComingSoon, setShowComingSoon] = useState(false);
+  const [showNew, setShowNew] = useState(true);
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        setLoading(true); // Set loading to true while fetching
-        const response = await axios.get(
-          `/api/games?showComingSoon=${showComingSoon}`
-        );
+        setLoading(true);
+        let response;
+
+        if (showComingSoon) {
+          response = await axios.get("/api/games?showComingSoon=true");
+        } else if (showNew) {
+          response = await axios.get("/api/games?showNew=true");
+        } else {
+          response = await axios.get("/api/games");
+        }
+
         setGames(response.data);
       } catch (error) {
         console.error("Error fetching games:", error);
       } finally {
-        setLoading(false); // Set loading to false after fetch completes
+        setLoading(false);
       }
     };
 
     fetchGames();
-  }, [showComingSoon]); // Fetch games whenever `showComingSoon` changes
+  }, [showComingSoon, showNew]);
 
   const handleNewReleasesClick = () => {
     setShowComingSoon(false);
+    setShowNew(true);
   };
 
   const handleComingSoonClick = () => {
+    setShowNew(false);
     setShowComingSoon(true);
   };
 
@@ -40,9 +50,7 @@ const GameShowcase = () => {
     <div className={styles.game_showcase_section}>
       <div className={styles.button_container}>
         <button
-          className={
-            showComingSoon ? styles.inactiveButton : styles.activeButton
-          }
+          className={showNew ? styles.activeButton : styles.inactiveButton}
           onClick={handleNewReleasesClick}
         >
           New Releases

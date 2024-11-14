@@ -527,17 +527,21 @@ export default function handler(req, res) {
   const { featured } = req.query;
   if (featured === "true") {
     games = games.filter((game) => game.featured === true);
+    console.log(games); // Log after filtering by featured
   }
 
-  // New/Coming Filtering
-  const { showComingSoon } = req.query;
-  let filteredGames = games.filter((game) => {
-    if (showComingSoon === "true") {
-      return game.coming;
-    }
-    return game.new;
-  });
+  // New Filtering
+  const { showNew } = req.query;
+  if (showNew === "true") {
+    games = games.filter((game) => game.new); // Apply new filter
+  }
 
-  // Return filtered games
-  res.status(200).json(filteredGames);
+  // Coming Soon Filtering
+  const { showComingSoon } = req.query;
+  if (showComingSoon === "true") {
+    games = games.filter((game) => game.coming); // Apply coming soon filter
+  }
+
+  // Return the filtered games based on the conditions (featured, new, coming)
+  res.status(200).json(games);
 }

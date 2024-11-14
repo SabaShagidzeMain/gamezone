@@ -13,8 +13,8 @@ const FeaturedGames = () => {
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        // Fetching only featured games directly from the API
         const response = await axios.get("/api/games?featured=true");
+        console.log(response.data); // Add this to check the returned data
         setFeaturedGames(response.data);
         setActiveGame(response.data[0]);
       } catch (error) {
@@ -23,7 +23,6 @@ const FeaturedGames = () => {
         setIsLoading(false);
       }
     };
-
     fetchGames();
   }, []);
 
