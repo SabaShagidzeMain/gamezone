@@ -1,6 +1,6 @@
 // src/pages/api/games.js
 export default function handler(req, res) {
-  const games = [
+  let games = [
     {
       id: 1,
       name: "The Legend of Zelda: Breath of the Wild",
@@ -519,12 +519,14 @@ export default function handler(req, res) {
       thumbnail: "/images/games/lego-horizon/thumbnail.webp",
       disc: "/images/games/lego-horizon/disc.webp",
       logo: "/images/games/lego-horizon/logo.webp",
-      additionalImages: [
-        "/images/games/lego-horizon/additional/image1.webp",
-      ],
+      additionalImages: ["/images/games/lego-horizon/additional/image1.webp"],
     },
   ];
 
-  // Send the games data as a response
+  const { featured } = req.query;
+  if (featured === "true") {
+    games = games.filter((game) => game.featured === true);
+  }
+
   res.status(200).json(games);
 }

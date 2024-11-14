@@ -11,12 +11,12 @@ const FeaturedGames = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchFeaturedGames = async () => {
+    const fetchGames = async () => {
       try {
-        const response = await axios.get("/api/games");
-        const featured = response.data.filter((game) => game.featured);
-        setFeaturedGames(featured);
-        setActiveGame(featured[0]);
+        // Fetching only featured games directly from the API
+        const response = await axios.get("/api/games?featured=true");
+        setFeaturedGames(response.data);
+        setActiveGame(response.data[0]);
       } catch (error) {
         console.error("Error fetching games:", error);
       } finally {
@@ -24,7 +24,7 @@ const FeaturedGames = () => {
       }
     };
 
-    fetchFeaturedGames();
+    fetchGames();
   }, []);
 
   const handleImageError = (name) => {
@@ -77,7 +77,7 @@ const FeaturedGames = () => {
               <div
                 key={game.id}
                 className={`${styles.thumbnail} ${
-                  activeGame.id === game.id ? styles.active : ""
+                  activeGame?.id === game.id ? styles.active : ""
                 }`}
                 onClick={() => setActiveGame(game)}
                 style={{ backgroundImage: `url(${game.thumbnail})` }}
