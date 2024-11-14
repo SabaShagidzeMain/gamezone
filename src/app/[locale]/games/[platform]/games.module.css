@@ -1,0 +1,24 @@
+.games_banner {
+  height: 25rem;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.games_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.game_card {
+  width: 12rem;
+  height: 18rem;
+}
+
+.game_card h2 {
+  font-size: 0.8rem;
+}

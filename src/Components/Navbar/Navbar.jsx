@@ -61,37 +61,43 @@ const Navbar = () => {
   const gamesLinks = [
     {
       id: "ps5-games",
-      href: "/games?console=ps5",
+      href: `/${locale}/games/ps5`, // Directly link to the dynamic platform route
+      platform: "ps5",
       icon: <PiGameControllerLight className={styles.dropdown_logo} />,
       label: `PS5 ${t("header.games")}`,
     },
     {
       id: "ps4-games",
-      href: "/games?console=ps4",
+      href: `/${locale}/games/ps4`, // Directly link to the dynamic platform route
+      platform: "ps4",
       icon: <GiConsoleController className={styles.dropdown_logo} />,
       label: `PS4 ${t("header.games")}`,
     },
     {
-      id: "Xbox",
-      href: "/games?console=xbox",
+      id: "xbox-games",
+      href: `/${locale}/games/xbox`, // Directly link to the dynamic platform route
+      platform: "xbox",
       icon: <SiXbox className={styles.dropdown_logo} />,
-      label: `XBox ${t("header.games")}`,
+      label: `Xbox ${t("header.games")}`,
     },
     {
       id: "nintendo-games",
-      href: "/games?console=nintendo",
+      href: `/${locale}/games/nintendo`, // Directly link to the dynamic platform route
+      platform: "nintendo",
       icon: <SiNintendoswitch className={styles.dropdown_logo} />,
       label: `Nintendo ${t("header.games")}`,
     },
     {
       id: "vr-games",
-      href: "/games?console=vr",
+      href: `/${locale}/games/vr`, // Directly link to the dynamic platform route
+      platform: "vr",
       icon: <SiOculus className={styles.dropdown_logo} />,
       label: `VR ${t("header.games")}`,
     },
     {
       id: "all-games",
-      href: `/${locale}/games`,
+      href: `/${locale}/games/all`, // Directly link to the dynamic platform route
+      platform: "all",
       icon: <MdDensitySmall className={styles.dropdown_logo} />,
       label: `${t("header.all-games")}`,
     },
@@ -181,7 +187,7 @@ const Navbar = () => {
           activeDropdown === "games" ? styles.show : ""
         }`}
       >
-        <ul>
+        <ul className={styles.dropdown_list}>
           {gamesLinks.map((link) => (
             <li
               key={link.id}
