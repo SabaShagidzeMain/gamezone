@@ -9,16 +9,102 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  padding: 5rem;
+  padding: 2rem;
   justify-content: center;
   align-items: center;
 }
 
 .game_card {
-  width: 12rem;
+  width: fit-content;
   height: 18rem;
+  cursor: pointer;
+  color: #001219;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 5px 5px 20px #001219;
+}
+
+.game_card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #fff;
+  background-color: #001219;
+  color: #fff;
+}
+
+.gamecard_info {
+  display: flex;
+  flex-direction: column;
+  padding: 0.2rem;
+}
+
+.game_image {
+  width: 100%;
+  height: 80%;
 }
 
 .game_card h2 {
+  font-size: 0.6rem;
+}
+
+.game_card p {
+  font-size: 0.6rem;
+}
+
+.search_filter {
+  display: flex;
+  margin: 0 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  border-radius: 20px;
+}
+
+.search_input {
+  flex: 1;
+  height: 3rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 5px 0 0 0;
+  border: none;
+  outline: none;
+  background: #001219;
+}
+
+.filter_select {
+  font-size: 1rem;
+  padding: 0.5rem;
+  height: 3rem;
+  border-radius: 0 5px 0 0;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: #001219;
+}
+
+.genre_filter {
+  background: #001219;
+  display: flex;
+  margin: 0 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 0 0 5px 5px;
+}
+
+.genre_filter h3 {
+  font-size: 1rem;
+}
+
+.genre_options {
+  display: flex;
+  gap: 1rem;
+}
+
+.genre_options label {
+  display: flex;
+  gap: 0.5rem;
+  color: #fff;
   font-size: 0.8rem;
 }
