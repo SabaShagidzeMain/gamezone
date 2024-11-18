@@ -7,5 +7,14 @@
     "contact": "კონტაქტი",
     "profile": "პროფილი",
     "all-games": "ყველა თამაში"
+  },
+  "featured-accessories": {
+    "header": "ყველა აქსესუარი",
+    "button-1": "გაიგე მეტი",
+    "button-2": "შეძენა"
+  },
+  "game-showcase": {
+    "new": "ახალი რელიზები",
+    "coming": "მალე დაემატება"
   }
 }

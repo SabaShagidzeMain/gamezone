@@ -25,6 +25,7 @@ const Navbar = () => {
   const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname.split("/")[1];
+  
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   const toggleDropdown = (dropdown) => {

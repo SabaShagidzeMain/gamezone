@@ -11,7 +11,7 @@ export default function handler(req, res) {
       multiplayer: false,
       featured: false,
       new: false,
-      soon: false,
+      coming: true,
       releaseDate: "2017-03-03",
       rating: 9.7,
       thumbnail: "/images/games/legend-of-zelda/thumbnail.webp",
@@ -31,7 +31,7 @@ export default function handler(req, res) {
       multiplayer: false,
       featured: false,
       new: false,
-      soon: false,
+      coming: true,
       releaseDate: "2018-04-20",
       rating: 9.5,
       thumbnail: "/images/games/god-of-war/thumbnail.webp",
@@ -232,7 +232,7 @@ export default function handler(req, res) {
       storyDriven: false,
       multiplayer: true,
       featured: false,
-      new: false,
+      new: true,
       soon: false,
       releaseDate: "2020-03-10",
       rating: 8.6,
@@ -328,7 +328,7 @@ export default function handler(req, res) {
       storyDriven: true,
       multiplayer: false,
       featured: false,
-      new: false,
+      new: true,
       soon: false,
       releaseDate: "2020-12-10",
       rating: 7.4,
@@ -623,7 +623,6 @@ export default function handler(req, res) {
   const { featured } = req.query;
   if (featured === "true") {
     games = games.filter((game) => game.featured === true);
-    console.log(games); // Log after filtering by featured
   }
 
   // New Filtering

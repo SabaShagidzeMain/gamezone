@@ -23,3 +23,13 @@
 .footer_list li {
   list-style-type: none;
 }
+
+.footer_span {
+  height: 0.1rem;
+  width: 100%;
+  background-color: #fff;
+}
+
+.footer_bot {
+  font-size: 0.7rem;
+}

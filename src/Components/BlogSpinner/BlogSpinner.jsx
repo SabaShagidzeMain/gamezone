@@ -29,7 +29,7 @@ const BlogSpinner = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading blogs...</div>; // You can add a loading spinner here
+    return <div>Loading blogs...</div>;
   }
 
   return (
@@ -39,24 +39,31 @@ const BlogSpinner = () => {
         spaceBetween={5}
         slidesPerView={3}
         navigation={false}
-        loop={true} // This makes the swiper infinite
+        loop={true}
         modules={[Navigation]}
       >
         {blogs.map((blog, index) => (
           <SwiperSlide key={index}>
             <div className={styles.blog_card}>
               <div
-                style={{ width: "100%", height: "12rem", position: "relative" }}
+                style={{ width: "100%", height: "15rem", position: "relative" }}
               >
                 <Image
                   src={blog.image}
                   alt={blog.title}
-                  layout="fill" // This makes the image fill the parent container
-                  objectFit="cover" // This ensures the image maintains its aspect ratio and fills the container
+                  layout="fill"
+                  objectFit="cover"
                 />
               </div>
-              <h3 className={styles.blog_card_title}>{blog.title}</h3>
-              <p className={styles.blog_card_text}>{blog.text}</p>
+              <div>
+                <h3 className={styles.blog_card_title}>{blog.title}</h3>
+              </div>
+              <div className={styles.blog_text_container}>
+                <p className={styles.blog_card_text}>{blog.text}</p>
+              </div>
+              <div>
+                <button className={styles.blog_card_button}>გაიგე მეტი</button>
+              </div>
             </div>
           </SwiperSlide>
         ))}

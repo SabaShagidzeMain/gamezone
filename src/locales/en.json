@@ -7,5 +7,14 @@
     "contact": "Contact",
     "profile": "Profile",
     "all-games": "All Games"
+  },
+  "featured-accessories": {
+    "header": "All Accessories",
+    "button-1": "Discover More",
+    "button-2": "Purchase"
+  },
+  "game-showcase": {
+    "new": "New Releases",
+    "coming": "Coming Soon"
   }
 }

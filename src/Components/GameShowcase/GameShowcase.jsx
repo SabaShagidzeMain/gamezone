@@ -4,12 +4,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./GameShowcase.module.css";
 
+import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
+
 const GameShowcase = () => {
   const [games, setGames] = useState([]);
   const [showComingSoon, setShowComingSoon] = useState(false);
   const [showNew, setShowNew] = useState(true);
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const t = useTranslations();
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1];
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -53,7 +60,7 @@ const GameShowcase = () => {
           className={showNew ? styles.activeButton : styles.inactiveButton}
           onClick={handleNewReleasesClick}
         >
-          New Releases
+          {t("game-showcase.new")}
         </button>
         <button
           className={
@@ -61,12 +68,12 @@ const GameShowcase = () => {
           }
           onClick={handleComingSoonClick}
         >
-          Coming Soon
+          {t("game-showcase.coming")}
         </button>
       </div>
       <div className={styles.game_cards}>
         {loading
-          ? Array.from({ length: 6 }).map((_, index) => (
+          ? Array.from({ length: 8 }).map((_, index) => (
               <div key={index} className={styles.loading_game_card}>
                 <div className={styles.loading_game_card_image}>
                   <div className={styles.shimmer}></div>

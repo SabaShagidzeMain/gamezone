@@ -9,7 +9,14 @@ import styles from "./FeaturedAccessories.module.css";
 import Image from "next/image";
 import featuredAccessoriesArr from "@/utilities/featuredAccessoriesArr/featuredAccessoriesArr";
 
+import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
+
 const FeaturedAccessories = () => {
+  const t = useTranslations();
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1];
+
   const [selectedAccessory, setSelectedAccessory] = useState(
     featuredAccessoriesArr[0]
   );
@@ -27,15 +34,18 @@ const FeaturedAccessories = () => {
       <div className={styles.selected_product}>
         <div className={styles.selected_product_info}>
           <h2 className={styles.selected_product_header}>
-            Discover All Accessories
+            {t("featured-accessories.header")}
           </h2>
           <h3 className={styles.selected_product_name}>{name}</h3>
           <p className={styles.selected_product_desc}>{description}</p>
           <div className={styles.selected_product_button_container}>
             <button className={styles.selected_product_button}>
-              გაიგე მეტი
+              {t("featured-accessories.button-1")}
             </button>
-            <button className={styles.selected_product_button}>შეძენა</button>
+            <button className={styles.selected_product_button}>
+              {" "}
+              {t("featured-accessories.button-2")}
+            </button>
           </div>
         </div>
         <div className={styles.selected_product_image}>

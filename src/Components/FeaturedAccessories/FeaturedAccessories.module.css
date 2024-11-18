@@ -9,13 +9,12 @@
 }
 
 .accessory_card {
-  height: 7rem;
-  width: 11rem;
+  height: 8rem;
+  width: 13rem;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* border: 3px solid #9b2226; */
   border-radius: 20px;
   box-shadow: 15px 15px 15px #979797;
 }

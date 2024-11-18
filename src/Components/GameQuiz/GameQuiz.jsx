@@ -29,7 +29,6 @@ const GameQuiz = () => {
     const fetchGames = async () => {
       try {
         const response = await axios.get("/api/games");
-        console.log(response.data); // Log the response to check the structure
         setGames(response.data);
       } catch (error) {
         console.error("Error fetching games:", error);
@@ -41,11 +40,8 @@ const GameQuiz = () => {
 
   const handleAnswer = (answer) => {
     setAnswers((prev) => ({ ...prev, [questions[step].id]: answer }));
-
-    // Select a random game thumbnail from the array after each answer
     const randomGame = games[Math.floor(Math.random() * games.length)];
-    console.log("Random Game Selected:", randomGame); // Log the selected game
-    setFinalThumbnail(randomGame); // Update the random thumbnail state
+    setFinalThumbnail(randomGame);
 
     setStep((prev) => prev + 1);
   };

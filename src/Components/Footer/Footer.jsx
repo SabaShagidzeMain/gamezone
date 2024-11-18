@@ -63,6 +63,8 @@ const Footer = () => {
             </ul>
           </div>
         </div>
+        <span className={styles.footer_span}></span>
+        <p className={styles.footer_bot}>@GameZone 2004-2024</p>
       </div>
     </footer>
   );

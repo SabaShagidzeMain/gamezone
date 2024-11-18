@@ -14,7 +14,6 @@ const FeaturedGames = () => {
     const fetchGames = async () => {
       try {
         const response = await axios.get("/api/games?featured=true");
-        console.log(response.data); // Add this to check the returned data
         setFeaturedGames(response.data);
         setActiveGame(response.data[0]);
       } catch (error) {
