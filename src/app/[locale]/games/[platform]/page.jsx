@@ -1,13 +1,19 @@
 "use client";
-import { usePathname } from "next/navigation";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "@/Components/Navbar/Navbar";
 import styles from "./games.module.css";
 import Image from "next/image";
 
+import Footer from "@/Components/Footer/Footer";
+
+import { useRouter, usePathname } from "next/navigation";
+
 const PlatformPage = () => {
+  const router = useRouter();
   const pathname = usePathname();
+  const locale = pathname.split("/")[1];
   const platform = pathname.split("/").pop();
   const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
@@ -156,13 +162,19 @@ const PlatformPage = () => {
 
       <div className={styles.games_list}>
         {filteredGames.map((game) => (
-          <div key={game.id} className={styles.game_card}>
+          <div
+            className={styles.game_card}
+            key={game.id}
+            onClick={() =>
+              router.push(`/${locale}/games/${platform}/${game.id}`)
+            }
+          >
             <Image
-              classname={styles.game_image}
+              className={styles.game_image}
               src={game.disc}
               alt={game.name}
-              width={200}
-              height={250}
+              width={250}
+              height={270}
             />
             <div className={styles.gamecard_info}>
               <h2>{game.name}</h2>
@@ -171,6 +183,7 @@ const PlatformPage = () => {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 };

@@ -1,0 +1,27 @@
+.game_detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 2rem;
+}
+
+.game_thumbnail {
+  height: 40rem;
+  background-position: top;
+  background-size: cover;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game_wrapper {
+  display: flex;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+  border: 1px soldi red;
+}
