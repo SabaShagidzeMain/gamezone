@@ -48,6 +48,10 @@ const GameDetails = ({ params }) => {
           ></Image>
         </div>
         <div className={styles.game_wrapper}>
+          <div
+            className={styles.game_detail_pic}
+            style={{ backgroundImage: `url(${game.disc})` }}
+          ></div>
           <div className={styles.game_detail_info}>
             <h1>{game.name}</h1>
             <p>Genre: {game.genre}</p>

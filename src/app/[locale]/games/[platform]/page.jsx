@@ -5,43 +5,102 @@ import axios from "axios";
 import Navbar from "@/Components/Navbar/Navbar";
 import styles from "./games.module.css";
 import Image from "next/image";
-
+import Link from "next/link";
 import Footer from "@/Components/Footer/Footer";
 
+import { useTranslations } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
+
+import { SiOculus, SiNintendoswitch, SiXbox } from "react-icons/si";
+import { PiGameControllerLight } from "react-icons/pi";
+import { GiConsoleController } from "react-icons/gi";
+import { MdDensitySmall } from "react-icons/md";
+
+// Helper function to fetch and filter games
+const fetchPLatformGames = async (platform) => {
+  try {
+    const response = await axios.get("/api/games");
+    const allGames = response.data;
+    return allGames.filter((game) =>
+      game.platform.toLowerCase().includes(platform.toLowerCase())
+    );
+  } catch (error) {
+    console.error("Error fetching games:", error);
+    return [];
+  }
+};
 
 const PlatformPage = () => {
   const router = useRouter();
+  const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname.split("/")[1];
   const platform = pathname.split("/").pop();
+
+  // States
   const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("");
   const [selectedGenres, setSelectedGenres] = useState([]);
 
+  // Platform links
+  const gamesLinks = [
+    {
+      id: "ps5-games",
+      href: `/${locale}/games/ps5`,
+      platform: "ps5",
+      icon: <PiGameControllerLight className={styles.dropdown_logo} />,
+      label: `PS5 ${t("header.games")}`,
+    },
+    {
+      id: "ps4-games",
+      href: `/${locale}/games/ps4`,
+      platform: "ps4",
+      icon: <GiConsoleController className={styles.dropdown_logo} />,
+      label: `PS4 ${t("header.games")}`,
+    },
+    {
+      id: "xbox-games",
+      href: `/${locale}/games/xbox`,
+      platform: "xbox",
+      icon: <SiXbox className={styles.dropdown_logo} />,
+      label: `Xbox ${t("header.games")}`,
+    },
+    {
+      id: "nintendo-games",
+      href: `/${locale}/games/nintendo`,
+      platform: "nintendo",
+      icon: <SiNintendoswitch className={styles.dropdown_logo} />,
+      label: `Nintendo ${t("header.games")}`,
+    },
+    {
+      id: "vr-games",
+      href: `/${locale}/games/vr`, // Directly link to the dynamic platform route
+      platform: "vr",
+      icon: <SiOculus className={styles.dropdown_logo} />,
+      label: `VR ${t("header.games")}`,
+    },
+    {
+      id: "all-games",
+      href: `/${locale}/games/all`, // Directly link to the dynamic platform route
+      platform: "all",
+      icon: <MdDensitySmall className={styles.dropdown_logo} />,
+      label: `${t("header.all-games")}`,
+    },
+  ];
+
+  // Fetch and set games on platform change
   useEffect(() => {
     const fetchGames = async () => {
-      try {
-        const response = await axios.get("/api/games");
-        const allGames = response.data;
-
-        const platformGames = allGames.filter((game) =>
-          game.platform.toLowerCase().includes(platform.toLowerCase())
-        );
-
-        const gamesToShow = platformGames.length > 0 ? platformGames : allGames;
-        setGames(gamesToShow);
-        setFilteredGames(gamesToShow);
-      } catch (error) {
-        console.error("Error fetching games:", error);
-      }
+      const platformGames = await fetchPLatformGames(platform);
+      setGames(platformGames);
+      setFilteredGames(platformGames);
     };
-
     fetchGames();
   }, [platform]);
 
+  // Filter games based on search, genres, and sort option
   useEffect(() => {
     let updatedGames = games.filter((game) =>
       game.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -55,33 +114,29 @@ const PlatformPage = () => {
       );
     }
 
-    if (sortOption === "name") {
-      updatedGames = [...updatedGames].sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
-    } else if (sortOption === "releaseDateAsc") {
-      updatedGames = [...updatedGames].sort(
-        (a, b) => new Date(a.releaseDate) - new Date(b.releaseDate)
-      );
-    } else if (sortOption === "releaseDateDesc") {
-      updatedGames = [...updatedGames].sort(
-        (a, b) => new Date(b.releaseDate) - new Date(a.releaseDate)
-      );
-    } else if (sortOption === "ratingAsc") {
-      updatedGames = [...updatedGames].sort((a, b) => a.rating - b.rating);
-    } else if (sortOption === "ratingDesc") {
-      updatedGames = [...updatedGames].sort((a, b) => b.rating - a.rating);
+    // Sorting logic
+    const sortFunctions = {
+      name: (a, b) => a.name.localeCompare(b.name),
+      releaseDateAsc: (a, b) =>
+        new Date(a.releaseDate) - new Date(b.releaseDate),
+      releaseDateDesc: (a, b) =>
+        new Date(b.releaseDate) - new Date(a.releaseDate),
+      ratingAsc: (a, b) => a.rating - b.rating,
+      ratingDesc: (a, b) => b.rating - a.rating,
+    };
+
+    if (sortOption) {
+      updatedGames = [...updatedGames].sort(sortFunctions[sortOption]);
     }
 
     setFilteredGames(updatedGames);
   }, [searchTerm, sortOption, games, selectedGenres]);
 
+  // Handle genre filter change
   const handleGenreChange = (e) => {
     const genre = e.target.value;
-    setSelectedGenres((prevSelectedGenres) =>
-      prevSelectedGenres.includes(genre)
-        ? prevSelectedGenres.filter((g) => g !== genre)
-        : [...prevSelectedGenres, genre]
+    setSelectedGenres((prev) =>
+      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
     );
   };
 
@@ -96,6 +151,23 @@ const PlatformPage = () => {
           backgroundImage: `url(/images/banners/${platform}-banner.jpg)`,
         }}
       ></div>
+      <div className={styles.platform_select}>
+        <ul className={styles.platform_list}>
+          {gamesLinks.map((link) => (
+            <li
+              key={link.id}
+              className={`${styles.list_item} ${styles.platform_list_item}`}
+            >
+              <Link href={link.href} className={styles.link_container}>
+                <div className={styles.link_flex}>
+                  {link.icon}
+                  <span>{link.label}</span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className={styles.search_filter}>
         <input
           className={styles.search_input}

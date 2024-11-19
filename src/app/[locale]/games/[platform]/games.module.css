@@ -110,3 +110,41 @@
   color: #fff;
   font-size: 0.8rem;
 }
+
+.platform_select {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.platform_list {
+  list-style-type: none;
+  display: flex;
+  gap: 2.5rem;
+  padding: 2rem;
+}
+
+.platform_list_item {
+  display: flex;
+  flex-direction: column;
+  color: #001219;
+}
+
+.link_flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  gap: 0.5rem;
+}
+
+.link_flex span {
+  font-size: 1rem;
+  text-align: center;
+}
+
+.active {
+  box-shadow: 0 0 10px 4px rgba(0, 255, 0, 0.8); /* Glow effect (change color as needed) */
+  transition: box-shadow 0.3s ease;
+}
