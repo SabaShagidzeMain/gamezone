@@ -6,7 +6,7 @@
   gap: 0.8rem;
   padding: 1rem;
   background-color: #fff;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;

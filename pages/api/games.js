@@ -413,6 +413,8 @@ export default function handler(req, res) {
       logo: "/images/games/black-myth-wukong/logo.webp",
       additionalImages: [
         "/images/games/black-myth-wukong/additional/image1.webp",
+        "/images/games/black-myth-wukong/additional/image1.webp",
+        "/images/games/black-myth-wukong/additional/image1.webp",
       ],
     },
     {

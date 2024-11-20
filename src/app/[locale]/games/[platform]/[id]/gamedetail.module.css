@@ -7,6 +7,20 @@
   margin-top: 2rem;
 }
 
+.button_container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.button_container button {
+  border-radius: 5px;
+  height: 2rem;
+  background-color: #001219;
+  color: #fff;
+  cursor: pointer;
+  width: 100%;
+}
+
 .game_thumbnail {
   height: 40rem;
   background-position: top;
@@ -17,16 +31,52 @@
   align-items: center;
 }
 
-.game_wrapper {
+.game_top_inner {
   display: flex;
-  width: 90%;
+  width: 100%;
   justify-content: center;
-  align-items: center;
-  margin: 2rem;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 2rem;
 }
 
 .game_detail_pic {
-  width: 12rem;
-  height: 18rem;
+  width: 100%;
+  height: 10rem;
   background-size: cover;
+}
+
+.game_detail_info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  height: 100%;
+  color: #001219;
+  width: 25rem;
+}
+
+.game_detail_info p {
+  font-size: 0.8rem;
+  width: 80%;
+}
+
+.game_mid_inner {
+  font-size: 0.8rem;
+  color: #001219;
+  margin: 2rem;
+  text-align: center;
+}
+
+.game_galler {
+  width: 100%;
+}
+
+.game_detail_text {
+  background: #001219;
+  color: #fff;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.5rem;
 }
