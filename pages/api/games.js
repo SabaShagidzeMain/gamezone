@@ -396,10 +396,12 @@ export default function handler(req, res) {
     },
     {
       id: 22,
+      price: 59.99,
       platform: "ps5",
       name: "Black Myth: Wu Kong",
       genre: "Action-Adventure",
       desc: "Black Myth: Wukong is an action role-playing game. It has elements characteristic to the Soulslike subgenre. The game is played in single-player mode from a third-person perspective. The player controls a monkey protagonist referred to as the Destined One, who is based on Sun Wukong from the Journey to the West.",
+      video: "",
       difficulty: "Hard",
       storyDriven: true,
       multiplayer: false,
@@ -413,8 +415,8 @@ export default function handler(req, res) {
       logo: "/images/games/black-myth-wukong/logo.webp",
       additionalImages: [
         "/images/games/black-myth-wukong/additional/image1.webp",
-        "/images/games/black-myth-wukong/additional/image1.webp",
-        "/images/games/black-myth-wukong/additional/image1.webp",
+        "/images/games/black-myth-wukong/additional/image2.webp",
+        "/images/games/black-myth-wukong/additional/image3.webp",
       ],
     },
     {

@@ -62,6 +62,7 @@ const GameDetails = ({ params }) => {
                 style={{ backgroundImage: `url(${game.disc})` }}
               ></div>
               <h1>{game.name}</h1>
+              <h3>${game.price}</h3>
               <div className={styles.button_container}>
                 <button>Buy Now</button>
                 <button>Add To Cart</button>
