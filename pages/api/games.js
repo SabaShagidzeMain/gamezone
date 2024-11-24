@@ -401,7 +401,7 @@ export default function handler(req, res) {
       name: "Black Myth: Wu Kong",
       genre: "Action-Adventure",
       desc: "Black Myth: Wukong is an action role-playing game. It has elements characteristic to the Soulslike subgenre. The game is played in single-player mode from a third-person perspective. The player controls a monkey protagonist referred to as the Destined One, who is based on Sun Wukong from the Journey to the West.",
-      video: "",
+      video: "https://www.youtube.com/embed/pnSsgRJmsCc?si=GVnAQgJfj2FH-D9x",
       difficulty: "Hard",
       storyDriven: true,
       multiplayer: false,
