@@ -9,14 +9,12 @@ import BlogSpinner from "@/Components/BlogSpinner/BlogSpinner";
 export default function Home() {
   return (
     <div className={styles.main_page_wrapper}>
-      <Navbar />
       <main>
         <FeaturedGames />
         <FeaturedAccessories />
         <GameShowcase />
         <BlogSpinner />
       </main>
-      <Footer />
     </div>
   );
 }

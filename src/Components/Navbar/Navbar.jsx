@@ -25,7 +25,7 @@ const Navbar = () => {
   const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname.split("/")[1];
-  
+
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   const toggleDropdown = (dropdown) => {
@@ -155,7 +155,11 @@ const Navbar = () => {
         </ul>
       </div>
       <div className={styles.navbar_right}>
-        <button className={styles.navbar_button}>{t("header.profile")}</button>
+        <Link href={`/${locale}/login`}>
+          <button className={styles.navbar_button}>
+            {t("header.profile")}
+          </button>
+        </Link>
         <LanguageSwitcher />
       </div>
 

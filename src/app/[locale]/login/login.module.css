@@ -1,0 +1,14 @@
+.login_page_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.login_box {
+  margin-top: 2rem;
+}
+
+.profile_box {
+    margin-top: 2rem;
+}

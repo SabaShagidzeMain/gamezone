@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import Navbar from "@/Components/Navbar/Navbar";
 import Footer from "@/Components/Footer/Footer";
+import { UserProvider } from "@/context/UserContext";
 
 // Local fonts
 const geistSans = localFont({
@@ -31,11 +32,17 @@ export default async function RootLayout({ children, params }) {
 
   return (
     <html lang={locale}>
-      <NextIntlClientProvider messages={messages}>
-        <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          {children}
-        </body>
-      </NextIntlClientProvider>
+      <UserProvider>
+        {" "}
+        {/* Wrap your app with UserProvider */}
+        <NextIntlClientProvider messages={messages}>
+          <body className={`${geistSans.variable} ${geistMono.variable}`}>
+            <Navbar />
+            {children}
+            <Footer />
+          </body>
+        </NextIntlClientProvider>
+      </UserProvider>
     </html>
   );
 }
