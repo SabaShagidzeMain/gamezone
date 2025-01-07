@@ -28,7 +28,7 @@ const LoginPage = () => {
   const fetchUserData = async (userId) => {
     const { data, error } = await supabase
       .from("users")
-      .select("id, username, email") // Fetching user-specific data
+      .select("id, username, email, plan") // Fetching user-specific data including 'plan'
       .eq("id", userId)
       .single();
 
@@ -80,6 +80,7 @@ const LoginPage = () => {
         id: data.user.id,
         username: username,
         email: email,
+        plan: "basic", // Set default plan to 'basic'
       });
 
       if (insertError) {
@@ -131,6 +132,10 @@ const LoginPage = () => {
           </p>
           <p>
             <strong>Email:</strong> {userData?.email || "Loading..."}
+          </p>
+          <p>
+            <strong>Subscription Plan:</strong> {userData?.plan || "Basic"}{" "}
+            {/* Displaying the plan */}
           </p>
           <button onClick={handleLogout}>Logout</button>
         </div>

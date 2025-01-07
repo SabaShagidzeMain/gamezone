@@ -1,11 +1,53 @@
+"use client";
+
 import React from "react";
+import { useRouter } from "next/navigation";
+
+import { loadStripe } from "@stripe/stripe-js";
 
 import styles from "./subscription.module.css";
 
 import Navbar from "@/Components/Navbar/Navbar";
-import Footer from "@/Components/Footer/Footer";
 
 const SubPage = () => {
+  const router = useRouter(); // Initialize the router for redirection
+
+  const handleSubscription = async (plan) => {
+    try {
+      // Get the userId (this could be fetched from your session or Auth0)
+      const userId = "user123"; // Example user ID, replace with the actual logic
+
+      const response = await fetch("/api/create-subscription-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ plan, userId }), // Pass userId along with plan
+      });
+
+      const session = await response.json();
+
+      if (session.id) {
+        const stripe = await loadStripe(
+          "pk_test_51QYsp1AmxgDfPxvUVAYlxuNOlHBHmFKBhwtJz4flbwdauP9ZUIjoukjFTKOhNywRlVDbK07QUlLvVwdiGGGDUNgI00egQiMML8"
+        );
+
+        // Redirect user to Stripe Checkout for payment
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: session.id,
+        });
+
+        if (error) {
+          console.error("Stripe checkout error:", error);
+        }
+      }
+    } catch (error) {
+      console.error("Error creating checkout session:", error);
+    }
+  };
+
+  // "pk_test_51QYsp1AmxgDfPxvUVAYlxuNOlHBHmFKBhwtJz4flbwdauP9ZUIjoukjFTKOhNywRlVDbK07QUlLvVwdiGGGDUNgI00egQiMML8"
+
   return (
     <>
       <Navbar />
@@ -43,7 +85,9 @@ const SubPage = () => {
               </ul>
             </div>
             <div className={styles.cardButton}>
-              <button>Subscribe</button>
+              <button onClick={() => handleSubscription("essential")}>
+                Subscribe
+              </button>
             </div>
           </div>
           <div className={styles.membershipCard}>
@@ -64,7 +108,9 @@ const SubPage = () => {
               </ul>
             </div>
             <div className={styles.cardButton}>
-              <button>Subscribe</button>
+              <button onClick={() => handleSubscription("extra")}>
+                Subscribe
+              </button>
             </div>
           </div>
           <div className={styles.membershipCard}>
@@ -85,12 +131,13 @@ const SubPage = () => {
               </ul>
             </div>
             <div className={styles.cardButton}>
-              <button>Subscribe</button>
+              <button onClick={() => handleSubscription("premium")}>
+                Subscribe
+              </button>
             </div>
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };
