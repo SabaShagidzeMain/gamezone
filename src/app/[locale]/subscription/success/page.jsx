@@ -3,54 +3,66 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-const SuccessPage = () => {
+const SubscriptionSuccess = () => {
   const searchParams = useSearchParams();
-  const session_id = searchParams.get("session_id");
-
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(null);
+  const [subscriptionData, setSubscriptionData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (session_id) {
-      const updateUserPlan = async () => {
-        setLoading(true);
-        setError(null);
+    const fetchSessionData = async () => {
+      const sessionId = searchParams.get("session_id");
 
+      console.log("Session ID:", sessionId);
+
+      if (sessionId) {
         try {
-          const response = await fetch("/api/verify-session", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ session_id }),
-          });
+          const res = await fetch(
+            `/api/retrieve-session?session_id=${sessionId}`
+          );
+          const session = await res.json();
 
-          if (response.ok) {
-            setSuccess(true);
-          } else {
-            const { message } = await response.json();
-            setError(message || "Error updating user plan.");
+          console.log("Session Data:", session);
+
+          if (session.error) {
+            console.error("Error fetching session data:", session.error);
+            return;
           }
-        } catch (err) {
-          setError("Network error. Please try again.");
-        } finally {
-          setLoading(false);
-        }
-      };
 
-      updateUserPlan();
+          setSubscriptionData(session);
+          setLoading(false);
+
+          const user = JSON.parse(localStorage.getItem("user"));
+
+          if (user) {
+            user.plan = session.metadata?.plan;
+            localStorage.setItem("user", JSON.stringify(user));
+            console.log("User plan updated:", user.plan);
+          } else {
+            console.error("User not found in localStorage");
+          }
+        } catch (error) {
+          console.error("Error fetching session data:", error);
+        }
+      } else {
+        console.error("No session_id in URL");
+      }
+    };
+
+    if (searchParams.has("session_id")) {
+      fetchSessionData();
     }
-  }, [session_id]);
+  }, [searchParams]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-      <h1>Subscription Successful!</h1>
-      {loading && <p>Updating your plan...</p>}
-      {success && <p>Your plan has been updated successfully.</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      <h1>Subscription Success</h1>
+      <p>Your subscription plan: {subscriptionData?.metadata?.plan}</p>
     </div>
   );
 };
 
-export default SuccessPage;
+export default SubscriptionSuccess;

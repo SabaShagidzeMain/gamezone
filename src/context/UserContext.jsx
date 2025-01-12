@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "@/utilities/supabase/supabaseClient";
@@ -13,14 +13,13 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data: session } = await supabase.auth.getSession(); // Updated to use getSession
+      const { data: session } = await supabase.auth.getSession();
       if (session && session.user) {
         setUser(session.user);
       }
     };
 
     checkSession();
-    // Optionally subscribe to changes in session
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
@@ -32,12 +31,17 @@ export const UserProvider = ({ children }) => {
     });
 
     return () => {
-      subscription.unsubscribe(); // Clean up the subscription on unmount
+      subscription.unsubscribe();
     };
   }, []);
 
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null); // Clear user from state on logout
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, signOut }}>
       {children}
     </UserContext.Provider>
   );

@@ -33,8 +33,6 @@ export default async function RootLayout({ children, params }) {
   return (
     <html lang={locale}>
       <UserProvider>
-        {" "}
-        {/* Wrap your app with UserProvider */}
         <NextIntlClientProvider messages={messages}>
           <body className={`${geistSans.variable} ${geistMono.variable}`}>
             <Navbar />

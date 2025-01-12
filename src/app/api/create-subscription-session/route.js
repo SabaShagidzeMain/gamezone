@@ -1,15 +1,17 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { supabase } from "@/utilities/supabase/supabaseClient";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2020-08-27",
 });
 
 export async function POST(req) {
-  const { pathname } = req.nextUrl; // Correct way to access the pathname in Next.js API routes
-  const locale = pathname.split("/")[1]; // Extract locale from pathname
+  const { userId, plan } = await req.json();
 
-  const { plan, userId } = await req.json(); // Pass the userId and plan in the request body
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
 
   let priceId;
   if (plan === "essential") {
@@ -30,13 +32,19 @@ export async function POST(req) {
         },
       ],
       mode: "subscription",
-      client_reference_id: userId, 
+      client_reference_id: userId,
       metadata: {
         plan: plan,
+        userId: userId,
       },
       success_url: `${process.env.YOUR_DOMAIN}/en/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.YOUR_DOMAIN}/cancel`,
     });
+
+    await supabase
+      .from("users")
+      .update({ plan: plan })
+      .eq("id", userId);
 
     return NextResponse.json({ id: session.id });
   } catch (error) {

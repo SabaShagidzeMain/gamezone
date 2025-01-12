@@ -36,6 +36,8 @@ const LoginPage = () => {
       setError("Failed to fetch user data.");
     } else {
       setUserData(data); // Set the fetched user data
+      // Store user data in localStorage
+      localStorage.setItem("user", JSON.stringify(data)); // Store user info (e.g., id, username, plan)
     }
   };
 
@@ -51,6 +53,8 @@ const LoginPage = () => {
       setError(error.message);
     } else {
       fetchUserData(data.user.id); // Fetch user data on login success
+      // Store user info in localStorage
+      localStorage.setItem("user", JSON.stringify(data.user)); // Store user object
     }
     setLoading(false);
   };
@@ -94,9 +98,13 @@ const LoginPage = () => {
   };
 
   const handleLogout = async () => {
-    await signOut();
-    setUserData(null); // Clear user data on logout
-    router.push("/login");
+    if (signOut) {
+      await signOut();
+      localStorage.removeItem("user"); // Remove user data from localStorage on logout
+      router.push("/login");
+    } else {
+      console.error("signOut function is not available.");
+    }
   };
 
   return (

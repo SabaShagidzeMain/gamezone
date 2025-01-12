@@ -2,11 +2,8 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-
 import { loadStripe } from "@stripe/stripe-js";
-
 import styles from "./subscription.module.css";
-
 import Navbar from "@/Components/Navbar/Navbar";
 
 const SubPage = () => {
@@ -14,39 +11,42 @@ const SubPage = () => {
 
   const handleSubscription = async (plan) => {
     try {
-      // Get the userId (this could be fetched from your session or Auth0)
-      const userId = "user123"; // Example user ID, replace with the actual logic
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userId = user?.id;
+
+      if (!userId) {
+        console.error("User not authenticated");
+        return;
+      }
 
       const response = await fetch("/api/create-subscription-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ plan, userId }), // Pass userId along with plan
+        body: JSON.stringify({ userId, plan }), // Pass userId and plan to the server
       });
 
-      const session = await response.json();
+      if (!response.ok) {
+        console.error("Failed to create subscription session");
+        return;
+      }
 
-      if (session.id) {
-        const stripe = await loadStripe(
-          "pk_test_51QYsp1AmxgDfPxvUVAYlxuNOlHBHmFKBhwtJz4flbwdauP9ZUIjoukjFTKOhNywRlVDbK07QUlLvVwdiGGGDUNgI00egQiMML8"
-        );
+      const { id: sessionId } = await response.json();
 
-        // Redirect user to Stripe Checkout for payment
-        const { error } = await stripe.redirectToCheckout({
-          sessionId: session.id,
-        });
+      // Use Stripe.js to redirect to the checkout page
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
+      );
+      const { error } = await stripe.redirectToCheckout({ sessionId });
 
-        if (error) {
-          console.error("Stripe checkout error:", error);
-        }
+      if (error) {
+        console.error("Error redirecting to checkout:", error.message);
       }
     } catch (error) {
-      console.error("Error creating checkout session:", error);
+      console.error("Error in subscription request:", error);
     }
   };
-
-  // "pk_test_51QYsp1AmxgDfPxvUVAYlxuNOlHBHmFKBhwtJz4flbwdauP9ZUIjoukjFTKOhNywRlVDbK07QUlLvVwdiGGGDUNgI00egQiMML8"
 
   return (
     <>
