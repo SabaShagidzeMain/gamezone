@@ -142,9 +142,6 @@ const PlatformPage = () => {
 
   return (
     <div>
-      <header>
-        <Navbar />
-      </header>
       <div
         className={styles.games_banner}
         style={{
@@ -255,7 +252,6 @@ const PlatformPage = () => {
           </div>
         ))}
       </div>
-      <Footer />
     </div>
   );
 };

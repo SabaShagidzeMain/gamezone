@@ -3,7 +3,7 @@ export default function handler(req, res) {
   let games = [
     {
       id: 1,
-      platform: "nintendo",
+      platform: "nintendo all",
       name: "The Legend of Zelda: Breath of the Wild",
       genre: "Action-Adventure",
       difficulty: "Medium",
@@ -23,7 +23,7 @@ export default function handler(req, res) {
     },
     {
       id: 2,
-      platform: "ps4 ps5",
+      platform: "ps4 ps5 all",
       name: "God of War",
       genre: "Action",
       difficulty: "Hard",
@@ -41,7 +41,7 @@ export default function handler(req, res) {
     },
     {
       id: 3,
-      platform: "ps4 ps5 xbox",
+      platform: "ps4 ps5 xbox all",
       name: "The Witcher 3: Wild Hunt",
       genre: "RPG",
       difficulty: "Hard",
@@ -59,7 +59,7 @@ export default function handler(req, res) {
     },
     {
       id: 4,
-      platform: "ps4",
+      platform: "ps4 all",
       name: "Dark Souls III",
       genre: "Action RPG",
       difficulty: "Very Hard",
@@ -77,7 +77,7 @@ export default function handler(req, res) {
     },
     {
       id: 5,
-      platform: "ps4 ps5",
+      platform: "ps4 ps5 all",
       name: "Overwatch",
       genre: "First-Person Shooter",
       difficulty: "Medium",
@@ -95,7 +95,7 @@ export default function handler(req, res) {
     },
     {
       id: 6,
-      platform: "xbox vr",
+      platform: "xbox vr all",
       name: "Minecraft",
       genre: "Sandbox",
       difficulty: "Easy",
@@ -113,7 +113,7 @@ export default function handler(req, res) {
     },
     {
       id: 7,
-      platform: "xbox",
+      platform: "xbox all",
       name: "Among Us",
       genre: "Party",
       difficulty: "Easy",
@@ -131,7 +131,7 @@ export default function handler(req, res) {
     },
     {
       id: 8,
-      platform: "ps5",
+      platform: "ps5 all",
       name: "Final Fantasy VII Remake",
       genre: "RPG",
       difficulty: "Medium",
@@ -151,7 +151,7 @@ export default function handler(req, res) {
     },
     {
       id: 9,
-      platform: "nintendo",
+      platform: "nintendo all",
       name: "Stardew Valley",
       genre: "Simulation",
       difficulty: "Easy",
@@ -169,7 +169,7 @@ export default function handler(req, res) {
     },
     {
       id: 10,
-      platform: "ps5",
+      platform: "ps5 all",
       name: "Resident Evil Village",
       genre: "Survival Horror",
       difficulty: "Medium",
@@ -189,7 +189,7 @@ export default function handler(req, res) {
     },
     {
       id: 11,
-      platform: "ps4 ps5 xbox nintendo",
+      platform: "ps4 ps5 xbox nintendo all",
       name: "Hades",
       genre: "Rogue-like",
       difficulty: "Medium",
@@ -207,7 +207,7 @@ export default function handler(req, res) {
     },
     {
       id: 12,
-      platform: "ps4 ps5",
+      platform: "ps4 ps5 all",
       name: "Sekiro: Shadows Die Twice",
       genre: "Action-Adventure",
       difficulty: "Very Hard",
@@ -225,7 +225,7 @@ export default function handler(req, res) {
     },
     {
       id: 13,
-      platform: "xbox",
+      platform: "xbox all",
       name: "Call of Duty: Warzone",
       genre: "Battle Royale",
       difficulty: "Medium",
@@ -243,7 +243,7 @@ export default function handler(req, res) {
     },
     {
       id: 14,
-      platform: "ps4 ps5",
+      platform: "ps4 ps5 all",
       name: "Fortnite",
       genre: "Battle Royale",
       difficulty: "Medium",
@@ -261,7 +261,7 @@ export default function handler(req, res) {
     },
     {
       id: 15,
-      platform: "nintendo",
+      platform: "nintendo all",
       name: "Animal Crossing: New Horizons",
       genre: "Simulation",
       difficulty: "Easy",
@@ -281,7 +281,7 @@ export default function handler(req, res) {
     },
     {
       id: 16,
-      platform: "ps4 ps5",
+      platform: "ps4 ps5 all",
       name: "Ghost of Tsushima",
       genre: "Action-Adventure",
       difficulty: "Medium",
@@ -302,7 +302,7 @@ export default function handler(req, res) {
     },
     {
       id: 17,
-      platform: "ps5",
+      platform: "ps5 all",
       name: "Doom Eternal",
       genre: "First-Person Shooter",
       difficulty: "Hard",
@@ -320,7 +320,7 @@ export default function handler(req, res) {
     },
     {
       id: 18,
-      platform: "ps4 ps5 xbox",
+      platform: "ps4 ps5 xbox all",
       name: "Cyberpunk 2077",
       genre: "RPG",
       difficulty: "Medium",
@@ -339,7 +339,7 @@ export default function handler(req, res) {
     },
     {
       id: 19,
-      platform: "ps4 ps5 xbox",
+      platform: "ps4 ps5 xbox all",
       name: "Genshin Impact",
       genre: "Action RPG",
       difficulty: "Medium",
@@ -357,7 +357,7 @@ export default function handler(req, res) {
     },
     {
       id: 20,
-      platform: "ps4",
+      platform: "ps4 all",
       name: "The Last of Us Part II",
       genre: "Action-Adventure",
       difficulty: "Hard",
@@ -375,7 +375,7 @@ export default function handler(req, res) {
     },
     {
       id: 21,
-      platform: "ps5",
+      platform: "ps5 all",
       name: "WarHammer 40k: Space Marine 2",
       genre: "Action-Adventure",
       desc: "Warhammer 40,000: Space Marine 2 on Steam. Embody the superhuman skill and brutality of a Space Marine. Unleash deadly abilities and devastating weaponry to obliterate the relentless Tyranid swarms. Defend the Imperium in spectacular third-person action in solo or multiplayer modes.",
@@ -397,7 +397,7 @@ export default function handler(req, res) {
     {
       id: 22,
       price: 59.99,
-      platform: "ps5",
+      platform: "ps5 all",
       name: "Black Myth: Wu Kong",
       genre: "Action-Adventure",
       desc: "Black Myth: Wukong is an action role-playing game. It has elements characteristic to the Soulslike subgenre. The game is played in single-player mode from a third-person perspective. The player controls a monkey protagonist referred to as the Destined One, who is based on Sun Wukong from the Journey to the West.",
@@ -421,7 +421,7 @@ export default function handler(req, res) {
     },
     {
       id: 23,
-      platform: "ps5",
+      platform: "ps5 all",
       name: "Marvel's Spider-Man 2",
       genre: "Action-Adventure",
       difficulty: "Hard",
@@ -442,7 +442,7 @@ export default function handler(req, res) {
     },
     {
       id: 24,
-      platform: "ps5",
+      platform: "ps5 all",
       name: "Star Wars: Outlaws",
       genre: "Action-Adventure",
       difficulty: "Medium",
@@ -463,7 +463,7 @@ export default function handler(req, res) {
     },
     {
       id: 25,
-      platform: "ps5",
+      platform: "ps5 all",
       name: "Dragon Age: The Veilguard",
       genre: "Action-Adventure",
       difficulty: "Hard",
@@ -484,7 +484,7 @@ export default function handler(req, res) {
     },
     {
       id: 26,
-      platform: "ps5",
+      platform: "ps5 all",
       name: "Assassin's Creed Shadows",
       genre: "Action-Adventure",
       difficulty: "Hard",
@@ -505,7 +505,7 @@ export default function handler(req, res) {
     },
     {
       id: 27,
-      platform: "ps5",
+      platform: "ps5 all",
       name: "Helldivers 2",
       genre: "Action-Adventure",
       difficulty: "Hard",
@@ -524,7 +524,7 @@ export default function handler(req, res) {
     },
     {
       id: 28,
-      platform: "ps5 xbox",
+      platform: "ps5 xbox all",
       name: "Dragon Ball: Sparking Zero",
       genre: "Action-Adventure",
       difficulty: "Hard",
@@ -545,7 +545,7 @@ export default function handler(req, res) {
     },
     {
       id: 29,
-      platform: "ps5",
+      platform: "ps5 all",
       name: "until-dawn",
       genre: "Action-Adventure",
       difficulty: "Hard",
@@ -564,7 +564,7 @@ export default function handler(req, res) {
     },
     {
       id: 30,
-      platform: "xbox",
+      platform: "xbox all",
       name: "Sid Mier's Civilization 7",
       genre: "Action-Adventure",
       difficulty: "Hard",
@@ -583,7 +583,7 @@ export default function handler(req, res) {
     },
     {
       id: 31,
-      platform: "ps5",
+      platform: "ps5 all",
       name: "Death Stranding 2",
       genre: "Action-Adventure",
       difficulty: "Hard",
@@ -604,7 +604,7 @@ export default function handler(req, res) {
     },
     {
       id: 32,
-      platform: "ps5 nintendo",
+      platform: "ps5 nintendo all",
       name: "Lego Horizon Adventures",
       genre: "Action-Adventure",
       difficulty: "Hard",

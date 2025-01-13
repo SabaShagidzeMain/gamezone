@@ -58,7 +58,7 @@ const SubscriptionSuccess = () => {
   }
 
   return (
-    <div>
+    <div className={styles.success_wrapper}>
       <h1>Subscription Success</h1>
       <p>Your subscription plan: {subscriptionData?.metadata?.plan}</p>
     </div>
