@@ -1,0 +1,75 @@
+.subcard_wrapper {
+  display: flex;
+  padding: 2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.subcard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+  padding: 0.2rem;
+  box-shadow: 0 0 20px #001219;
+  width: 18rem;
+  height: 30rem;
+  color: #001219;
+  border-radius: 5px;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.subcard:hover {
+  scale: 1.02;
+}
+
+.subcard_header {
+  font-size: 1.3rem;
+}
+
+.subcard_header span {
+  font-size: 0.9rem;
+}
+
+.subcard_feat {
+  font-weight: bold;
+}
+
+.subcard_list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.subcard_price {
+  font-weight: bold;
+}
+
+.subcard_button {
+  height: 2rem;
+  width: 10rem;
+  border-radius: 5px;
+  background-color: #001219;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: none;
+}
+
+.subcard_button:hover {
+  background-color: #efbf04;
+}
+
+.subcard_bar {
+  height: 0.02rem;
+  width: 90%;
+  background-color: #001219;
+}
