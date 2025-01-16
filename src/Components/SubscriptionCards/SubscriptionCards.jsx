@@ -40,7 +40,7 @@ const SubscriptionCards = () => {
       </div>
       <div className={styles.subcard}>
         <h2 className={styles.subcard_header}>
-          ESSENTIAL <br /> <span>Membership</span>
+          EXTRA <br /> <span>Membership</span>
         </h2>
         <Image
           className={styles.subcard_image}
@@ -71,7 +71,7 @@ const SubscriptionCards = () => {
       </div>
       <div className={styles.subcard}>
         <h2 className={styles.subcard_header}>
-          ESSENTIAL <br /> <span>Membership</span>
+          PREMIUM <br /> <span>Membership</span>
         </h2>
         <Image
           className={styles.subcard_image}
