@@ -147,6 +147,11 @@ const Navbar = () => {
             </button>
           </li>
           <li className={styles.list_item}>
+            <Link href={`/${locale}/subscription`}>
+              <button className={styles.nav_link}>{t("header.sub")}</button>
+            </Link>
+          </li>
+          <li className={styles.list_item}>
             <button className={styles.nav_link}>{t("header.about")}</button>
           </li>
           <li className={styles.list_item}>

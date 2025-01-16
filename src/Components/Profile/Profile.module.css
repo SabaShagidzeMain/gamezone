@@ -1,0 +1,80 @@
+.profile_box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  margin-top: 6rem;
+  gap: 2rem;
+}
+
+.profile_header {
+  color: #001219;
+  font-weight: bolder;
+}
+
+.profile_image {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background-color: #001219;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.profile_icon {
+  width: 4rem;
+  height: 4rem;
+  color: #fff;
+}
+
+.profile_info {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  color: #001219;
+  border-radius: 5px;
+  padding: 1rem;
+  box-shadow: 0.5rem 0.5rem 1rem #001219;
+}
+
+.profile_banner {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.profile_plan {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.profile_banner {
+  background-color: #001219;
+}
+
+.profile_button {
+  width: 8rem;
+  height: 2rem;
+  font-size: 0.9rem;
+  background-color: #001219;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-weight: bold;
+}
+
+.profile_button:hover {
+  background-color: #9b2226;
+}

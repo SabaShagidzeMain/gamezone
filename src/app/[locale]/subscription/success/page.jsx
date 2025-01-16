@@ -3,10 +3,23 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
+import styles from "./success.module.css";
+
+import Link from "next/link";
+
+import { FaStar } from "react-icons/fa";
+
+import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
+
 const SubscriptionSuccess = () => {
   const searchParams = useSearchParams();
   const [subscriptionData, setSubscriptionData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const t = useTranslations();
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1];
 
   useEffect(() => {
     const fetchSessionData = async () => {
@@ -54,13 +67,42 @@ const SubscriptionSuccess = () => {
   }, [searchParams]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className={styles.loading_container}>
+        <div className={styles.spinner}></div>
+      </div>
+    );
   }
 
   return (
     <div className={styles.success_wrapper}>
-      <h1>Subscription Success</h1>
-      <p>Your subscription plan: {subscriptionData?.metadata?.plan}</p>
+      <div className={styles.success_inner}>
+        <div>
+          <FaStar className={styles.success_icon} />
+        </div>
+        <h1>Subscription Success</h1>
+        <h3>Welcome to the Ultimate Gaming & Tech Subscription Service!</h3>
+        <p>
+          Your subscription plan:{" "}
+          <span className={styles.sub_span}>
+            {subscriptionData?.metadata?.plan}
+          </span>
+        </p>
+        <p>
+          Thank you for joining us. Your journey to exclusive perks, fresh
+          content, and awesome benefits starts now. We`re thrilled to have you
+          as part of our community!
+        </p>
+        <p>Let the adventure begin!</p>
+        <div className={styles.success_button_container}>
+          <button className={styles.success_button}>
+            <Link href={`/${locale}/`}>Back To GameZone</Link>
+          </button>
+          <button className={styles.success_button}>
+            <Link href={`/${locale}/login`}>Your Profile Page</Link>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
