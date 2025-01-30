@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./FeaturedGames.module.css";
-import axios from "axios";
+import { supabase } from "@/utilities/supabase/supabase";
 
 const FeaturedGames = () => {
   const [activeGame, setActiveGame] = useState(null);
@@ -13,15 +13,23 @@ const FeaturedGames = () => {
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const response = await axios.get("/api/games?featured=true");
-        setFeaturedGames(response.data);
-        setActiveGame(response.data[0]);
+        const { data, error } = await supabase
+          .from("games_admin")
+          .select("*")
+          .contains("tags", ["Featured"]);
+
+        if (error) throw error;
+
+        // Set the fetched games into state
+        setFeaturedGames(data);
+        setActiveGame(data[0]); // Set the first game as active (or modify as per your logic)
       } catch (error) {
         console.error("Error fetching games:", error);
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchGames();
   }, []);
 

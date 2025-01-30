@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/utilities/supabase/supabaseClient";
+import { supabase } from "@/utilities/supabase/supabase";
 import styles from "./login.module.css";
 
 import Profile from "@/Components/Profile/Profile";
