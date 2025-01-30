@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./FeaturedGames.module.css";
-import { supabase } from "@/utilities/supabase/supabase";
+import { fetchFeatured } from "@/utilities/fetchFeatured/fetchFeatured";
 
 const FeaturedGames = () => {
   const [activeGame, setActiveGame] = useState(null);
@@ -11,28 +11,14 @@ const FeaturedGames = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("games_admin")
-          .select("*")
-          .contains("tags_array", ["Featured"]); // Fixed: Ensure we're filtering based on tags_array
-
-        if (error) throw error;
-
-        console.log("Fetched data:", data); // Debugging fetched data
-
-        // Ensure the fetched data is as expected
-        setFeaturedGames(data);
-        setActiveGame(data[0] || {}); // Set the first game if available
-      } catch (error) {
-        console.error("Error fetching games:", error);
-      } finally {
-        setIsLoading(false);
-      }
+    const loadGames = async () => {
+      const games = await fetchFeatured();
+      setFeaturedGames(games);
+      setActiveGame(games[0] || {});
+      setIsLoading(false);
     };
 
-    fetchGames();
+    loadGames();
   }, []);
 
   const handleImageError = (name) => {
@@ -40,9 +26,8 @@ const FeaturedGames = () => {
   };
 
   const { main_images, name, desc } = activeGame || {};
-  const logo = main_images?.logo || ""; // Access logo from main_images
-  const backgroundImage = main_images?.thumbnail || ""; // Access thumbnail from main_images
-  const discImage = main_images?.disc || ""; // Access disc from main_images
+  const logo = main_images?.logo || "";
+  const backgroundImage = main_images?.thumbnail || "";
 
   return (
     <div className={styles.carousel_container}>
@@ -78,7 +63,7 @@ const FeaturedGames = () => {
                   onError={() => handleImageError(name)}
                 />
               ) : (
-                <div>No logo available</div> // Display a fallback message if logo is missing
+                <div>No logo available</div>
               )}
               <h2 className={styles.title}>{name}</h2>
               <p className={styles.desc}>{desc}</p>

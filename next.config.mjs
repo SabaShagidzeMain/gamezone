@@ -6,11 +6,17 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["nuftasbytmswzhbcsfad.supabase.co"], // Allow the Supabase domain for image optimization
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "nuftasbytmswzhbcsfad.supabase.co",
+        pathname: "/storage/v1/object/public/games/**", // Add a wildcard for images path
+      },
+    ],
   },
   env: {
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL, // Make Supabase URL accessible in your app
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY, // Make Supabase API key accessible in your app
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   },
 };
 
