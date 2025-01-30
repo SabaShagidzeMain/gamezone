@@ -16,13 +16,15 @@ const FeaturedGames = () => {
         const { data, error } = await supabase
           .from("games_admin")
           .select("*")
-          .contains("tags", ["Featured"]);
+          .contains("tags_array", ["Featured"]); // Fixed: Ensure we're filtering based on tags_array
 
         if (error) throw error;
 
-        // Set the fetched games into state
+        console.log("Fetched data:", data); // Debugging fetched data
+
+        // Ensure the fetched data is as expected
         setFeaturedGames(data);
-        setActiveGame(data[0]); // Set the first game as active (or modify as per your logic)
+        setActiveGame(data[0] || {}); // Set the first game if available
       } catch (error) {
         console.error("Error fetching games:", error);
       } finally {
@@ -37,9 +39,10 @@ const FeaturedGames = () => {
     console.error(`Failed to load logo for: ${name}`);
   };
 
-  const { logo, name, desc, additionalImages } = activeGame || {};
-  const backgroundImage =
-    additionalImages && additionalImages.length > 0 ? additionalImages[0] : "";
+  const { main_images, name, desc } = activeGame || {};
+  const logo = main_images?.logo || ""; // Access logo from main_images
+  const backgroundImage = main_images?.thumbnail || ""; // Access thumbnail from main_images
+  const discImage = main_images?.disc || ""; // Access disc from main_images
 
   return (
     <div className={styles.carousel_container}>
@@ -66,13 +69,17 @@ const FeaturedGames = () => {
             style={{ backgroundImage: `url(${backgroundImage})` }}
           >
             <div className={styles.big_box_inner}>
-              <Image
-                src={logo}
-                alt={`${name} Logo`}
-                width={400}
-                height={200}
-                onError={() => handleImageError(name)}
-              />
+              {logo ? (
+                <Image
+                  src={logo}
+                  alt={`${name} Logo`}
+                  width={400}
+                  height={200}
+                  onError={() => handleImageError(name)}
+                />
+              ) : (
+                <div>No logo available</div> // Display a fallback message if logo is missing
+              )}
               <h2 className={styles.title}>{name}</h2>
               <p className={styles.desc}>{desc}</p>
               <button className={styles.button}>გაიგე მეტი</button>
@@ -86,7 +93,9 @@ const FeaturedGames = () => {
                   activeGame?.id === game.id ? styles.active : ""
                 }`}
                 onClick={() => setActiveGame(game)}
-                style={{ backgroundImage: `url(${game.thumbnail})` }}
+                style={{
+                  backgroundImage: `url(${game.main_images?.thumbnail || ""})`,
+                }}
               ></div>
             ))}
           </div>
