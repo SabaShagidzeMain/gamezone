@@ -8,10 +8,12 @@ import Image from "next/image";
 import GameImageGallery from "@/Components/GameImageGallery/GameImageGallery";
 import GameSpinner from "@/Components/GameSwiper/GameSwiper";
 import Footer from "@/Components/Footer/Footer";
+import handlePurchase from "@/utilities/handlePurchase/handlePurchase";
 
 const GameDetails = ({ params }) => {
   const { id, platform } = params;
   const [game, setGame] = useState(null);
+  const [locale, setLocale] = useState(""); // State to hold locale
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -29,6 +31,11 @@ const GameDetails = ({ params }) => {
         console.error("Error fetching game details:", error);
       }
     };
+
+    // Extract locale from pathname
+    const pathSegments = window.location.pathname.split("/");
+    const localeFromUrl = pathSegments[1]; // Assuming locale is at index 1
+    setLocale(localeFromUrl); // Set locale state
 
     fetchGame();
   }, [id, platform]);
@@ -71,14 +78,20 @@ const GameDetails = ({ params }) => {
                 style={{ backgroundImage: `url(${game.main_images.disc})` }}
               ></div>
               <h1>{game.name}</h1>
-              <h3>${game.price}</h3>
+              <h3>${game.price / 100}</h3>
               <div className={styles.game_detail_text}>
                 <p>Genre: {game.genre}</p>
                 <p>Rating: {game.rating}</p>
                 <p>Release Date: {game.release_date}</p>
               </div>
               <div className={styles.button_container}>
-                <button>Buy Now</button>
+                <button
+                  onClick={
+                    () => handlePurchase(game.stripe_price_id, locale) // Pass locale to handlePurchase
+                  }
+                >
+                  Buy Now
+                </button>
                 <button>Add To Cart</button>
               </div>
             </div>
