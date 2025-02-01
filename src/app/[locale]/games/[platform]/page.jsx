@@ -1,31 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Navbar from "@/Components/Navbar/Navbar";
 import styles from "./games.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import Footer from "@/Components/Footer/Footer";
-
 import { useTranslations } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
-
 import { SiOculus, SiNintendoswitch, SiXbox } from "react-icons/si";
 import { PiGameControllerLight } from "react-icons/pi";
 import { GiConsoleController } from "react-icons/gi";
 import { MdDensitySmall } from "react-icons/md";
 
-// Helper function to fetch and filter games
-const fetchPLatformGames = async (platform) => {
+import { supabase } from "@/utilities/supabase/supabase";
+
+const fetchPlatformGames = async (platform) => {
   try {
-    const response = await axios.get("/api/games");
-    const allGames = response.data;
-    return allGames.filter((game) =>
-      game.platform.toLowerCase().includes(platform.toLowerCase())
-    );
+    let query = supabase.from("games_admin").select("*");
+
+    if (platform && platform.toLowerCase() !== "all") {
+      query = query.contains("platform_array", [platform.toLowerCase()]);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error("Error fetching games:", JSON.stringify(error, null, 2));
+      return [];
+    }
+
+    return data;
   } catch (error) {
-    console.error("Error fetching games:", error);
+    console.error("Error fetching games:", error.message);
     return [];
   }
 };
@@ -37,14 +42,14 @@ const PlatformPage = () => {
   const locale = pathname.split("/")[1];
   const platform = pathname.split("/").pop();
 
-  // States
+  // State variables
   const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("");
   const [selectedGenres, setSelectedGenres] = useState([]);
 
-  // Platform links
+  // Platform navigation links
   const gamesLinks = [
     {
       id: "ps5-games",
@@ -76,31 +81,31 @@ const PlatformPage = () => {
     },
     {
       id: "vr-games",
-      href: `/${locale}/games/vr`, // Directly link to the dynamic platform route
+      href: `/${locale}/games/vr`,
       platform: "vr",
       icon: <SiOculus className={styles.dropdown_logo} />,
       label: `VR ${t("header.games")}`,
     },
     {
       id: "all-games",
-      href: `/${locale}/games/all`, // Directly link to the dynamic platform route
+      href: `/${locale}/games/all`,
       platform: "all",
       icon: <MdDensitySmall className={styles.dropdown_logo} />,
       label: `${t("header.all-games")}`,
     },
   ];
 
-  // Fetch and set games on platform change
   useEffect(() => {
     const fetchGames = async () => {
-      const platformGames = await fetchPLatformGames(platform);
+      const platformGames = await fetchPlatformGames(platform);
       setGames(platformGames);
       setFilteredGames(platformGames);
     };
+
     fetchGames();
   }, [platform]);
 
-  // Filter games based on search, genres, and sort option
+  // Client-side filtering: search, genres, and sort option.
   useEffect(() => {
     let updatedGames = games.filter((game) =>
       game.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -114,15 +119,18 @@ const PlatformPage = () => {
       );
     }
 
-    // Sorting logic
     const sortFunctions = {
       name: (a, b) => a.name.localeCompare(b.name),
+
       releaseDateAsc: (a, b) =>
-        new Date(a.releaseDate) - new Date(b.releaseDate),
+        new Date(a.release_date) - new Date(b.release_date),
       releaseDateDesc: (a, b) =>
-        new Date(b.releaseDate) - new Date(a.releaseDate),
+        new Date(b.release_date) - new Date(a.release_date),
       ratingAsc: (a, b) => a.rating - b.rating,
       ratingDesc: (a, b) => b.rating - a.rating,
+
+      priceAsc: (a, b) => a.price - b.price,
+      priceDesc: (a, b) => b.price - a.price,
     };
 
     if (sortOption) {
@@ -132,7 +140,6 @@ const PlatformPage = () => {
     setFilteredGames(updatedGames);
   }, [searchTerm, sortOption, games, selectedGenres]);
 
-  // Handle genre filter change
   const handleGenreChange = (e) => {
     const genre = e.target.value;
     setSelectedGenres((prev) =>
@@ -165,6 +172,7 @@ const PlatformPage = () => {
           ))}
         </ul>
       </div>
+
       <div className={styles.search_filter}>
         <input
           className={styles.search_input}
@@ -184,6 +192,8 @@ const PlatformPage = () => {
           <option value="releaseDateDesc">Release Date ↓</option>
           <option value="ratingAsc">Rating ↑</option>
           <option value="ratingDesc">Rating ↓</option>
+          <option value="priceAsc">Price ↑</option>
+          <option value="priceDesc">Price ↓</option>
         </select>
       </div>
 
@@ -240,14 +250,14 @@ const PlatformPage = () => {
           >
             <Image
               className={styles.game_image}
-              src={game.disc}
+              src={game.main_images.disc}
               alt={game.name}
               width={250}
               height={270}
             />
             <div className={styles.gamecard_info}>
               <h2>{game.name}</h2>
-              <p>Price</p>
+              <p>{game.price / 100} GEL</p>
             </div>
           </div>
         ))}
