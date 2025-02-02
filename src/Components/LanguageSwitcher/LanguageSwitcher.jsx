@@ -1,5 +1,6 @@
-// src/Components/LanguageSwitcher.jsx
 "use client";
+
+import { FaGlobeEurope } from "react-icons/fa";
 
 import styles from "../Navbar/navbar.module.css";
 import { useRouter, usePathname } from "next/navigation";
@@ -16,8 +17,9 @@ const LanguageSwitcher = () => {
   };
 
   return (
-    <button onClick={toggleLanguage} className={styles.navbar_button}>
-      {currentLocale === "en" ? "Ge" : "Eng"}
+    <button onClick={toggleLanguage} className={styles.nav_right_icon}>
+      {/* {currentLocale === "en" ? "Ge" : "Eng"} */}
+      <FaGlobeEurope className={styles.nav_icon} />
     </button>
   );
 };

@@ -4,12 +4,19 @@ import { useState } from "react";
 import Link from "next/link";
 import styles from "./navbar.module.css";
 
+import { FaMoon, FaSun } from "react-icons/fa";
+
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 import { MdDensitySmall } from "react-icons/md";
-import { FaArrowDown } from "react-icons/fa";
+import {
+  FaArrowDown,
+  FaRegUserCircle,
+  FaGlobeEurope,
+  FaShoppingCart,
+} from "react-icons/fa";
 import {
   SiOculus,
   SiPlaystation5,
@@ -26,6 +33,17 @@ import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
 import handlePurchase from "@/utilities/handlePurchase/handlePurchase";
 
 const Navbar = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  };
+
   const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname.split("/")[1];
@@ -112,7 +130,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={styles.navbar}>
+    <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center gap-3 p-4 h-16 bg-[var(--background-color)] text-[var(--text-color)] dark:shadow-white">
       <div className={styles.navbar_left}>
         <div className={styles.logo}>
           <Link href="/">
@@ -171,18 +189,25 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div className={styles.navbar_right}>
+      <div className={styles.nav_icon_container}>
         <Link href={`/${locale}/login`}>
-          <button className={styles.navbar_button}>
-            {t("header.profile")}
+          <button className={styles.nav_right_icon}>
+            <FaRegUserCircle className={styles.nav_icon} />
           </button>
         </Link>
         <LanguageSwitcher />
         <button
           onClick={() => SetIsCartOpen(!isCartOpen)}
-          className={styles.navbar_button}
+          className={styles.nav_right_icon}
         >
-          Cart
+          <FaShoppingCart className={styles.nav_icon} />
+        </button>
+        <button onClick={toggleDarkMode} className={styles.nav_right_icon}>
+          {isDarkMode ? (
+            <FaSun className={styles.nav_icon} />
+          ) : (
+            <FaMoon className={styles.nav_icon} />
+          )}
         </button>
       </div>
       {/* The Cart */}
