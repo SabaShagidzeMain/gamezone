@@ -6,6 +6,7 @@ import styles from "./navbar.module.css";
 
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 import { MdDensitySmall } from "react-icons/md";
 import { FaArrowDown } from "react-icons/fa";
@@ -19,12 +20,18 @@ import {
 import { PiGameControllerLight } from "react-icons/pi";
 import { GiConsoleController } from "react-icons/gi";
 
+import { useCart } from "@/utilities/CartContext/CartContext";
+
 import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
 
 const Navbar = () => {
   const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname.split("/")[1];
+
+  const { cart, removeFromCart } = useCart();
+  const [isCartOpen, SetIsCartOpen] = useState(false);
+
 
   const [activeDropdown, setActiveDropdown] = useState(null);
 
@@ -166,7 +173,43 @@ const Navbar = () => {
           </button>
         </Link>
         <LanguageSwitcher />
+        <button
+          onClick={() => SetIsCartOpen(!isCartOpen)}
+          className={styles.navbar_button}
+        >
+          Cart
+        </button>
       </div>
+      {/* The Cart */}
+      {isCartOpen && (
+        <div className={styles.cart_dropdown}>
+          {cart.length === 0 ? (
+            <p className={styles.empty_cart}>Your cart is empty.</p>
+          ) : (
+            <ul className={styles.cart_list}>
+              {cart.map((item, index) => (
+                <li key={index} className={styles.cart_item}>
+                  <Image
+                    src={item.main_images.disc}
+                    alt={item.name}
+                    className={styles.cart_img}
+                    width={8}
+                    height={8}
+                  />
+                  <div>
+                    <p>{item.name}</p>
+                    <p>${item.price / 100}</p>
+                  </div>
+                  <button onClick={() => removeFromCart(item.id)}>
+                    Remove
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+          <button className={styles.checkout_button}>Go to Checkout</button>
+        </div>
+      )}
 
       {/* Dropdown for Consoles */}
       <div

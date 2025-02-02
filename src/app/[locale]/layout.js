@@ -5,6 +5,7 @@ import { getMessages } from "next-intl/server";
 import Navbar from "@/Components/Navbar/Navbar";
 import Footer from "@/Components/Footer/Footer";
 import { UserProvider } from "@/context/UserContext";
+import { CartProvider } from "@/utilities/CartContext/CartContext";
 
 // Local fonts
 const geistSans = localFont({
@@ -24,22 +25,21 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children, params }) {
-  // Get the current locale from the params (defaults to 'en' if not provided)
   const { locale } = params;
-
-  // Fetch the messages for the current locale
   const messages = await getMessages(locale);
 
   return (
     <html lang={locale}>
       <UserProvider>
-        <NextIntlClientProvider messages={messages}>
-          <body className={`${geistSans.variable} ${geistMono.variable}`}>
-            <Navbar />
-            {children}
-            <Footer />
-          </body>
-        </NextIntlClientProvider>
+        <CartProvider>
+          <NextIntlClientProvider messages={messages}>
+            <body className={`${geistSans.variable} ${geistMono.variable}`}>
+              <Navbar />
+              {children}
+              <Footer />
+            </body>
+          </NextIntlClientProvider>
+        </CartProvider>
       </UserProvider>
     </html>
   );
