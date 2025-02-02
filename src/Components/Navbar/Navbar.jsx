@@ -11,7 +11,12 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 import { MdDensitySmall } from "react-icons/md";
-import { FaArrowDown, FaRegUserCircle } from "react-icons/fa";
+import {
+  FaArrowDown,
+  FaRegUserCircle,
+  FaGlobeEurope,
+  FaShoppingCart,
+} from "react-icons/fa";
 import {
   SiOculus,
   SiPlaystation5,
@@ -125,7 +130,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center gap-3 p-4 h-16 bg-[var(--background-color)] text-[var(--text-color)]">
+    <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center gap-3 p-4 h-16 bg-[var(--background-color)] text-[var(--text-color)] dark:shadow-white">
       <div className={styles.navbar_left}>
         <div className={styles.logo}>
           <Link href="/">
@@ -184,7 +189,7 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div className="flex">
+      <div className={styles.nav_icon_container}>
         <Link href={`/${locale}/login`}>
           <button className={styles.nav_right_icon}>
             <FaRegUserCircle className={styles.nav_icon} />
@@ -193,9 +198,9 @@ const Navbar = () => {
         <LanguageSwitcher />
         <button
           onClick={() => SetIsCartOpen(!isCartOpen)}
-          className={styles.navbar_button}
+          className={styles.nav_right_icon}
         >
-          Cart
+          <FaShoppingCart className={styles.nav_icon} />
         </button>
         <button onClick={toggleDarkMode} className={styles.nav_right_icon}>
           {isDarkMode ? (

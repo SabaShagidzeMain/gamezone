@@ -10,6 +10,7 @@
   left: 0;
   width: 100%;
   z-index: 999;
+  box-sizing: 0 0 20px #001219;
 }
 
 .navbar_left {
@@ -19,8 +20,15 @@
   gap: 0.8rem;
 }
 
+/* Navigation - Right */
+
 .navbar_right {
   display: flex;
+}
+
+.nav_icon_container {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .nav_right_icon {
@@ -28,8 +36,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  height: 4rem;
-  width: 4rem;
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .nav_icon {
@@ -51,7 +59,6 @@
 }
 
 .list_item {
-  color: #001219;
   list-style-type: none;
 }
 
@@ -68,11 +75,10 @@
 }
 
 .navbar h2 {
-  color: #001219;
+  font-weight: bold;
 }
 
 .nav_link {
-  color: #001219;
   cursor: pointer;
   border: none;
   background: none;
@@ -91,7 +97,6 @@
 
 .dropdownToggle {
   cursor: pointer;
-  color: #001219;
   display: flex;
   align-items: center;
   gap: 0.2rem;
@@ -117,7 +122,6 @@
   left: 0;
   width: 100vw;
   background-color: #fff;
-  color: #001219;
   list-style: none;
   height: 7rem;
   display: flex;

@@ -1,11 +1,23 @@
 /* Import Tailwind CSS */
 @import "tailwindcss";
 
-html {
-  --background-light: #ffffff; /* Light background */
-  --text-light: #001219; /* Light text */
-  --background-dark: #001219; /* Dark background */
-  --text-dark: #ffffff; /* Dark text */
+:root {
+  --background-light: #ffffff;
+  --background-dark: #001219;
+  --foreground-light: #001219;
+  --foreground-dark: #ffffff;
+}
+
+/* For dark mode */
+.dark {
+  --background: var(--background-dark);
+  --foreground: var(--foreground-dark);
+}
+
+/* For light mode */
+:root {
+  --background: var(--background-light);
+  --foreground: var(--foreground-light);
 }
 
 /* Global dark mode styles */
