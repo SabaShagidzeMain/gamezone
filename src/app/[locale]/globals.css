@@ -6,7 +6,8 @@
   --text-color: #001219;
   --button-bg: #001219;
   --button-text: #ffffff;
-  --box-shadow: 0 0 20px #001219,
+  --box-shadow: 4px 4px 6px -1px rgba(0, 0, 0, 0.5),
+    0 2px 4px -1px rgba(0, 0, 0, 0.5);
 }
 
 .dark {
@@ -14,7 +15,21 @@
   --text-color: #ffffff;
   --button-bg: #ffffff;
   --button-text: #001219;
-  --box-shadow: 0 0 20px #ffffff,
+  --box-shadow: 4px 4px 6px -1px rgba(255, 255, 255, 0.3),
+    4px 2px 4px -1px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s infinite;
 }
 
 /* Global dark mode styles */
