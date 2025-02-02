@@ -159,6 +159,11 @@ const Navbar = () => {
             </Link>
           </li>
           <li className={styles.list_item}>
+            <Link href={`/${locale}/blogs`}>
+              <button className={styles.nav_link}>Blogs</button>
+            </Link>
+          </li>
+          <li className={styles.list_item}>
             <button className={styles.nav_link}>{t("header.about")}</button>
           </li>
           <li className={styles.list_item}>

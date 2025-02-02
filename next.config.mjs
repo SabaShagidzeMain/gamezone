@@ -10,7 +10,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "nuftasbytmswzhbcsfad.supabase.co",
-        pathname: "/storage/v1/object/public/games/**", // Add a wildcard for images path
+        pathname: "/storage/v1/object/public/games/**",
+      },
+      {
+        protocol: "https",
+        hostname: "nuftasbytmswzhbcsfad.supabase.co",
+        pathname: "/storage/v1/object/public/blogs/**", 
       },
     ],
   },

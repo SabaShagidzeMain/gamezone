@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import styles from "./BlogSpinner.module.css";
 import Image from "next/image";
-import axios from "axios";
+import { supabase } from "@/utilities/supabase/supabase"; // Import the Supabase client
 
 const BlogSpinner = () => {
   const [blogs, setBlogs] = useState([]);
@@ -16,8 +16,11 @@ const BlogSpinner = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("/api/blogs");
-        setBlogs(response.data);
+        const { data, error } = await supabase.from("blogs").select("*"); // Fetch from Supabase blogs table
+        if (error) {
+          throw error;
+        }
+        setBlogs(data);
       } catch (error) {
         console.error("Error fetching blogs:", error);
       } finally {
@@ -49,17 +52,17 @@ const BlogSpinner = () => {
                 style={{ width: "100%", height: "15rem", position: "relative" }}
               >
                 <Image
-                  src={blog.image}
-                  alt={blog.title}
+                  src={blog.blog_image}
+                  alt={blog.blog_header}
                   layout="fill"
                   objectFit="cover"
                 />
               </div>
               <div>
-                <h3 className={styles.blog_card_title}>{blog.title}</h3>
+                <h3 className={styles.blog_card_title}>{blog.blog_header}</h3>
               </div>
               <div className={styles.blog_text_container}>
-                <p className={styles.blog_card_text}>{blog.text}</p>
+                <p className={styles.blog_card_text}>{blog.blog_text}</p>
               </div>
               <div>
                 <button className={styles.blog_card_button}>გაიგე მეტი</button>
