@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { supabase } from "@/utilities/supabase/supabase";
+import { useCart } from "@/context/CartContext"; // Import the hook
 
 const CheckoutSuccessPage = () => {
   const searchParams = useSearchParams();
+  const { clearCart } = useCart(); // Destructure clearCart from your cart context
   const [sessionData, setSessionData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +37,6 @@ const CheckoutSuccessPage = () => {
         setLoading(false);
 
         // Insert each product as an order into the orders table
-        // (This example creates one order row per product)
         const orders = data.products.map((product) => ({
           user_id: data.userId,
           username: data.username,
@@ -50,6 +51,8 @@ const CheckoutSuccessPage = () => {
           console.error("Error inserting orders into Supabase:", error);
         } else {
           console.log("Orders inserted successfully");
+          // Clear the cart when orders are successfully inserted
+          clearCart();
         }
       } catch (error) {
         console.error("Error fetching session data:", error);
@@ -63,7 +66,7 @@ const CheckoutSuccessPage = () => {
       console.error("Session ID is missing in the URL");
       setLoading(false);
     }
-  }, [searchParams]);
+  }, [searchParams, clearCart]);
 
   if (loading) return <p>Loading...</p>;
   if (!sessionData) return <p>Error fetching session data</p>;
