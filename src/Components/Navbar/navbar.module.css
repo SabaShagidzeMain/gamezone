@@ -19,6 +19,24 @@
   gap: 0.8rem;
 }
 
+.navbar_right {
+  display: flex;
+}
+
+.nav_right_icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 4rem;
+  width: 4rem;
+}
+
+.nav_icon {
+  height: 2rem;
+  width: 2rem;
+}
+
 .navbar_button {
   width: 6rem;
   height: 2rem;

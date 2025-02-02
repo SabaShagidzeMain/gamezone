@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 import { MdDensitySmall } from "react-icons/md";
-import { FaArrowDown } from "react-icons/fa";
+import { FaArrowDown, FaRegUserCircle } from "react-icons/fa";
 import {
   SiOculus,
   SiPlaystation5,
@@ -184,10 +184,10 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div className={styles.navbar_right}>
+      <div className="flex">
         <Link href={`/${locale}/login`}>
-          <button className="w-24 h-8 rounded-lg cursor-pointer transition-all duration-300 bg-[var(--background-color)] text-[var(--text-color)]">
-            {t("header.profile")}
+          <button className={styles.nav_right_icon}>
+            <FaRegUserCircle className={styles.nav_icon} />
           </button>
         </Link>
         <LanguageSwitcher />
@@ -197,9 +197,12 @@ const Navbar = () => {
         >
           Cart
         </button>
-        <button onClick={toggleDarkMode} className={styles.navbar_button}>
-          {isDarkMode ? <FaSun /> : <FaMoon />}{" "}
-          {isDarkMode ? "Light Mode" : "Dark Mode"}
+        <button onClick={toggleDarkMode} className={styles.nav_right_icon}>
+          {isDarkMode ? (
+            <FaSun className={styles.nav_icon} />
+          ) : (
+            <FaMoon className={styles.nav_icon} />
+          )}
         </button>
       </div>
       {/* The Cart */}
