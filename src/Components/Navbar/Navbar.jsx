@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import styles from "./navbar.module.css";
 
+import { FaMoon, FaSun } from "react-icons/fa";
+
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -26,6 +28,17 @@ import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
 import handlePurchase from "@/utilities/handlePurchase/handlePurchase";
 
 const Navbar = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  };
+
   const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname.split("/")[1];
@@ -112,7 +125,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={styles.navbar}>
+    <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center gap-3 p-4 h-16 bg-[var(--background-color)] text-[var(--text-color)]">
       <div className={styles.navbar_left}>
         <div className={styles.logo}>
           <Link href="/">
@@ -173,7 +186,7 @@ const Navbar = () => {
       </div>
       <div className={styles.navbar_right}>
         <Link href={`/${locale}/login`}>
-          <button className={styles.navbar_button}>
+          <button className="w-24 h-8 rounded-lg cursor-pointer transition-all duration-300 bg-[var(--background-color)] text-[var(--text-color)]">
             {t("header.profile")}
           </button>
         </Link>
@@ -183,6 +196,10 @@ const Navbar = () => {
           className={styles.navbar_button}
         >
           Cart
+        </button>
+        <button onClick={toggleDarkMode} className={styles.navbar_button}>
+          {isDarkMode ? <FaSun /> : <FaMoon />}{" "}
+          {isDarkMode ? "Light Mode" : "Dark Mode"}
         </button>
       </div>
       {/* The Cart */}
