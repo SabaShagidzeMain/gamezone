@@ -2,34 +2,44 @@
   padding: 2rem;
 }
 
+.spin_container {
+  margin: 2rem;
+}
+
 .blog_card {
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  border: 1px solid #ddd;
+  box-shadow: 0 0 20px #001219;
   border-radius: 8px;
   gap: 1rem;
   cursor: pointer;
-  color: #001219;
-  height: 35rem;
+  height: 30rem;
+}
+
+.blog_image {
+  border-radius: 8px 8px 0 0;
+}
+
+.blog_info_container {
+  padding: 0 1rem;
 }
 
 .blog_text_container {
-  height: 7rem;
+  height: 6rem;
+  overflow-y: hidden;
+  margin-bottom: 1rem;
 }
 
-.blog_card_title {
+/* .blog_card_title {
   font-size: 1.5rem;
-  margin: 10px 0;
-  color: #001219;
+  margin: 5px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} */
 
 .blog_card_text {
   font-size: 1rem;
-  color: #001219;
   margin-bottom: 15px;
   overflow: hidden;
   text-overflow: ellipsis;

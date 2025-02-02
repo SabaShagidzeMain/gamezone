@@ -6,6 +6,8 @@ import styles from "./navbar.module.css";
 
 import { FaMoon, FaSun } from "react-icons/fa";
 
+import { useEffect } from "react";
+
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -35,12 +37,29 @@ import handlePurchase from "@/utilities/handlePurchase/handlePurchase";
 const Navbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
+  useEffect(() => {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
       document.documentElement.classList.add("dark");
+      setIsDarkMode(true);
     } else {
       document.documentElement.classList.remove("dark");
+      setIsDarkMode(false);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.theme = "light";
+      setIsDarkMode(false);
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.theme = "dark";
+      setIsDarkMode(true);
     }
   };
 
@@ -202,7 +221,7 @@ const Navbar = () => {
         >
           <FaShoppingCart className={styles.nav_icon} />
         </button>
-        <button onClick={toggleDarkMode} className={styles.nav_right_icon}>
+        <button onClick={toggleTheme} className={styles.nav_right_icon}>
           {isDarkMode ? (
             <FaSun className={styles.nav_icon} />
           ) : (

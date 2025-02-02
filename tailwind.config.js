@@ -1,21 +1,21 @@
-module.exports = {
-  darkMode: "class", // Enables class-based dark mode
+/** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
-        background: {
-          light: "#ffffff", // Light mode background
-          dark: "#001219", // Dark mode background
+        dark: {
+          main: "#001219", // Dark background color
+          accent: "#ffffff", // Dark text color
         },
-        foreground: {
-          light: "#001219", // Light mode text color
-          dark: "#ffffff", // Dark mode text color
+        light: {
+          main: "#ffffff", // Light background color
+          accent: "#001219", // Light text color
         },
-      },
-      boxShadow: {
-        white: "0 0 10px rgba(255, 255, 255, 0.5)", // White shadow in dark mode
       },
     },
   },
+  darkMode: "class", // Enables class-based dark mode
   plugins: [],
 };

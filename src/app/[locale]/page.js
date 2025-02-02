@@ -10,9 +10,9 @@ export default function Home() {
   return (
     <div className={styles.main_page_wrapper}>
       <main>
-        <FeaturedGames />
-        <FeaturedAccessories />
-        <GameShowcase />
+        <FeaturedGames className="bg-light-main dark-bg-dark-main" />
+        {/* <FeaturedAccessories /> */}
+        <GameShowcase className="bg-light-main dark-bg-dark-main" />
         <BlogSpinner />
       </main>
     </div>
