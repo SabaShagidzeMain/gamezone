@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+import { supabase } from "@/utilities/supabase/supabase";
 
 const CheckoutSuccessPage = () => {
   const searchParams = useSearchParams();
@@ -35,6 +36,23 @@ const CheckoutSuccessPage = () => {
 
         setSessionData(data);
         setLoading(false);
+
+        const { error } = await supabase.from("orders").insert([
+          {
+            user_id: data.userId,
+            username: data.username,
+            product_name: data.productName,
+            product_price: data.productPrice * 100,
+            created_at: data.purchaseTime,
+            product_image: data.productImage,
+          },
+        ]);
+
+        if (error) {
+          console.error("Error inserting data into Supabase:", error);
+        } else {
+          console.log("Order data successfully inserted into Supabase");
+        }
       } catch (error) {
         console.error("Error fetching session data:", error);
       }
@@ -55,19 +73,13 @@ const CheckoutSuccessPage = () => {
     return <p>Error fetching session data</p>;
   }
 
-  const price = sessionData.productPrice ? sessionData.productPrice / 100 : 0;
-
-  if (isNaN(price)) {
-    return <p>Error: Invalid price data</p>;
-  }
-
   return (
     <div>
       <h1>Purchase Successful!</h1>
       <p>User: {sessionData.username}</p>
       <p>User Id: {sessionData.userId}</p>
       <p>Product: {sessionData.productName}</p>
-      <p>Price: {price} GEL</p>
+      <p>Price: {sessionData.productPrice} GEL</p>
       <p>Purchase Time: {sessionData.purchaseTime}</p>
       <Image
         src={sessionData.productImage}
