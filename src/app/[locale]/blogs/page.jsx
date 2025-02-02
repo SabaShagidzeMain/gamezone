@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { supabase } from "@/utilities/supabase/supabase"; // Assuming you have a supabase client utility set up
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { supabase } from "@/utilities/supabase/supabase";
 import Image from "next/image";
-import { useRouter, usePathname } from "next/navigation"; // For routing
-import "./blogs.css";
+import styles from "./blogs.module.css"; // Update the path if necessary
 
 const BlogPage = () => {
   const [blogs, setBlogs] = useState([]);
@@ -13,8 +13,10 @@ const BlogPage = () => {
 
   const router = useRouter();
   const pathname = usePathname(); // Get current pathname
-  const locale = pathname.split("/")[1]; // Extract the locale from the path
-  const blogId = pathname.split("/").pop(); // Get the blog ID from the URL
+
+  // Ensure pathname is available before attempting to split it
+  const locale = pathname ? pathname.split("/")[1] : ""; // Extract the locale from the path (e.g., "en")
+  const blogId = pathname ? pathname.split("/").pop() : ""; // Get the blog ID from the URL
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -52,14 +54,13 @@ const BlogPage = () => {
 
   // Navigate to the dynamic blog page using the id
   const handleBlogClick = (id) => {
-    const { locale } = router; // Get the current locale (e.g., en, ge)
     router.push(`/${locale}/blogs/${id}`);
   };
 
   return (
-    <div className="blogs-wrapper">
+    <div className={styles.blogsWrapper}>
       {featuredBlog && (
-        <div className="featured-blog">
+        <div className={styles.featuredBlog}>
           <h2>Featured Blog</h2>
           <h3>{featuredBlog.blog_header}</h3>
           <p>{featuredBlog.blog_text}</p>
@@ -73,9 +74,9 @@ const BlogPage = () => {
       )}
 
       {/* List of Blogs */}
-      <div className="blog-container">
+      <div className={styles.blogContainer}>
         <h2>Other Blogs</h2>
-        <div className="search-bar">
+        <div className={styles.searchBar}>
           <input
             type="text"
             placeholder="Search blogs..."
@@ -83,10 +84,10 @@ const BlogPage = () => {
             onChange={(e) => setSearchQuery(e.target.value)} // Update the search query
           />
         </div>
-        <div className="blog-list">
+        <div className={styles.blogList}>
           {filteredBlogs.length > 0 ? (
             filteredBlogs.map((blog) => (
-              <div key={blog.id} className="blog-card">
+              <div key={blog.id} className={styles.blogCard}>
                 <Image
                   src={blog.blog_image}
                   alt={blog.blog_header}
@@ -94,8 +95,8 @@ const BlogPage = () => {
                   height={150}
                 />
                 <h3>{blog.blog_header}</h3>
-                <div className="blog-text-wrapper">
-                  <p>{featuredBlog.blog_text}</p>
+                <div className={styles.blogTextWrapper}>
+                  <p>{blog.blog_text}</p>
                 </div>
                 {/* Button to navigate to the dynamic blog page */}
                 <button onClick={() => handleBlogClick(blog.id)}>
