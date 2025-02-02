@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { supabase } from "@/utilities/supabase/supabase";
-import { useCart } from "@/context/CartContext"; // Import the hook
+import { useCart } from "@/utilities/CartContext/CartContext";
 
 const CheckoutSuccessPage = () => {
   const searchParams = useSearchParams();
