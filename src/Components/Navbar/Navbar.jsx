@@ -23,6 +23,7 @@ import { GiConsoleController } from "react-icons/gi";
 import { useCart } from "@/utilities/CartContext/CartContext";
 
 import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+import handlePurchase from "@/utilities/handlePurchase/handlePurchase";
 
 const Navbar = () => {
   const t = useTranslations();
@@ -31,7 +32,6 @@ const Navbar = () => {
 
   const { cart, removeFromCart } = useCart();
   const [isCartOpen, SetIsCartOpen] = useState(false);
-
 
   const [activeDropdown, setActiveDropdown] = useState(null);
 
@@ -207,7 +207,17 @@ const Navbar = () => {
               ))}
             </ul>
           )}
-          <button className={styles.checkout_button}>Go to Checkout</button>
+          <button
+            onClick={() =>
+              handlePurchase(
+                cart.map((item) => item.id),
+                locale
+              )
+            }
+            className={styles.checkout_button}
+          >
+            Go to Checkout
+          </button>
         </div>
       )}
 

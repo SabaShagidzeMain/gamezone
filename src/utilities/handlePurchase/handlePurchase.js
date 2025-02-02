@@ -1,6 +1,6 @@
 import { loadStripe } from "@stripe/stripe-js";
 
-const handlePurchase = async (productId, locale) => {
+const handlePurchase = async (productIds, locale) => {
   try {
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?.id;
@@ -11,12 +11,20 @@ const handlePurchase = async (productId, locale) => {
       return;
     }
 
+    // Ensure productIds is always an array
+    const productArray = Array.isArray(productIds) ? productIds : [productIds];
+
     const response = await fetch("/api/create-checkout-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId, username, productId, locale }),
+      body: JSON.stringify({
+        userId,
+        username,
+        productIds: productArray, // Sending the productIds here
+        locale,
+      }),
     });
 
     if (!response.ok) {
