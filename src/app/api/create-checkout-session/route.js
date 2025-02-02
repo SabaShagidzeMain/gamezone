@@ -6,57 +6,56 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(req) {
   try {
-    const { userId, username, productId, locale } = await req.json(); // Destructure username
+    const { userId, username, productIds, locale } = await req.json();
 
     // Ensure all necessary fields are present
-    if (!userId || !username || !productId || !locale) {
+    if (!userId || !username || !productIds || !locale) {
       return new NextResponse(
-        "Missing userId, username, productId, or locale",
+        "Missing userId, username, productIds, or locale",
         { status: 400 }
       );
     }
 
     console.log(
-      `Creating checkout session for user: ${userId}, username: ${username}, product: ${productId}, locale: ${locale}`
+      `Creating checkout session for user: ${userId}, username: ${username}, products: ${productIds.length} items, locale: ${locale}`
     );
 
-    const { data: product, error } = await supabase
+    console.log("Product IDs received:", productIds);
+
+    // Fetch products from the database using the productIds
+    const { data: products, error } = await supabase
       .from("games_admin")
       .select(
         "stripe_price_id, stripe_product_id, name, price, id, main_images"
       )
-      .eq("stripe_price_id", productId)
-      .single();
+      .in("id", productIds); // Query using the product's 'id' field
 
-    if (error || !product) {
-      console.error("Product not found:", error);
-      return new NextResponse("Product not found", { status: 404 });
+    if (error || !products.length) {
+      console.log("Products fetched:", products);
+      console.error(
+        "Error fetching products:",
+        error ? error.message : "No products found"
+      );
+      return new NextResponse("Some products not found", { status: 404 });
     }
-    const discImage = product.main_images?.disc || "";
+
+    const lineItems = products.map((product) => ({
+      price: product.stripe_price_id,
+      quantity: 1, // Or use the quantity from the cart if available
+    }));
 
     const domain = process.env.NEXT_PUBLIC_DOMAIN || "http://localhost:3000";
 
     const successUrl = `${domain}/${locale}/games/success?session_id={CHECKOUT_SESSION_ID}`;
-    const cancelUrl = `${domain}/${locale}/games/${product.id}/cancel`;
+    const cancelUrl = `${domain}/${locale}/games/cancel`;
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      line_items: [
-        {
-          price: product.stripe_price_id,
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems, // No 'product_data' field here
       metadata: {
-        stripe_price_id: product.stripe_price_id,
-        stripe_product_id: product.stripe_product_id,
-        product_name: product.name,
-        product_price: product.price,
-        product_id: product.id,
-        disc_image: discImage,
         user_id: userId,
-        username: username, // Now username is passed correctly in the metadata
+        username: username,
       },
       success_url: successUrl,
       cancel_url: cancelUrl,

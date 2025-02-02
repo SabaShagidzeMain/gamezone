@@ -9,11 +9,13 @@ import GameImageGallery from "@/Components/GameImageGallery/GameImageGallery";
 import GameSpinner from "@/Components/GameSwiper/GameSwiper";
 import Footer from "@/Components/Footer/Footer";
 import handlePurchase from "@/utilities/handlePurchase/handlePurchase";
+import { useCart } from "@/utilities/CartContext/CartContext";
 
 const GameDetails = ({ params }) => {
   const { id, platform } = params;
   const [game, setGame] = useState(null);
   const [locale, setLocale] = useState(""); // State to hold locale
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -92,7 +94,7 @@ const GameDetails = ({ params }) => {
                 >
                   Buy Now
                 </button>
-                <button>Add To Cart</button>
+                <button onClick={() => addToCart(game)}>Add To Cart</button>
               </div>
             </div>
           </div>

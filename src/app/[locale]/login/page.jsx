@@ -7,6 +7,7 @@ import { supabase } from "@/utilities/supabase/supabase";
 import styles from "./login.module.css";
 
 import Profile from "@/Components/Profile/Profile";
+import OrderInfo from "@/Components/orderInfo/orderInfo";
 
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
@@ -151,7 +152,10 @@ const LoginPage = () => {
           {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
       ) : (
-        <Profile userData={userData} logOut={handleLogout} />
+        <div className={styles.user_wrapper}>
+          <Profile userData={userData} logOut={handleLogout} />
+          <OrderInfo />
+        </div>
       )}
 
       {showModal && (

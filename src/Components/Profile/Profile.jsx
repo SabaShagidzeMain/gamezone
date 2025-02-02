@@ -31,7 +31,6 @@ const Profile = ({ userData, logOut }) => {
   };
   return (
     <div className={styles.profile_box}>
-      <h1 className={styles.profile_header}>Profile</h1>
       <div className={styles.profile_info}>
         <div style={backgroundStyle} className={styles.profile_banner}></div>
         <div className={styles.profile_image}>

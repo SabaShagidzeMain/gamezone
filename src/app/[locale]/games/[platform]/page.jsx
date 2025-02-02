@@ -12,6 +12,7 @@ import { GiConsoleController } from "react-icons/gi";
 import { MdDensitySmall } from "react-icons/md";
 
 import { supabase } from "@/utilities/supabase/supabase";
+import { useCart } from "@/utilities/CartContext/CartContext";
 
 const fetchPlatformGames = async (platform) => {
   try {
@@ -48,6 +49,7 @@ const PlatformPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("");
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const { addToCart } = useCart();
 
   // Platform navigation links
   const gamesLinks = [
@@ -258,6 +260,14 @@ const PlatformPage = () => {
             <div className={styles.gamecard_info}>
               <h2>{game.name}</h2>
               <p>{game.price / 100} GEL</p>
+            </div>
+            <div className={styles.gamecard_btt_container}>
+              <button
+                onClick={() => addToCart(game)}
+                className={styles.gamecard_button}
+              >
+                Add To Cart
+              </button>
             </div>
           </div>
         ))}
