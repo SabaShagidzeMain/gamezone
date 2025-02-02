@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./FeaturedGames.module.css";
-import axios from "axios";
+import { fetchFeatured } from "@/utilities/fetchFeatured/fetchFeatured";
 
 const FeaturedGames = () => {
   const [activeGame, setActiveGame] = useState(null);
@@ -11,27 +11,23 @@ const FeaturedGames = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const response = await axios.get("/api/games?featured=true");
-        setFeaturedGames(response.data);
-        setActiveGame(response.data[0]);
-      } catch (error) {
-        console.error("Error fetching games:", error);
-      } finally {
-        setIsLoading(false);
-      }
+    const loadGames = async () => {
+      const games = await fetchFeatured();
+      setFeaturedGames(games);
+      setActiveGame(games[0] || {});
+      setIsLoading(false);
     };
-    fetchGames();
+
+    loadGames();
   }, []);
 
   const handleImageError = (name) => {
     console.error(`Failed to load logo for: ${name}`);
   };
 
-  const { logo, name, desc, additionalImages } = activeGame || {};
-  const backgroundImage =
-    additionalImages && additionalImages.length > 0 ? additionalImages[0] : "";
+  const { main_images, name, desc } = activeGame || {};
+  const logo = main_images?.logo || "";
+  const backgroundImage = main_images?.thumbnail || "";
 
   return (
     <div className={styles.carousel_container}>
@@ -58,13 +54,17 @@ const FeaturedGames = () => {
             style={{ backgroundImage: `url(${backgroundImage})` }}
           >
             <div className={styles.big_box_inner}>
-              <Image
-                src={logo}
-                alt={`${name} Logo`}
-                width={400}
-                height={200}
-                onError={() => handleImageError(name)}
-              />
+              {logo ? (
+                <Image
+                  src={logo}
+                  alt={`${name} Logo`}
+                  width={400}
+                  height={200}
+                  onError={() => handleImageError(name)}
+                />
+              ) : (
+                <div>No logo available</div>
+              )}
               <h2 className={styles.title}>{name}</h2>
               <p className={styles.desc}>{desc}</p>
               <button className={styles.button}>გაიგე მეტი</button>
@@ -78,7 +78,9 @@ const FeaturedGames = () => {
                   activeGame?.id === game.id ? styles.active : ""
                 }`}
                 onClick={() => setActiveGame(game)}
-                style={{ backgroundImage: `url(${game.thumbnail})` }}
+                style={{
+                  backgroundImage: `url(${game.main_images?.thumbnail || ""})`,
+                }}
               ></div>
             ))}
           </div>

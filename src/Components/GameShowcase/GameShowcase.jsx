@@ -1,16 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import styles from "./GameShowcase.module.css";
-
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
+import { fetchShowcase } from "@/utilities/fetchShowcase/fetchShowcase";
 
 const GameShowcase = () => {
   const [games, setGames] = useState([]);
-  const [showComingSoon, setShowComingSoon] = useState(false);
-  const [showNew, setShowNew] = useState(true);
+  const [category, setCategory] = useState("New");
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -19,58 +17,39 @@ const GameShowcase = () => {
   const locale = pathname.split("/")[1];
 
   useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        setLoading(true);
-        let response;
-
-        if (showComingSoon) {
-          response = await axios.get("/api/games?showComingSoon=true");
-        } else if (showNew) {
-          response = await axios.get("/api/games?showNew=true");
-        } else {
-          response = await axios.get("/api/games");
-        }
-
-        setGames(response.data);
-      } catch (error) {
-        console.error("Error fetching games:", error);
-      } finally {
-        setLoading(false);
-      }
+    const loadGames = async () => {
+      setLoading(true);
+      const data = await fetchShowcase(category);
+      setGames(data);
+      setLoading(false);
     };
 
-    fetchGames();
-  }, [showComingSoon, showNew]);
-
-  const handleNewReleasesClick = () => {
-    setShowComingSoon(false);
-    setShowNew(true);
-  };
-
-  const handleComingSoonClick = () => {
-    setShowNew(false);
-    setShowComingSoon(true);
-  };
+    loadGames();
+  }, [category]);
 
   return (
     <div className={styles.game_showcase_section}>
       <div className={styles.button_container}>
         <button
-          className={showNew ? styles.activeButton : styles.inactiveButton}
-          onClick={handleNewReleasesClick}
+          className={
+            category === "New" ? styles.activeButton : styles.inactiveButton
+          }
+          onClick={() => setCategory("New")}
         >
           {t("game-showcase.new")}
         </button>
         <button
           className={
-            showComingSoon ? styles.activeButton : styles.inactiveButton
+            category === "Coming Soon"
+              ? styles.activeButton
+              : styles.inactiveButton
           }
-          onClick={handleComingSoonClick}
+          onClick={() => setCategory("Coming Soon")}
         >
           {t("game-showcase.coming")}
         </button>
       </div>
+
       <div className={styles.game_cards}>
         {loading
           ? Array.from({ length: 8 }).map((_, index) => (
@@ -96,8 +75,9 @@ const GameShowcase = () => {
               >
                 <div
                   className={styles.game_card_image}
-                  style={{ backgroundImage: `url(${game.thumbnail})` }}
+                  style={{ backgroundImage: `url(${game.main_images?.disc})` }}
                 ></div>
+
                 <h3 className={styles.game_title}>{game.name}</h3>
               </div>
             ))}

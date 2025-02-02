@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { supabase } from "@/utilities/supabase/supabaseClient";
+import { supabase } from "@/utilities/supabase/supabase";
 
 // Create a UserContext to store user information globally
 const UserContext = createContext();
