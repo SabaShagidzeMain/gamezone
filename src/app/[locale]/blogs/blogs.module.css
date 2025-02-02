@@ -1,0 +1,46 @@
+/* Example CSS */
+.blogs-wrapper {
+  margin-top: 4rem;
+}
+
+.featured-blog {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  color: #001219;
+}
+
+.blog-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  gap: 1rem;
+  color: #001219;
+}
+
+.blog-list {
+  display: flex;
+  gap: 20px;
+  color: #001219;
+}
+
+.blog-card {
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  height: 20rem;
+  width: 20rem;
+}
+
+.blog-text-wrapper {
+  height: 4rem;
+  overflow: hidden;
+}
+
+.blog-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
