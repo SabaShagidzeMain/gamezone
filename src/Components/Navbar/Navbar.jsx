@@ -145,7 +145,7 @@ const Navbar = () => {
 
   return (
     <div className="">
-      <nav className="fixed top-0 left-0 w-full h-16 z-50 flex justify-startsWith items-center px-2 bg-[var(--background-color)] text-[var(--text-color)] shadow-lg dark:shadow-white/20">
+      <nav className="fixed top-0 left-0 w-full h-16 z-50 flex justify-startsWith items-center px-2 bg-[var(--background-color)] text-[var(--text-color)] shadow-[var(--box-shadow)]">
         {/* Mobile Menu Button */}
         <button
           onClick={toggleMenu}

@@ -27,7 +27,7 @@ const GameShowcase = () => {
   }, [category]);
 
   return (
-    <div className="flex flex-col items-center p-4 md:p-8 lg:p-12 gap-4 min-h-[400px] md:min-h-[600px]">
+    <div className="flex flex-col items-center p-4 md:p-8 lg:px-12 py-3 gap-4 min-h-[400px] md:min-h-[600px]">
       {/* Category Buttons - Responsive */}
       <div className="w-full max-w-[400px] md:max-w-[500px] border-4 border-solid border-[var(--text-color)] rounded-[25px] flex justify-center items-center gap-2">
         <button
@@ -53,13 +53,13 @@ const GameShowcase = () => {
       </div>
 
       {/* Game Cards Grid - Responsive */}
-      <div className="w-full px-4 max-w-screen-2xl sm:px-1">
+      <div className="w-full px-1 max-w-screen-2xl sm:px-1">
         <div className="flex flex-wrap justify-center gap-2 md:gap-6 lg:gap-5">
           {loading
             ? Array.from({ length: 8 }).map((_, index) => (
                 <div
                   key={index}
-                  className="w-[150px] sm:w-[160px] md:w-[180px] aspect-[3/4] rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl m-2"
+                  className=" w-[160px] md:w-[180px] aspect-[3/4] rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl m-2"
                 >
                   <div className="w-full h-3/4 bg-[var(--text-color)] relative overflow-hidden">
                     <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/40 to-transparent" />
@@ -72,7 +72,7 @@ const GameShowcase = () => {
             : games.map((game) => (
                 <div
                   key={game.id}
-                  className={`cursor-pointer shadow-[var(--box-shadow)] w-[150px] sm:w-[160px] md:w-[180px] aspect-[3/4] rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl m-2 ${
+                  className={`cursor-pointer shadow-[var(--box-shadow)] w-[160px] md:w-[180px] aspect-[3/4] rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl m-2 ${
                     hoveredCardId && hoveredCardId !== game.id
                       ? "opacity-50"
                       : ""
@@ -87,7 +87,7 @@ const GameShowcase = () => {
                     }}
                   />
                   <div className="h-1/4 p-2 bg-[var(--background-secondary)]">
-                    <h3 className="text-[.6rem] md:text-[.8rem] font-bold line-clamp-2 text-center">
+                    <h3 className="text-[.7rem] font-bold md:text-[.8rem] line-clamp-2 text-center">
                       {game.name}
                     </h3>
                   </div>

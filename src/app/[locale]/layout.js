@@ -36,7 +36,7 @@ export default async function RootLayout({ children, params }) {
             <body className={`${geistSans.variable} ${geistMono.variable}`}>
               <Navbar />
               {children}
-              {/* <Footer /> */}
+              <Footer />
             </body>
           </NextIntlClientProvider>
         </CartProvider>

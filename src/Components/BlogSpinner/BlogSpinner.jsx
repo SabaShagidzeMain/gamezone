@@ -35,7 +35,7 @@ const BlogSpinner = () => {
   }
 
   return (
-    <div className="p-4">
+    <div className="px-4 py-0">
       <Swiper
         className=""
         spaceBetween={10}

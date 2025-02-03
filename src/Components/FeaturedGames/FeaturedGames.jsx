@@ -29,28 +29,33 @@ const FeaturedGames = () => {
   const backgroundImage = main_images?.thumbnail || "";
 
   return (
-    <div className="h-[fit-content] w-full text-center flex flex-col gap-[1.4rem] pb-8">
+    <div className="gw-full text-center flex flex-col gap-[1rem] pb-3 lg:gap-[1.4rem]">
       {isLoading ? (
-        <div className="flex w-full flex-col items-center gap-[1.4rem] relative">
+        <div className="gap-[1rem] flex w-full flex-col items-center relative">
           {/* Main Card Shimmer */}
           <div className="w-full h-[33rem] relative overflow-hidden bg-[var(--text-color)]">
             <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent via-30% [animation-delay:-0.5s]" />
           </div>
 
           {/* Thumbnails Shimmer */}
-          <div className="flex gap-4">
+          <div className="px-3 flex justify-center gap-[10px] w-full">
             {[...Array(4)].map((_, i) => (
               <div
                 key={i}
-                className="w-36 h-20 bg-[var(--text-color)] rounded-[10px] relative overflow-hidden"
+                className={`w-36 h-20 bg-[var(--text-color)] rounded-[10px] relative overflow-hidden ${
+                  i === 0
+                    ? "w-40 [box-shadow:0_0_0_4px_#9b2226] border-[2px] border-[solid] border-[#fff] p-8"
+                    : ""
+                }`}
               >
-                <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent via-30%" />
+                <div className="w-full h-full absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent via-30%" />
               </div>
             ))}
           </div>
         </div>
       ) : (
         <>
+          {/* Thumbnail */}
           <div
             className="w-full h-[33rem] bg-cover bg-top flex flex-col justify-center items-center text-left text-[#fff] font-bold relative"
             style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -78,13 +83,15 @@ const FeaturedGames = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center gap-[15px]">
+
+          {/* Thumbnails */}
+          <div className="px-3 flex justify-center gap-[10px]">
             {featuredGames.map((game) => (
               <div
                 key={game.id}
                 className={`w-36 h-20 bg-cover cursor-pointer bg-center rounded-[10px] [transition:all_0.3s_ease-in-out] relative hover:-translate-y-4 ${
                   activeGame?.id === game.id
-                    ? "[box-shadow:0_0_0_4px_#9b2226] border-[2px] border-[solid] border-[#fff] p-8"
+                    ? "w-40 [box-shadow:0_0_0_4px_#9b2226] border-[2px] border-[solid] border-[#fff] p-8"
                     : ""
                 }`}
                 onClick={() => setActiveGame(game)}
