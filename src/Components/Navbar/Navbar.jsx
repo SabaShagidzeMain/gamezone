@@ -136,7 +136,6 @@ const Navbar = () => {
   ];
 
   const navLinks = [
-    { label: t("header.accessories") },
     { href: `/${locale}/subscription`, label: t("header.sub") },
     { href: `/${locale}/blogs`, label: "Blogs" },
     { label: t("header.about") },
@@ -162,7 +161,7 @@ const Navbar = () => {
 
           <ul className="flex items-center gap-4 text-sm">
             {/* Consoles Dropdown */}
-            <li className="cursor-pointer">
+            {/* <li className="cursor-pointer">
               <button
                 onClick={() => toggleDropdown("consoles")}
                 className="cursor-pointer flex items-center gap-1 hover:text-[var(--accent-color)] transition-colors"
@@ -174,7 +173,7 @@ const Navbar = () => {
                   }`}
                 />
               </button>
-            </li>
+            </li> */}
 
             {/* Games Dropdown */}
             <li className="cursor-pointer">
@@ -220,7 +219,7 @@ const Navbar = () => {
           <div className="p-4 overflow-y-auto">
             <ul className="flex flex-col gap-4">
               {/* Mobile Dropdowns */}
-              <li>
+              {/* <li>
                 <button
                   onClick={() => toggleDropdown("consoles")}
                   className="w-full flex items-center justify-between py-2"
@@ -247,7 +246,7 @@ const Navbar = () => {
                     ))}
                   </div>
                 )}
-              </li>
+              </li> */}
 
               <li>
                 <button
