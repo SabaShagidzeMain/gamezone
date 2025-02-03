@@ -21,7 +21,7 @@ const LanguageSwitcher = () => {
       className="flex justify-center items-center cursor-pointer h-6 w-6"
     >
       {/* {currentLocale === "en" ? "Ge" : "Eng"} */}
-      <FaGlobeEurope className="h-8 w-8" />
+      <FaGlobeEurope size={25} />
     </button>
   );
 };

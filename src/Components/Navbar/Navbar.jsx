@@ -8,6 +8,8 @@ import { usePathname } from "next/navigation";
 import { useCart } from "@/utilities/CartContext/CartContext";
 import handlePurchase from "@/utilities/handlePurchase/handlePurchase";
 import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+import { FaBars, FaTimes } from "react-icons/fa";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 // Icons
 import {
@@ -29,6 +31,8 @@ import { PiGameControllerLight } from "react-icons/pi";
 import { GiConsoleController } from "react-icons/gi";
 
 const Navbar = () => {
+  const [lockScroll, unlockScroll] = useBodyScrollLock();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -36,6 +40,12 @@ const Navbar = () => {
   const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname.split("/")[1];
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    setActiveDropdown(null);
+    isMenuOpen ? unlockScroll() : lockScroll();
+  };
 
   // Theme handling
   useEffect(() => {
@@ -135,10 +145,18 @@ const Navbar = () => {
 
   return (
     <div className="">
-      <nav className="fixed top-0 left-0 w-full h-16 z-50 flex justify-between items-center px-4 bg-[var(--background-color)] text-[var(--text-color)] shadow-lg dark:shadow-white/20">
-        {/* Left Section */}
-        <div className="flex items-center gap-4">
-          <Link href="/" className="text-xl font-bold">
+      <nav className="fixed top-0 left-0 w-full h-16 z-50 flex justify-startsWith items-center px-2 bg-[var(--background-color)] text-[var(--text-color)] shadow-lg dark:shadow-white/20">
+        {/* Mobile Menu Button */}
+        <button
+          onClick={toggleMenu}
+          className="md:hidden p-0 hover:text-[var(--accent-color)] pr-1"
+        >
+          {isMenuOpen ? <FaTimes size={25} /> : <FaBars size={25} />}
+        </button>
+
+        {/*Desktop Left Section */}
+        <div className="hidden md:flex items-center gap-4">
+          <Link href="/" className="text-m font-bold">
             GameZone
           </Link>
 
@@ -184,7 +202,7 @@ const Navbar = () => {
                     {link.label}
                   </Link>
                 ) : (
-                  <button className="cursor-pointer hover:text-[var(--accent-color)] transition-colors">
+                  <button className="cursor-pointer hover:text-[var(--accent-color)] transition-colors ">
                     {link.label}
                   </button>
                 )}
@@ -193,40 +211,138 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Right Section */}
-        <div className="flex items-center gap-4">
-          <Link
-            href={`/${locale}/login`}
-            className="p-2 hover:text-[var(--accent-color)]"
-          >
-            <FaRegUserCircle size={20} />
-          </Link>
+        {/* Mobile Menu Overlay */}
+        <div
+          className={`fixed top-16 left-0 w-full h-[calc(100vh-4rem)] bg-[var(--background-color)] transition-transform duration-300 md:hidden z-50 ${
+            isMenuOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className="p-4 overflow-y-auto">
+            <ul className="flex flex-col gap-4">
+              {/* Mobile Dropdowns */}
+              <li>
+                <button
+                  onClick={() => toggleDropdown("consoles")}
+                  className="w-full flex items-center justify-between py-2"
+                >
+                  {t("header.consoles")}
+                  <FaArrowDown
+                    className={`transition-transform ${
+                      activeDropdown === "consoles" ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {activeDropdown === "consoles" && (
+                  <div className="grid grid-cols-2 gap-4">
+                    {consolesLinks.map((link) => (
+                      <Link
+                        key={link.id}
+                        href={link.href}
+                        className="flex flex-col items-center p-2 hover:bg-[var(--text-color)] hover:text-[var(--background-color)] rounded-lg"
+                        onClick={toggleMenu}
+                      >
+                        {link.icon}
+                        <span className="text-sm mt-1">{link.label}</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </li>
 
-          <LanguageSwitcher />
+              <li>
+                <button
+                  onClick={() => toggleDropdown("games")}
+                  className="w-full flex items-center justify-between py-2"
+                >
+                  {t("header.games")}
+                  <FaArrowDown
+                    className={`transition-transform ${
+                      activeDropdown === "games" ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {activeDropdown === "games" && (
+                  <div className="grid grid-cols-2 gap-4">
+                    {gamesLinks.map((link) => (
+                      <Link
+                        key={link.id}
+                        href={link.href}
+                        className="flex flex-col items-center p-2 hover:bg-[var(--text-color)] hover:text-[var(--background-color)] rounded-lg"
+                        onClick={toggleMenu}
+                      >
+                        {link.icon}
+                        <span className="text-sm mt-1">{link.label}</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </li>
 
-          <button
-            onClick={() => setIsCartOpen(!isCartOpen)}
-            className="p-2 hover:text-[var(--accent-color)] relative"
-          >
-            <FaShoppingCart size={20} />
-            {cart.length > 0 && (
-              <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                {cart.length}
-              </span>
-            )}
-          </button>
+              {/* Mobile Navigation Links */}
+              {navLinks.map((link, index) => (
+                <li key={index}>
+                  {link.href ? (
+                    <Link
+                      href={link.href}
+                      className="block py-2 hover:text-[var(--accent-color)]"
+                      onClick={toggleMenu}
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <button className="block py-2 hover:text-[var(--accent-color)] w-full text-left">
+                      {link.label}
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
-          <button
-            onClick={toggleTheme}
-            className="p-2 hover:text-[var(--accent-color)]"
-          >
-            {isDarkMode ? <FaSun size={20} /> : <FaMoon size={20} />}
-          </button>
+        {/* Mobile Logo */}
+        <div className="flex justify-between w-full items-center h-full">
+          <div className="flex w-full">
+            <Link href="/" className="md:hidden text-xl font-bold">
+              GameZone
+            </Link>
+          </div>
+
+          {/* Right Section */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="p-0 hover:text-[var(--accent-color)]"
+            >
+              {isDarkMode ? <FaSun size={25} /> : <FaMoon size={25} />}
+            </button>
+
+            <LanguageSwitcher />
+
+            <button
+              onClick={() => setIsCartOpen(!isCartOpen)}
+              className="p-0 hover:text-[var(--accent-color)] relative"
+            >
+              <FaShoppingCart size={25} />
+              {cart.length > 0 && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  {cart.length}
+                </span>
+              )}
+            </button>
+
+            <Link
+              href={`/${locale}/login`}
+              className="p-0 hover:text-[var(--accent-color)]"
+            >
+              <FaRegUserCircle size={25} />
+            </Link>
+          </div>
         </div>
 
         {/* Cart Dropdown */}
         {isCartOpen && (
-          <div className="absolute top-16 right-4 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
+          <div className="absolute top-16 right-4 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 z-50">
             {cart.length === 0 ? (
               <p className="text-gray-500 text-center">Your cart is empty.</p>
             ) : (
@@ -277,7 +393,7 @@ const Navbar = () => {
 
         {/* Dropdown Menus */}
         <div
-          className={`absolute top-16 left-0 w-full bg-[var(--background-color)] shadow-lg transition-all duration-300 ${
+          className={`hidden md:block absolute top-16 left-0 w-full bg-[var(--background-color)] shadow-lg transition-all duration-300 ${
             activeDropdown
               ? "opacity-100 visible translate-y-0"
               : "opacity-0 invisible -translate-y-4"
