@@ -59,7 +59,7 @@ const GameShowcase = () => {
             ? Array.from({ length: 8 }).map((_, index) => (
                 <div
                   key={index}
-                  className="w-[150px] sm:w-[20rem] md:w-[180px] aspect-[3/4] rounded-xl overflow-hidden m-2"
+                  className="w-[150px] sm:w-[160px] md:w-[180px] aspect-[3/4] rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl m-2"
                 >
                   <div className="w-full h-3/4 bg-[var(--text-color)] relative overflow-hidden">
                     <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/40 to-transparent" />
