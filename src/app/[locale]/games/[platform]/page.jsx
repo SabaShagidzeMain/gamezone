@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import styles from "./games.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -10,6 +9,7 @@ import { SiOculus, SiNintendoswitch, SiXbox } from "react-icons/si";
 import { PiGameControllerLight } from "react-icons/pi";
 import { GiConsoleController } from "react-icons/gi";
 import { MdDensitySmall } from "react-icons/md";
+import { FaShoppingCart } from "react-icons/fa";
 
 import { supabase } from "@/utilities/supabase/supabase";
 import { useCart } from "@/utilities/CartContext/CartContext";
@@ -57,42 +57,42 @@ const PlatformPage = () => {
       id: "ps5-games",
       href: `/${locale}/games/ps5`,
       platform: "ps5",
-      icon: <PiGameControllerLight className={styles.dropdown_logo} />,
+      icon: <PiGameControllerLight />,
       label: `PS5 ${t("header.games")}`,
     },
     {
       id: "ps4-games",
       href: `/${locale}/games/ps4`,
       platform: "ps4",
-      icon: <GiConsoleController className={styles.dropdown_logo} />,
+      icon: <GiConsoleController />,
       label: `PS4 ${t("header.games")}`,
     },
     {
       id: "xbox-games",
       href: `/${locale}/games/xbox`,
       platform: "xbox",
-      icon: <SiXbox className={styles.dropdown_logo} />,
+      icon: <SiXbox />,
       label: `Xbox ${t("header.games")}`,
     },
     {
       id: "nintendo-games",
       href: `/${locale}/games/nintendo`,
       platform: "nintendo",
-      icon: <SiNintendoswitch className={styles.dropdown_logo} />,
+      icon: <SiNintendoswitch />,
       label: `Nintendo ${t("header.games")}`,
     },
     {
       id: "vr-games",
       href: `/${locale}/games/vr`,
       platform: "vr",
-      icon: <SiOculus className={styles.dropdown_logo} />,
+      icon: <SiOculus />,
       label: `VR ${t("header.games")}`,
     },
     {
       id: "all-games",
       href: `/${locale}/games/all`,
       platform: "all",
-      icon: <MdDensitySmall className={styles.dropdown_logo} />,
+      icon: <MdDensitySmall />,
       label: `${t("header.all-games")}`,
     },
   ];
@@ -151,23 +151,26 @@ const PlatformPage = () => {
 
   return (
     <div>
+      {/* Console Selection */}
       <div
-        className={styles.games_banner}
+        className="h-[20rem] sm:h-[30rem] md:h-[40rem] w-full bg-cover bg-center"
         style={{
           backgroundImage: `url(/images/banners/${platform}-banner.jpg)`,
         }}
       ></div>
-      <div className={styles.platform_select}>
-        <ul className={styles.platform_list}>
+      <div className="flex justify-center items-center">
+        <ul className="list-none flex flex-wrap align-center justify-center gap-6 w-full md:gap-10 p-4 sm:p-6 md:p-8">
           {gamesLinks.map((link) => (
             <li
               key={link.id}
-              className={`${styles.list_item} ${styles.platform_list_item}`}
+              className="flex flex-col text-[var(--text-color)] hover:text-[var(--accent-color)] [transition:.3s_ease-in-out]"
             >
-              <Link href={link.href} className={styles.link_container}>
-                <div className={styles.link_flex}>
+              <Link href={link.href}>
+                <div className="flex flex-col justify-center items-center text-[2rem] md:text-[2.5rem] gap-1 sm:gap-2">
                   {link.icon}
-                  <span>{link.label}</span>
+                  <span className="hidden text-[0.8rem] md:text-[1rem] md:block text-center">
+                    {link.label}
+                  </span>
                 </div>
               </Link>
             </li>
@@ -175,16 +178,17 @@ const PlatformPage = () => {
         </ul>
       </div>
 
-      <div className={styles.search_filter}>
-        <input
-          className={styles.search_input}
+      {/* Search-Sort */}
+      <div className="rounded-tl-[5px] rounded-tr-[5px] flex flex-row sm:flex-row mx-4 my-[0] mt-4 mb-0 rounded-[20px] shadow-[var(--box-shadow)] text-[var(--background-color)]">
+        <input  
+          className="rounded-tl-[5px] text-[var(--background-color)] flex-[1] h-12 p-2 text-[0.9rem] sm:text-[1rem] border-[none] outline-[none] bg-[var(--text-color)]"
           type="text"
           placeholder="Search games..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <select
-          className={styles.filter_select}
+          className="text-[0.9rem] sm:text-[1rem] p-2 h-12 rounded-tr-[5px] border-[none] outline-[none] bg-[var(--text-color)] text-[var(--background-color)]"
           value={sortOption}
           onChange={(e) => setSortOption(e.target.value)}
         >
@@ -199,75 +203,66 @@ const PlatformPage = () => {
         </select>
       </div>
 
-      <div className={styles.genre_filter}>
-        <h3>Filter by Genre:</h3>
-        <div className={styles.genre_options}>
-          <label>
-            <input
-              type="checkbox"
-              value="Action"
-              checked={selectedGenres.includes("Action")}
-              onChange={handleGenreChange}
-            />
-            Action
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              value="Adventure"
-              checked={selectedGenres.includes("Adventure")}
-              onChange={handleGenreChange}
-            />
-            Adventure
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              value="RPG"
-              checked={selectedGenres.includes("RPG")}
-              onChange={handleGenreChange}
-            />
-            RPG
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              value="Shooter"
-              checked={selectedGenres.includes("Shooter")}
-              onChange={handleGenreChange}
-            />
-            Shooter
-          </label>
+      {/* Filter by Genre */}
+      <div className="bg-[var(--text-color)] flex mx-4 my-[0] flex-col gap-2 text-[var(--background-color)] p-4 rounded-bl-[5px] rounded-br-[5px] shadow-[var(--box-shadow)]">
+        <h3 className="text-[1rem] sm:text-[1.1rem]">Filter by Genre:</h3>
+        <div className="flex flex-wrap gap-2 sm:gap-4">
+          {["Action", "Adventure", "RPG", "Shooter"].map((genre) => (
+            <label
+              key={genre}
+              className="flex gap-1 text-[0.8rem] sm:text-[0.9rem]"
+            >
+              <input
+                type="checkbox"
+                value={genre}
+                checked={selectedGenres.includes(genre)}
+                onChange={handleGenreChange}
+              />
+              {genre}
+            </label>
+          ))}
         </div>
       </div>
 
-      <div className={styles.games_list}>
+      {/* Games Grid */}
+      <div className="flex flex-wrap gap-4 p-4 sm:p-6 md:p-8 justify-center items-center">
         {filteredGames.map((game) => (
           <div
-            className={styles.game_card}
+            className="shadow-[var(--box-shadow)] w-[45%] sm:w-48 h-50 md:h-65 cursor-pointer text-[var(--text-color)] flex flex-col gap-1 [transition:all_0.3s_ease-in-out] hover:scale-105 hover:shadow-[var(--box-shadow)] hover:bg-[var(--text-color)] hover:text-[var(--background-color)]"
             key={game.id}
             onClick={() =>
               router.push(`/${locale}/games/${platform}/${game.id}`)
             }
           >
             <Image
-              className={styles.game_image}
+              className="w-full h-3/5 md:h-4/5 object-cover"
               src={game.main_images.disc}
               alt={game.name}
               width={250}
               height={270}
             />
-            <div className={styles.gamecard_info}>
-              <h2>{game.name}</h2>
-              <p>{game.price / 100} GEL</p>
-            </div>
-            <div className={styles.gamecard_btt_container}>
-              <button
-                onClick={() => addToCart(game)}
-                className={styles.gamecard_button}
-              >
-                Add To Cart
-              </button>
+            <div className="flex flex-col justify-between p-2 sm:p-[0.5rem] sm:h-full md:flex-row">
+              <div className="flex flex-col gap-1 w-[70%]">
+                <div className="w-[100%]">
+                  <h2 className="text-[0.7rem] md:text-[0.8rem] font-bold overflow-hidden overflow-ellipsis whitespace-nowrap">
+                    {game.name}
+                  </h2>
+                </div>
+                <p className="text-[0.6rem] nd:text-[0.5rem] text-[var(--accent-color)] font-bold w-90%">
+                  {game.price / 100} GEL
+                </p>
+              </div>
+              <div className="flex items-center justify-end">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent card click event
+                    addToCart(game);
+                  }}
+                  className="hover:text-[var(--accent-color)] [transition:0.2s_ease-in-out]"
+                >
+                  <FaShoppingCart size={20} className="sm:size-[25px]" />
+                </button>
+              </div>
             </div>
           </div>
         ))}
