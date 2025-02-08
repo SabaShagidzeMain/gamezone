@@ -21,8 +21,6 @@ import {
 } from "react-icons/fa";
 import { MdDensitySmall } from "react-icons/md";
 import {
-  SiPlaystation5,
-  SiPlaystation4,
   SiXbox,
   SiNintendoswitch,
   SiOculus,
@@ -68,34 +66,6 @@ const Navbar = () => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
 
-  // Navigation Data
-  const consolesLinks = [
-    {
-      id: "ps5",
-      href: "/consoles/ps5",
-      icon: <SiPlaystation5 size={24} />,
-      label: "PS5",
-    },
-    {
-      id: "ps4",
-      href: "/consoles/ps4",
-      icon: <SiPlaystation4 size={24} />,
-      label: "PS4",
-    },
-    {
-      id: "xbox",
-      href: "/consoles/xbox",
-      icon: <SiXbox size={24} />,
-      label: "Xbox",
-    },
-    {
-      id: "nintendo",
-      href: "/consoles/nintendo",
-      icon: <SiNintendoswitch size={24} />,
-      label: "Nintendo",
-    },
-  ];
-
   const gamesLinks = [
     {
       id: "ps5-games",
@@ -137,7 +107,7 @@ const Navbar = () => {
 
   const navLinks = [
     { href: `/${locale}/subscription`, label: t("header.sub") },
-    { href: `/${locale}/blogs`, label: "Blogs" },
+    { href: `/${locale}/blogs`, label: t("header.blogs") },
     { label: t("header.about") },
     { label: t("header.contact") },
   ];
@@ -160,21 +130,6 @@ const Navbar = () => {
           </Link>
 
           <ul className="flex items-center gap-4 text-sm">
-            {/* Consoles Dropdown */}
-            {/* <li className="cursor-pointer">
-              <button
-                onClick={() => toggleDropdown("consoles")}
-                className="cursor-pointer flex items-center gap-1 hover:text-[var(--accent-color)] transition-colors"
-              >
-                {t("header.consoles")}
-                <FaArrowDown
-                  className={`transition-transform ${
-                    activeDropdown === "consoles" ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-            </li> */}
-
             {/* Games Dropdown */}
             <li className="cursor-pointer">
               <button
@@ -218,36 +173,6 @@ const Navbar = () => {
         >
           <div className="p-4 overflow-y-auto">
             <ul className="flex flex-col gap-4">
-              {/* Mobile Dropdowns */}
-              {/* <li>
-                <button
-                  onClick={() => toggleDropdown("consoles")}
-                  className="w-full flex items-center justify-between py-2"
-                >
-                  {t("header.consoles")}
-                  <FaArrowDown
-                    className={`transition-transform ${
-                      activeDropdown === "consoles" ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {activeDropdown === "consoles" && (
-                  <div className="grid grid-cols-2 gap-4">
-                    {consolesLinks.map((link) => (
-                      <Link
-                        key={link.id}
-                        href={link.href}
-                        className="flex flex-col items-center p-2 hover:bg-[var(--text-color)] hover:text-[var(--background-color)] rounded-lg"
-                        onClick={toggleMenu}
-                      >
-                        {link.icon}
-                        <span className="text-sm mt-1">{link.label}</span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </li> */}
-
               <li>
                 <button
                   onClick={() => toggleDropdown("games")}
@@ -302,7 +227,7 @@ const Navbar = () => {
         {/* Mobile Logo */}
         <div className="flex justify-between w-full items-center h-full">
           <div className="flex w-full">
-            <Link href={`${locale}`} className="md:hidden text-xl font-bold">
+            <Link href={`/${locale}`} className="md:hidden text-xl font-bold">
               GameZone
             </Link>
           </div>
@@ -406,7 +331,7 @@ const Navbar = () => {
                   <Link
                     key={link.id}
                     href={link.href}
-                    className="flex w-[100%] flex-col items-center gap-2 p-4 hover:bg-[var(--text-color)] hover:text-[var(--background-color)] rounded-lg transition-colors"
+                    className="flex w-[100%] flex-col items-center gap-2 p-4 hover:bg-[var(--text-color)] hover:text-[var(--background-color)] rounded-lg transition-colors [transition:.3s_ease-in-out]"
                   >
                     {link.icon}
                     <span className="text-sm text-center">{link.label}</span>
@@ -419,7 +344,7 @@ const Navbar = () => {
                   <Link
                     key={link.id}
                     href={link.href}
-                    className="flex w-[100%] flex-col items-center gap-2 p-4 hover:bg-[var(--text-color)] hover:text-[var(--background-color)] rounded-lg transition-colors"
+                    className="flex w-[100%] flex-col items-center gap-2 p-4 hover:bg-[var(--text-color)] hover:text-[var(--background-color)] rounded-lg transition-colors [transition:.3s_ease-in-out]"
                   >
                     {link.icon}
                     <span className="text-sm text-center">{link.label}</span>

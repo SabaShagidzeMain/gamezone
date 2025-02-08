@@ -18,7 +18,7 @@ const LanguageSwitcher = () => {
   return (
     <button
       onClick={toggleLanguage}
-      className="flex justify-center items-center cursor-pointer h-6 w-6"
+      className="flex justify-center items-center cursor-pointer h-6 w-6 hover:text-[var(--accent-color)] [transition:.3s_ease-in-out]"
     >
       {/* {currentLocale === "en" ? "Ge" : "Eng"} */}
       <FaGlobeEurope size={25} />

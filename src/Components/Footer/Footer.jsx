@@ -92,7 +92,7 @@ const Footer = () => {
           <hr className="my-4 border-gray-600" />
 
           {/* Copyright */}
-          <p className="text-center text-sm text-gray-400 md:text-base">
+          <p className="text-center text-[0.8rem] text-gray-400 md:text-base">
             @GameZone 2004-2024
           </p>
         </div>
