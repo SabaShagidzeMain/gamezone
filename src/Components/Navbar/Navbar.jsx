@@ -148,7 +148,7 @@ const Navbar = () => {
         {/* Mobile Menu Button */}
         <button
           onClick={toggleMenu}
-          className="md:hidden p-0 hover:text-[var(--accent-color)] pr-1"
+          className="md:hidden p-0 cursor-pointer hover:text-[var(--accent-color)] pr-1"
         >
           {isMenuOpen ? <FaTimes size={25} /> : <FaBars size={25} />}
         </button>
@@ -293,7 +293,7 @@ const Navbar = () => {
                       {link.label}
                     </button>
                   )}
-                </li>
+                </li> 
               ))}
             </ul>
           </div>
@@ -311,7 +311,7 @@ const Navbar = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={toggleTheme}
-              className="p-0 hover:text-[var(--accent-color)]"
+              className="cursor-pointer p-0 hover:text-[var(--accent-color)]"
             >
               {isDarkMode ? <FaSun size={25} /> : <FaMoon size={25} />}
             </button>
@@ -320,7 +320,7 @@ const Navbar = () => {
 
             <button
               onClick={() => setIsCartOpen(!isCartOpen)}
-              className="p-0 hover:text-[var(--accent-color)] relative"
+              className="cursor-pointer p-0 hover:text-[var(--accent-color)] relative"
             >
               <FaShoppingCart size={25} />
               {cart.length > 0 && (
@@ -332,7 +332,7 @@ const Navbar = () => {
 
             <Link
               href={`/${locale}/login`}
-              className="p-0 hover:text-[var(--accent-color)]"
+              className="cursor-pointer p-0 hover:text-[var(--accent-color)]"
             >
               <FaRegUserCircle size={25} />
             </Link>

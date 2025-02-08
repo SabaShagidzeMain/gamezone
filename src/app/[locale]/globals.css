@@ -6,6 +6,7 @@
   --text-color: #001219;
   --button-bg: #001219;
   --button-text: #ffffff;
+  --accent-color: #006fcd;
   --box-shadow: 4px 4px 6px -1px rgba(0, 0, 0, 0.5),
     0 2px 4px -1px rgba(0, 0, 0, 0.5);
 }
@@ -15,6 +16,7 @@
   --text-color: #ffffff;
   --button-bg: #ffffff;
   --button-text: #001219;
+  --accent-color: #006fcd;
   --box-shadow: 4px 4px 6px -1px rgba(255, 255, 255, 0.3),
     4px 2px 4px -1px rgba(255, 255, 255, 0.3);
 }

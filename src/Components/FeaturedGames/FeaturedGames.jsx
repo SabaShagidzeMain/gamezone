@@ -94,7 +94,7 @@ const FeaturedGames = () => {
                 key={game.id}
                 className={`w-36 h-20 bg-cover cursor-pointer bg-center rounded-[10px] [transition:all_0.3s_ease-in-out] relative hover:-translate-y-4 ${
                   activeGame?.id === game.id
-                    ? "w-40 [box-shadow:0_0_0_4px_var(--text-color)] border-[2px] border-[solid] border-[var(--background-color)] p-8"
+                    ? "w-40 [box-shadow:0_0_0_4px_var(--accent-color)] border-[2px] border-[solid] border-[var(--background-color)] p-8"
                     : ""
                 }`}
                 onClick={() => setActiveGame(game)}
