@@ -155,7 +155,7 @@ const Navbar = () => {
 
         {/*Desktop Left Section */}
         <div className="hidden md:flex items-center gap-4">
-          <Link href="/" className="text-m font-bold">
+          <Link href={`/${locale}`} className="text-m font-bold">
             GameZone
           </Link>
 
@@ -302,7 +302,7 @@ const Navbar = () => {
         {/* Mobile Logo */}
         <div className="flex justify-between w-full items-center h-full">
           <div className="flex w-full">
-            <Link href="/" className="md:hidden text-xl font-bold">
+            <Link href={`${locale}`} className="md:hidden text-xl font-bold">
               GameZone
             </Link>
           </div>

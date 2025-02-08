@@ -58,24 +58,52 @@ const BlogPage = () => {
   };
 
   return (
-    <div className={styles.blogsWrapper}>
+    <div className="mt-16">
       {featuredBlog && (
-        <div className={styles.featuredBlog}>
-          <h2>Featured Blog</h2>
-          <h3>{featuredBlog.blog_header}</h3>
-          <p>{featuredBlog.blog_text}</p>
-          <Image
-            src={featuredBlog.blog_image}
-            alt={featuredBlog.blog_header}
-            width={500}
-            height={300}
-          />
+        <div className="bg-[#fff] rounded-[8px] text-[#001219] flex flex-col h-auto md:flex-row gap-4 justify-between items-center m-4 md:m-8 shadow-[var(--box-shadow)] md:h-96">
+          {/* Left Section */}
+          <div className="flex-1 h-full p-4 md:p-2 w-full">
+            <div className="md:w-full h-full flex flex-col items-start justify-between gap-4 md:gap-8">
+              <h2 className="text-[0.8rem] md:text-[1rem] font-bold">
+                Featured Blog
+              </h2>
+              <h3 className="font-bold text-[1.25rem] md:text-[1.5rem]">
+                {featuredBlog.blog_header}
+              </h3>
+              <p className="h-24 w-full overflow-hidden overflow-ellipsis text-sm md:text-base">
+                {featuredBlog.blog_text}
+              </p>
+              <button
+                className="w-32 h-10 rounded-[5px] font-bold text-[#fff] cursor-pointer bg-[#006fcd]"
+                onClick={() => handleBlogClick(featuredBlog.id)}
+              >
+                Read more
+              </button>
+            </div>
+          </div>
+
+          {/* Right Section */}
+          <div
+            className="flex-1 h-[15rem] md:h-full bg-cover bg-center bg-no-repeat rounded-tl-[0] rounded-br-[8px] rounded-tr-[8px] rounded-bl-[0] relative overflow-hidden"
+            style={{ backgroundImage: `url('${featuredBlog.blog_image}')` }}
+          >
+            {/* Big white triangle in the top-left corner */}
+            <div
+              className="absolute top-0 left-0 w-[5%] h-full bg-white md:w-[40%]"
+              style={{ clipPath: "polygon(0 0, 0% 100%, 100% 0)" }}
+            ></div>
+
+            {/* Small white triangle in the bottom-right corner */}
+            <div
+              className="absolute bottom-0 right-0 w-[60px] md:w-[80px] h-[80px] md:h-[100px] bg-white"
+              style={{ clipPath: "polygon(100% 0, 100% 100%, 0% 100%)" }}
+            ></div>
+          </div>
         </div>
       )}
 
       {/* List of Blogs */}
       <div className={styles.blogContainer}>
-        <h2>Other Blogs</h2>
         <div className={styles.searchBar}>
           <input
             type="text"
@@ -84,24 +112,29 @@ const BlogPage = () => {
             onChange={(e) => setSearchQuery(e.target.value)} // Update the search query
           />
         </div>
-        <div className={styles.blogList}>
+        <div className="flex justify-center items-center gap-4 text-[#001219] flex-wrap w-full">
           {filteredBlogs.length > 0 ? (
             filteredBlogs.map((blog) => (
-              <div key={blog.id} className={styles.blogCard}>
-                <Image
-                  src={blog.blog_image}
-                  alt={blog.blog_header}
-                  width={200}
-                  height={150}
-                />
-                <h3>{blog.blog_header}</h3>
-                <div className={styles.blogTextWrapper}>
-                  <p>{blog.blog_text}</p>
+              <div
+                key={blog.id}
+                className="shadow-[var(--box-shadow)] w-full flex flex-col md:bg-[#fff] rounded-[8px] h-72 md:w-[48%]"
+              >
+                <div
+                  className="rounded-tl-[8px] rounded-tr-[8px] w-full h-[12rem] bg-cover bg-center bg-no-repeat"
+                  style={{
+                    backgroundImage: `url('${blog.blog_image}')`,
+                  }}
+                ></div>
+                <div className={styles.blogrghtwrapper}>
+                  <h3>{blog.blog_header}</h3>
+                  <div className={styles.blogTextWrapper}>
+                    <p>{blog.blog_text}</p>
+                  </div>
+                  {/* Button to navigate to the dynamic blog page */}
+                  <button onClick={() => handleBlogClick(blog.id)}>
+                    Read more
+                  </button>
                 </div>
-                {/* Button to navigate to the dynamic blog page */}
-                <button onClick={() => handleBlogClick(blog.id)}>
-                  Read more
-                </button>
               </div>
             ))
           ) : (

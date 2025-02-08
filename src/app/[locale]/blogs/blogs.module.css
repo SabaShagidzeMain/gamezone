@@ -1,40 +1,53 @@
-/* Example CSS */
-.blogs-wrapper {
-  margin-top: 4rem;
-}
-
-.featured-blog {
-  margin-bottom: 20px;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  color: #001219;
-}
-
-.blog-container {
+.blogContainer {
   display: flex;
+  width: 100%;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 2rem;
   gap: 1rem;
   color: #001219;
 }
 
-.blog-list {
+.blogList {
   display: flex;
-  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   color: #001219;
+  flex-wrap: wrap;
 }
 
-.blog-card {
-  padding: 15px;
+.blogCard {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  height: 20rem;
-  width: 20rem;
+  height: 18rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.blog-text-wrapper {
+.blogImgWrapper {
+  width: 100%;
+  height: 5rem;
+}
+
+.blogimg {
+  width: 100%;
+  height: 100%;
+}
+
+.blogrghtwrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+  margin: 1rem;
+}
+
+.blogTextWrapper {
   height: 4rem;
   overflow: hidden;
 }
