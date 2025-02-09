@@ -2,15 +2,11 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import styles from "./subscription.module.css";
-import Navbar from "@/Components/Navbar/Navbar";
 
 import { FaRegHandshake } from "react-icons/fa";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { TbMessage2Share } from "react-icons/tb";
 import { GoUnlock } from "react-icons/go";
-
-import Image from "next/image";
 
 import SubscriptionCards from "@/Components/SubscriptionCards/SubscriptionCards";
 import SubInfo from "@/Components/SubInfo/SubInfo";
