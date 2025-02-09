@@ -4,8 +4,9 @@ import Image from "next/image";
 
 const SubscriptionCards = () => {
   return (
-    <div className="flex p-8 justify-center items-center gap-8 mt-4">
-      <div className="flex flex-col justify-evenly items-center text-center p-[0.2rem] bg-[var(--background-color)] shadow-[var(--box-shadow)] w-72 h-[30rem] text-[var(--text-color)] rounded-[5px] gap-2 cursor-pointer [transition:all_0.2s_ease-in-out] hover:scale-[1.02]">
+    <div className="flex flex-wrap p-4 md:p-8 justify-center items-center gap-8 mt-4">
+      {/* Essential Membership Card */}
+      <div className="flex flex-col justify-evenly items-center text-center p-[0.2rem] bg-[var(--background-color)] shadow-[var(--box-shadow)] w-full md:w-72 h-[30rem] text-[var(--text-color)] rounded-[5px] gap-2 cursor-pointer [transition:all_0.2s_ease-in-out] hover:scale-[1.02]">
         <h2 className="text-[1.3rem]">
           ESSENTIAL <br /> <span className="text-[0.9rem]">Membership</span>
         </h2>
@@ -21,7 +22,7 @@ const SubscriptionCards = () => {
         <ul className="list-none flex flex-col gap-2 text-[0.8rem]">
           <li>Early access to discounts and sales</li>
           <li>Monthly gaming and tech newsletter</li>
-          <li>discounted digital downloads</li>
+          <li>Discounted digital downloads</li>
         </ul>
         <span className="h-[0.02rem] w-[90%] bg-[var(--text-color)]" />
         <button
@@ -31,7 +32,9 @@ const SubscriptionCards = () => {
           Subscribe
         </button>
       </div>
-      <div className="flex flex-col justify-evenly items-center text-center p-[0.2rem] bg-[var(--background-color)] shadow-[var(--box-shadow)] w-72 h-[30rem] text-[var(--text-color)] rounded-[5px] gap-2 cursor-pointer [transition:all_0.2s_ease-in-out] hover:scale-[1.02]">
+
+      {/* Extra Membership Card */}
+      <div className="flex flex-col justify-evenly items-center text-center p-[0.2rem] bg-[var(--background-color)] shadow-[var(--box-shadow)] w-full md:w-72 h-[30rem] text-[var(--text-color)] rounded-[5px] gap-2 cursor-pointer [transition:all_0.2s_ease-in-out] hover:scale-[1.02]">
         <h2 className="text-[1.3rem]">
           EXTRA <br /> <span className="text-[0.9rem]">Membership</span>
         </h2>
@@ -40,7 +43,7 @@ const SubscriptionCards = () => {
           height={180}
           quality={100}
           src="/images/sub/sub2.png"
-          alt="essential"
+          alt="extra"
         />
         <p className="font-bold">$20.00 / Month</p>
         <p className="font-bold">Features:</p>
@@ -52,18 +55,20 @@ const SubscriptionCards = () => {
         <span className="h-[0.02rem] w-[90%] bg-[var(--text-color)]" />
         <button
           onClick={() => handleSub("extra")}
-          className="h-8 w-40 rounded-[5px]  bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer [transition:all_0.2s_ease-in-out] border-[none] hover:bg-[#efbf04]"
+          className="h-8 w-40 rounded-[5px] bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer [transition:all_0.2s_ease-in-out] border-[none] hover:bg-[#efbf04]"
         >
           Subscribe
         </button>
       </div>
-      <div className="flex flex-col justify-evenly items-center text-center p-[0.2rem] bg-[var(--background-color)] shadow-[var(--box-shadow)] w-72 h-[30rem] text-[var(--text-color)] rounded-[5px] gap-2 cursor-pointer [transition:all_0.2s_ease-in-out] hover:scale-[1.02]">
+
+      {/* Premium Membership Card */}
+      <div className="flex flex-col justify-evenly items-center text-center p-[0.2rem] bg-[var(--background-color)] shadow-[var(--box-shadow)] w-full md:w-72 h-[30rem] text-[var(--text-color)] rounded-[5px] gap-2 cursor-pointer [transition:all_0.2s_ease-in-out] hover:scale-[1.02]">
         <h2 className="text-[1.3rem]">
           PREMIUM <br /> <span className="text-[0.9rem]">Membership</span>
         </h2>
         <Image
           src="/images/sub/sub3.png"
-          alt="essential"
+          alt="premium"
           width={180}
           height={180}
           quality={100}
@@ -78,7 +83,7 @@ const SubscriptionCards = () => {
         <span className="h-[0.02rem] w-[90%] bg-[var(--text-color)]" />
         <button
           onClick={() => handleSub("premium")}
-          className="h-8 w-40 rounded-[5px]  bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer [transition:all_0.2s_ease-in-out] border-[none] hover:bg-[#efbf04]"
+          className="h-8 w-40 rounded-[5px] bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer [transition:all_0.2s_ease-in-out] border-[none] hover:bg-[#efbf04]"
         >
           Subscribe
         </button>
