@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#001219] text-white shadow-[var(--box-shadow)]">
+    <footer className="bg-[#001219] mt-[4rem] text-white shadow-[var(--box-shadow)]">
       <div className="container mx-auto px-4 py-8 md:px-8">
         <div className="flex flex-col gap-8 md:gap-12">
           {/* Logo */}

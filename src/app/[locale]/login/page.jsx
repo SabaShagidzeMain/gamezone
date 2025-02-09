@@ -120,95 +120,101 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-between h-screen justify-center items-center p-16">
+    <div className="my-[2rem] md:my-0 flex flex-col justify-between h-screen items-center p-4 md:p-16">
       {!user ? (
-        <div className="flex mt-4 bg-[var(--background-color)] flex-col justify-center items-center gap-4 w-80 h-[100%] p-8 shadow-[var(--box-shadow)] rounded-[5px]">
-          <h1 className="text-[var(--text-color)] font-bold">Login</h1>
+        <div className="flex mt-4 bg-[var(--background-color)] flex-col justify-center items-center gap-4 w-full md:w-80 h-[100%] p-4 md:p-8 shadow-[var(--box-shadow)] rounded-[5px]">
+          <h1 className="text-[var(--text-color)] font-bold text-xl md:text-2xl">
+            Login
+          </h1>
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="h-8 bg-[var(--background-color)] p-[0.3rem] rounded-[5px] text-[var(--text-color)] border-[1px] border-[solid] border-[var(--text-color)]"
+            className="w-full h-10 md:h-8 bg-[var(--background-color)] p-2 rounded-[5px] text-[var(--text-color)] border border-solid border-[var(--text-color)]"
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="h-8 bg-[var(--background-color)] p-[0.3rem] rounded-[5px] text-[var(--text-color)] border-[1px] border-[solid] border-[var(--text-color)]"
+            className="w-full h-10 md:h-8 bg-[var(--background-color)] p-2 rounded-[5px] text-[var(--text-color)] border border-solid border-[var(--text-color)]"
           />
-          <div className="flex justify-center items-center mt-8 gap-8">
+          <div className="flex flex-col md:flex-row justify-center items-center mt-4 md:mt-8 gap-4 md:gap-8">
             <button
-              className="w-24 h-6 rounded-[5px] bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer [transition:all_0.2s_ease-in-out] hover:bg-[var(--accent-color)]"
+              className="w-full md:w-24 h-10 md:h-6 rounded-[5px] bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer transition-all hover:bg-[var(--accent-color)]"
               onClick={handleLogin}
               disabled={loading}
             >
               {loading ? "Logging in..." : "Login"}
             </button>
             <button
-              className="w-24 h-6 rounded-[5px] bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer [transition:all_0.2s_ease-in-out] hover:bg-[var(--accent-color)]"
+              className="w-full md:w-24 h-10 md:h-6 rounded-[5px] bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer transition-all hover:bg-[var(--accent-color)]"
               onClick={() => setShowModal(true)}
               disabled={loading}
             >
               {loading ? "Signing up..." : "Sign Up"}
             </button>
           </div>
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>
       ) : (
-        <div className="mt-20 flex justify-start items-center gap-8">
+        <div className="mt-8 md:mt-20 flex flex-col md:flex-row justify-start items-center gap-4 md:gap-8">
           <Profile userData={userData} logOut={handleLogout} />
           <OrderInfo />
         </div>
       )}
 
       {showModal && (
-        <div className="absolute bg-[var(--background-color)] w-full flex justify-center items-center text-[var(--text-color)] mt-[3rem]">
-          <div className="flex justify-center items-center flex-col p-8 gap-4 w-[50rem] pt-[3rem]">
-            <h2 className="text-[var(--text-color)] font-bold text-[2.5rem]">Sign Up</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start md:items-center pt-4 md:pt-0">
+          <div className="bg-[var(--background-color)] w-full md:w-[50rem] mx-4 md:mx-0 p-4 md:p-8 rounded-[5px] flex flex-col items-center gap-4">
+            <h2 className="text-[var(--text-color)] font-bold text-2xl md:text-4xl">
+              Sign Up
+            </h2>
             <input
-              className="h-8 bg-[var(--background-color)] p-[0.3rem] rounded-[5px] text-[var(--text-color)] border-[1px] border-[solid] border-[var(--text-color)]"
+              className="w-full h-10 md:h-8 bg-[var(--background-color)] p-2 rounded-[5px] text-[var(--text-color)] border border-solid border-[var(--text-color)]"
               type="text"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
             <input
-              className="h-8 bg-[var(--background-color)] p-[0.3rem] rounded-[5px] text-[var(--text-color)] border-[1px] border-[solid] border-[var(--text-color)]"
+              className="w-full h-10 md:h-8 bg-[var(--background-color)] p-2 rounded-[5px] text-[var(--text-color)] border border-solid border-[var(--text-color)]"
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
-              className="h-8 bg-[var(--background-color)] p-[0.3rem] rounded-[5px] text-[var(--text-color)] border-[1px] border-[solid] border-[var(--text-color)]"
+              className="w-full h-10 md:h-8 bg-[var(--background-color)] p-2 rounded-[5px] text-[var(--text-color)] border border-solid border-[var(--text-color)]"
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <input
-              className="h-8 bg-[var(--background-color)] p-[0.3rem] rounded-[5px] text-[var(--text-color)] border-[1px] border-[solid] border-[var(--text-color)]"
+              className="w-full h-10 md:h-8 bg-[var(--background-color)] p-2 rounded-[5px] text-[var(--text-color)] border border-solid border-[var(--text-color)]"
               type="password"
               placeholder="Repeat Password"
               value={repeatPassword}
               onChange={(e) => setRepeatPassword(e.target.value)}
             />
-            <button
-              className="w-24 h-6 rounded-[5px] bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer [transition:all_0.2s_ease-in-out] hover:bg-[var(--accent-color)]"
-              onClick={handleSignUp}
-              disabled={loading}
-            >
-              {loading ? "Signing up..." : "Sign Up"}
-            </button>
-            <button
-              className="w-24 h-6 rounded-[5px] bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer [transition:all_0.2s_ease-in-out] hover:bg-[var(--accent-color)]"
-              onClick={() => setShowModal(false)}
-            >
-              Close
-            </button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+              <button
+                className="w-full md:w-24 h-10 md:h-6 rounded-[5px] bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer transition-all hover:bg-[var(--accent-color)]"
+                onClick={handleSignUp}
+                disabled={loading}
+              >
+                {loading ? "Signing up..." : "Sign Up"}
+              </button>
+              <button
+                className="w-full md:w-24 h-10 md:h-6 rounded-[5px] bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer transition-all hover:bg-[var(--accent-color)]"
+                onClick={() => setShowModal(false)}
+              >
+                Close
+              </button>
+            </div>
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </div>
         </div>
       )}

@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./Profile.module.css";
 
 import { FaRegUserCircle } from "react-icons/fa";
 
@@ -30,11 +29,11 @@ const Profile = ({ userData, logOut }) => {
     backgroundPosition: "center",
   };
   return (
-    <div className={styles.profile_box}>
-      <div className={styles.profile_info}>
-        <div style={backgroundStyle} className={styles.profile_banner}></div>
-        <div className={styles.profile_image}>
-          <FaRegUserCircle className={styles.profile_icon} />
+    <div className="flex flex-col justify-start items-center h-full gap-8">
+      <div className="justify-center bg-[var(--background-color)] items-center flex flex-col gap-[0.3rem] text-[var(--text-color)] rounded-[5px] p-4 shadow-[var(--box-shadow)]">
+        <div style={backgroundStyle} className="w-full flex justify-between items-center h-20 mb-4 p-4 rounded-[5px]"></div>
+        <div className="w-24 h-24 rounded-[50%] bg-[var(--text-color)] flex justify-center items-center mb-4">
+          <FaRegUserCircle className="w-16 h-16 text-[var(--background-color)]" />
         </div>
         <p>Hello!</p>
         <p>@{userData?.username || "Loading..."}</p>
@@ -44,7 +43,7 @@ const Profile = ({ userData, logOut }) => {
         <p>
           <strong>Subscription Plan:</strong> {userData?.plan || "Basic"}
         </p>
-        <button className={styles.profile_button} onClick={logOut}>
+        <button className="w-32 h-8 text-[0.9rem] bg-[var(--text-color)] text-[var(--background-color)] rounded-[5px] cursor-pointer [transition:all_0.2s_ease-in-out] font-bold hover:bg-[#9b2226]" onClick={logOut}>
           Logout
         </button>
       </div>

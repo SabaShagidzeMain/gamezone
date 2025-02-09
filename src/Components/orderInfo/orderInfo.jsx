@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/utilities/supabase/supabase";
-import styles from "./orderinfo.module.css";
 import Image from "next/image";
 
 const OrderInfo = () => {
@@ -51,21 +50,21 @@ const OrderInfo = () => {
   if (orders.length === 0) return <p>No orders found.</p>;
 
   return (
-    <div className={styles.orderWrapper}>
-      <h2>Your Orders</h2>
-      <div className={styles.orderContainer}>
-        <ul>
+    <div className="w-full md:w-[30rem] h-[15rem] md:h-[30rem] rounded-[5px] bg-[var(--background-color)] shadow-[var(--box-shadow)] p-8 flex flex-col gap-4 text-[var(--text-color)]">
+      <h2 className="font-bold">Your Orders</h2>
+      <div className="flex flex-col overflow-y-auto max-h-full shaow-[var(--box-shadow)]">
+        <ul className="flex flex-col gap-2">
           {orders.map((order) => (
-            <li key={order.id} className={styles.orderItem}>
-              <div className={styles.orderItemLeft}>
+            <li key={order.id} className="flex gap-2">
+              <div className="">
                 <Image
                   src={order.product_image}
                   alt={order.product_name}
-                  width={100}
-                  height={100}
+                  width={60}
+                  height={60}
                 />
               </div>
-              <div className={styles.orderItemRight}>
+              <div className="text-[0.8rem] flex flex-col justify-center items-start">
                 <p>Product: {order.product_name}</p>
                 <p>Price: {order.product_price / 100} GEL</p>
                 <p>
