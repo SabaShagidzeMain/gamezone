@@ -1,10 +1,3 @@
-.subBanner {
-  width: 100%;
-  height: 22rem;
-  /* background: url(../../../../public/images/banners/sub-banner.webp); */
-  background-size: cover;
-}
-
 .subExpl {
   width: 100%;
   height: 15rem;
@@ -15,6 +8,7 @@
   background-color: #001219;
   color: #fff;
   text-align: center;
+  margin-top: 4rem;
 }
 
 .main_paragraph {
