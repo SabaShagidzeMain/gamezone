@@ -2,44 +2,41 @@
 @import "tailwindcss";
 
 :root {
-  --background-light: #ffffff;
-  --background-dark: #001219;
-  --foreground-light: #001219;
-  --foreground-dark: #ffffff;
+  --background-color: #ffffff;
+  --text-color: #001219;
+  --button-bg: #001219;
+  --button-text: #ffffff;
+  --accent-color: #006fcd;
+  --box-shadow: 4px 4px 6px -1px rgba(0, 0, 0, 0.5),
+    0 2px 4px -1px rgba(0, 0, 0, 0.5);
 }
 
-/* For dark mode */
 .dark {
-  --background: var(--background-dark);
-  --foreground: var(--foreground-dark);
+  --background-color: #001219;
+  --text-color: #ffffff;
+  --button-bg: #ffffff;
+  --button-text: #001219;
+  --accent-color: #006fcd;
+  --box-shadow: 4px 4px 6px -1px rgba(255, 255, 255, 0.3),
+    4px 2px 4px -1px rgba(255, 255, 255, 0.3);
 }
 
-/* For light mode */
-:root {
-  --background: var(--background-light);
-  --foreground: var(--foreground-light);
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s infinite;
 }
 
 /* Global dark mode styles */
 html {
   transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-/* Default styles (light mode) */
-html {
-  --background-color: #ffffff; /* Light background */
-  --text-color: #001219; /* Light text */
-}
-
-/* Dark mode styles */
-html.dark {
-  --background-color: #001219; /* Dark background */
-  --text-color: #ffffff; /* Dark text */
 }
 
 body {
@@ -49,27 +46,23 @@ body {
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-  background: var(--background-color);
+  background-color: var(--background-color);
   color: var(--text-color);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Swiper buttons */
-.swiper-button-next,
-.swiper-button-prev {
-  background-color: #001219 !important;
-  color: #fff !important;
-  border-radius: 50px;
-  width: 3rem !important;
-  height: 3rem !important;
+/* Default styles (light mode) */
+html {
+  --background-color: #ffffff; /* light.main */
+  --text-color: #001219; /* light.accent */
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  font-size: 1.5rem !important;
-  font-weight: bold;
+/* Dark mode styles */
+html.dark {
+  --background-color: #001219; /* dark.main */
+  --text-color: #ffffff; /* dark.accent */
 }
 
 @media (prefers-color-scheme: dark) {

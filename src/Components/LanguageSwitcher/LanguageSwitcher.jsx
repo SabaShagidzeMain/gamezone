@@ -2,7 +2,6 @@
 
 import { FaGlobeEurope } from "react-icons/fa";
 
-import styles from "../Navbar/navbar.module.css";
 import { useRouter, usePathname } from "next/navigation";
 
 const LanguageSwitcher = () => {
@@ -17,9 +16,12 @@ const LanguageSwitcher = () => {
   };
 
   return (
-    <button onClick={toggleLanguage} className={styles.nav_right_icon}>
+    <button
+      onClick={toggleLanguage}
+      className="flex justify-center items-center cursor-pointer h-6 w-6 hover:text-[var(--accent-color)] [transition:.3s_ease-in-out]"
+    >
       {/* {currentLocale === "en" ? "Ge" : "Eng"} */}
-      <FaGlobeEurope className={styles.nav_icon} />
+      <FaGlobeEurope size={25} />
     </button>
   );
 };

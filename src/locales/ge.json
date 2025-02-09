@@ -3,11 +3,12 @@
     "consoles": "კონსოლები",
     "games": "თამაშები",
     "accessories": "აქსესუარები",
-    "about": "ჩვენს შესახებ",
+    "about": "ინფო",
     "contact": "კონტაქტი",
     "profile": "პროფილი",
     "all-games": "ყველა თამაში",
-    "sub": "გამოწერა"
+    "sub": "გამოწერა",
+    "blogs": "ბლოგი"
   },
   "featured-accessories": {
     "header": "ყველა აქსესუარი",

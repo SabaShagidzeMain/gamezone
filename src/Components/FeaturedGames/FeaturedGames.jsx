@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import styles from "./FeaturedGames.module.css";
 import { fetchFeatured } from "@/utilities/fetchFeatured/fetchFeatured";
 
 const FeaturedGames = () => {
@@ -30,52 +29,73 @@ const FeaturedGames = () => {
   const backgroundImage = main_images?.thumbnail || "";
 
   return (
-    <div className={styles.carousel_container}>
+    <div className="gw-full text-center flex flex-col gap-[1rem] pb-3 lg:gap-[1.4rem]">
       {isLoading ? (
-        <div className={styles.loadingContainer}>
-          <div className={`${styles.big_box} ${styles.loadingEffect}`}>
-            <div className={styles.shimmer}></div>
+        <div className="gap-[1rem] flex w-full flex-col items-center relative">
+          {/* Main Card Shimmer */}
+          <div className="w-full h-[33rem] relative overflow-hidden bg-[var(--text-color)]">
+            <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent via-30% [animation-delay:-0.5s]" />
           </div>
-          <div className={styles.thumbnailLoadingContainer}>
+
+          {/* Thumbnails Shimmer */}
+          <div className="px-3 flex justify-center gap-[10px] w-full">
             {[...Array(4)].map((_, i) => (
               <div
                 key={i}
-                className={`${styles.thumbnail} ${styles.loadingEffect}`}
+                className={`w-36 h-20 bg-[var(--text-color)] rounded-[10px] relative overflow-hidden ${
+                  i === 0
+                    ? "w-40 [box-shadow:0_0_0_4px_#9b2226] border-[2px] border-[solid] border-[#fff] p-8"
+                    : ""
+                }`}
               >
-                <div className={styles.shimmer}></div>
+                <div className="w-full h-full absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent via-30%" />
               </div>
             ))}
           </div>
         </div>
       ) : (
         <>
+          {/* Thumbnail */}
           <div
-            className={styles.big_box}
+            className="w-full h-full bg-cover bg-top flex flex-col justify-center items-center text-left text-[#fff] font-bold justify-between relative"
             style={{ backgroundImage: `url(${backgroundImage})` }}
           >
-            <div className={styles.big_box_inner}>
-              {logo ? (
-                <Image
-                  src={logo}
-                  alt={`${name} Logo`}
-                  width={400}
-                  height={200}
-                  onError={() => handleImageError(name)}
-                />
-              ) : (
-                <div>No logo available</div>
-              )}
-              <h2 className={styles.title}>{name}</h2>
-              <p className={styles.desc}>{desc}</p>
-              <button className={styles.button}>გაიგე მეტი</button>
+            <div className="pt-[5rem] pb-[2rem] px-[2rem] bg-[linear-gradient(to_right,_rgba(0,_0,_0,_1),_rgba(0,_0,_0,_0))] h-full w-full flex flex-col justify-between items-center">
+              <div
+                className="w-full h-[20rem] flex justify-center items-center bg-contain md:bg-cover bg-no-repeat bg-center"
+                style={{ backgroundImage: `url(${logo})` }}
+              >
+                {/* {logo ? (
+                  <Image
+                    src={logo}
+                    alt={`${name} Logo`}
+                    width={700}
+                    height={300}
+                    onError={() => handleImageError(name)}
+                  />
+                ) : (
+                  <div>No logo available</div>
+                )} */}
+              </div>
+              <div className="flex items-center flex-col gap-1">
+                <h2 className="text-center lg:text-[1.5rem]">{name}</h2>
+                <p className="w-4/5 text-[0.8rem]">{desc}</p>
+                <button className="w-36 h-12 bg-[var(--background-color)] text-[var(--text-color)] text-center border-[1px] border-solid border-[var(--text-color)] rounded-[10px] lg:cursor-pointer [transition:all_0.3s_ease-in-out] hover:bg-[var(--text-color)] hover:text-[var(--background-color)]">
+                  გაიგე მეტი
+                </button>
+              </div>
             </div>
           </div>
-          <div className={styles.thumbnails}>
+
+          {/* Thumbnails */}
+          <div className="px-3 flex justify-center gap-[10px]">
             {featuredGames.map((game) => (
               <div
                 key={game.id}
-                className={`${styles.thumbnail} ${
-                  activeGame?.id === game.id ? styles.active : ""
+                className={`w-36 h-20 bg-cover cursor-pointer bg-center rounded-[10px] [transition:all_0.3s_ease-in-out] relative hover:-translate-y-4 ${
+                  activeGame?.id === game.id
+                    ? "w-40 [box-shadow:0_0_0_4px_var(--accent-color)] border-[2px] border-[solid] border-[var(--background-color)] p-8"
+                    : ""
                 }`}
                 onClick={() => setActiveGame(game)}
                 style={{

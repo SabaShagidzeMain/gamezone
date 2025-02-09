@@ -3,11 +3,12 @@
     "consoles": "Consoles",
     "games": "Games",
     "accessories": "Accessories",
-    "about": "About Us",
+    "about": "About",
     "contact": "Contact",
     "profile": "Profile",
     "all-games": "All Games",
-    "sub": "Subscription"
+    "sub": "Subscription",
+    "blogs": "Blogs"
   },
   "featured-accessories": {
     "header": "All Accessories",
