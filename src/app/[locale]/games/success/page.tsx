@@ -6,53 +6,70 @@ import Image from "next/image";
 import { supabase } from "@/utilities/supabase/supabase";
 import { useCart } from "@/utilities/CartContext/CartContext";
 
+interface Product {
+  productName: string;
+  productPrice: number;
+  productImage: string;
+}
+
+interface SessionData {
+  userId: string;
+  username: string;
+  purchaseTime: string;
+  products: Product[];
+}
+
 const CheckoutSuccessPage = () => {
   const searchParams = useSearchParams();
-  const { clearCart } = useCart(); // Destructure clearCart from your cart context
-  const [sessionData, setSessionData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { clearCart } = useCart();
+  const [sessionData, setSessionData] = useState<SessionData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchSessionData = async () => {
-      const sessionId = searchParams.get("session_id");
+      // Safe access with optional chaining
+      const sessionId = searchParams?.get("session_id") || null;
       console.log("Session ID:", sessionId);
+
       if (!sessionId) {
         console.error("Session ID not found in the URL");
         setLoading(false);
         return;
       }
+
       try {
-        // Fetch session data from our API
         const response = await fetch(
           `/api/get-checkout-session?session_id=${sessionId}`
         );
-        const data = await response.json();
-        console.log("Session Data:", data);
+        const data: SessionData & { error?: string } = await response.json();
+
         if (data.error) {
           console.error("Error fetching session data:", data.error);
           setLoading(false);
           return;
         }
+
         setSessionData(data);
         setLoading(false);
 
-        // Insert each product as an order into the orders table
-        const orders = data.products.map((product) => ({
-          user_id: data.userId,
-          username: data.username,
-          product_name: product.productName,
-          product_price: product.productPrice * 100, // stored in cents
-          created_at: new Date().toISOString(), // or use data.purchaseTime if preferred
-          product_image: product.productImage,
-        }));
+        if (data.userId && data.products) {
+          const orders = data.products.map((product: Product) => ({
+            user_id: data.userId,
+            username: data.username,
+            product_name: product.productName,
+            product_price: product.productPrice * 100,
+            created_at: new Date().toISOString(),
+            product_image: product.productImage,
+          }));
 
-        const { error } = await supabase.from("orders").insert(orders);
-        if (error) {
-          console.error("Error inserting orders into Supabase:", error);
-        } else {
-          console.log("Orders inserted successfully");
-          // Clear the cart when orders are successfully inserted
-          clearCart();
+          const { error } = await supabase.from("orders").insert(orders);
+
+          if (error) {
+            console.error("Error inserting orders:", error);
+          } else {
+            console.log("Orders inserted successfully");
+            clearCart();
+          }
         }
       } catch (error) {
         console.error("Error fetching session data:", error);
@@ -60,7 +77,8 @@ const CheckoutSuccessPage = () => {
       }
     };
 
-    if (searchParams.has("session_id")) {
+    // Add null check for searchParams
+    if (searchParams?.has("session_id")) {
       fetchSessionData();
     } else {
       console.error("Session ID is missing in the URL");
@@ -77,8 +95,9 @@ const CheckoutSuccessPage = () => {
       <p>User: {sessionData.username}</p>
       <p>User Id: {sessionData.userId}</p>
       <p>Purchase Time: {sessionData.purchaseTime}</p>
+
       {sessionData.products.length > 0 ? (
-        sessionData.products.map((product, index) => (
+        sessionData.products.map((product: Product, index: number) => (
           <div key={index}>
             <p>Product: {product.productName}</p>
             <p>Price: {product.productPrice} GEL</p>

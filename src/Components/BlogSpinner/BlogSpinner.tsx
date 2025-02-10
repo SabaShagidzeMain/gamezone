@@ -8,9 +8,16 @@ import { FreeMode } from "swiper/modules";
 import Image from "next/image";
 import { supabase } from "@/utilities/supabase/supabase";
 
-const BlogSpinner = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+interface Blog {
+  id: number;
+  blog_image: string;
+  blog_header: string;
+  blog_text: string;
+}
+
+const BlogSpinner: React.FC = () => {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -19,7 +26,7 @@ const BlogSpinner = () => {
         if (error) {
           throw error;
         }
-        setBlogs(data);
+        setBlogs(data as Blog[]);
       } catch (error) {
         console.error("Error fetching blogs:", error);
       } finally {
@@ -37,7 +44,6 @@ const BlogSpinner = () => {
   return (
     <div className="px-4 py-0">
       <Swiper
-        className=""
         spaceBetween={10}
         slidesPerView={1}
         navigation={false}
@@ -48,8 +54,8 @@ const BlogSpinner = () => {
           640: { slidesPerView: 3 },
         }}
       >
-        {blogs.map((blog, index) => (
-          <SwiperSlide className="my-8" key={index}>
+        {blogs.map((blog) => (
+          <SwiperSlide className="my-8" key={blog.id}>
             <div className="flex flex-col shadow-[var(--box-shadow)] rounded-[8px] gap-1 cursor-pointer h-20rem">
               <div className="w-full h-40 relative">
                 <Image
@@ -57,7 +63,7 @@ const BlogSpinner = () => {
                   alt={blog.blog_header}
                   layout="fill"
                   objectFit="cover"
-                  className="rounded-tl-[8px] rounded-br-[0] rounded-tr-[8px] rounded-bl-[0]"
+                  className="rounded-tl-[8px] rounded-tr-[8px]"
                 />
               </div>
               <div className="p-2">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -14,7 +14,28 @@ import { FaShoppingCart } from "react-icons/fa";
 import { supabase } from "@/utilities/supabase/supabase";
 import { useCart } from "@/utilities/CartContext/CartContext";
 
-const fetchPlatformGames = async (platform) => {
+// Types
+type Game = {
+  id: number;
+  name: string;
+  price: number;
+  release_date: string;
+  rating: number;
+  genre: string[];
+  main_images: {
+    disc: string;
+  };
+};
+
+type PlatformLink = {
+  id: string;
+  href: string;
+  platform: string;
+  icon: JSX.Element;
+  label: string;
+};
+
+const fetchPlatformGames = async (platform: string): Promise<Game[]> => {
   try {
     let query = supabase.from("games_admin").select("*");
 
@@ -29,8 +50,8 @@ const fetchPlatformGames = async (platform) => {
       return [];
     }
 
-    return data;
-  } catch (error) {
+    return data as Game[];
+  } catch (error: any) {
     console.error("Error fetching games:", error.message);
     return [];
   }
@@ -39,20 +60,21 @@ const fetchPlatformGames = async (platform) => {
 const PlatformPage = () => {
   const router = useRouter();
   const t = useTranslations();
-  const pathname = usePathname();
-  const locale = pathname.split("/")[1];
-  const platform = pathname.split("/").pop();
+  const pathname = usePathname() || "/en";
+  const locale = pathname.split("/")[1] || "en";
+
+  const platform: string = pathname.split("/").pop() || "";
 
   // State variables
-  const [games, setGames] = useState([]);
-  const [filteredGames, setFilteredGames] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortOption, setSortOption] = useState("");
-  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [games, setGames] = useState<Game[]>([]);
+  const [filteredGames, setFilteredGames] = useState<Game[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [sortOption, setSortOption] = useState<string>("");
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const { addToCart } = useCart();
 
   // Platform navigation links
-  const gamesLinks = [
+  const gamesLinks: PlatformLink[] = [
     {
       id: "ps5-games",
       href: `/${locale}/games/ps5`,
@@ -121,13 +143,13 @@ const PlatformPage = () => {
       );
     }
 
-    const sortFunctions = {
+    const sortFunctions: Record<string, (a: Game, b: Game) => number> = {
       name: (a, b) => a.name.localeCompare(b.name),
 
       releaseDateAsc: (a, b) =>
-        new Date(a.release_date) - new Date(b.release_date),
+        new Date(a.release_date).getTime() - new Date(b.release_date).getTime(),
       releaseDateDesc: (a, b) =>
-        new Date(b.release_date) - new Date(a.release_date),
+        new Date(b.release_date).getTime() - new Date(a.release_date).getTime(),
       ratingAsc: (a, b) => a.rating - b.rating,
       ratingDesc: (a, b) => b.rating - a.rating,
 
@@ -142,7 +164,7 @@ const PlatformPage = () => {
     setFilteredGames(updatedGames);
   }, [searchTerm, sortOption, games, selectedGenres]);
 
-  const handleGenreChange = (e) => {
+  const handleGenreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const genre = e.target.value;
     setSelectedGenres((prev) =>
       prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
@@ -180,7 +202,7 @@ const PlatformPage = () => {
 
       {/* Search-Sort */}
       <div className="rounded-tl-[5px] rounded-tr-[5px] flex flex-row sm:flex-row mx-4 my-[0] mt-4 mb-0 rounded-[20px] shadow-[var(--box-shadow)] text-[var(--background-color)]">
-        <input  
+        <input
           className="rounded-tl-[5px] text-[var(--background-color)] flex-[1] h-12 p-2 text-[0.9rem] sm:text-[1rem] border-[none] outline-[none] bg-[var(--text-color)]"
           type="text"
           placeholder="Search games..."
@@ -225,42 +247,34 @@ const PlatformPage = () => {
       </div>
 
       {/* Games Grid */}
-      <div className="flex flex-wrap gap-4 p-4 sm:p-6 md:p-8 justify-center items-center">
+      <div className="flex flex-wrap gap-3 p-4 md:p-8 justify-center items-center">
         {filteredGames.map((game) => (
           <div
-            className="shadow-[var(--box-shadow)] w-[45%] sm:w-48 h-50 md:h-65 cursor-pointer text-[var(--text-color)] flex flex-col gap-1 [transition:all_0.3s_ease-in-out] hover:scale-105 hover:shadow-[var(--box-shadow)] hover:bg-[var(--text-color)] hover:text-[var(--background-color)]"
+            className="shadow-[var(--box-shadow)] w-[45%] md:w-48 h-[12rem] md:h-[20rem] cursor-pointer text-[var(--text-color)] flex flex-col gap-1 [transition:all_0.3s_ease-in-out] hover:scale-105 hover:shadow-[var(--box-shadow)] hover:bg-[var(--text-color)] hover:text-[var(--background-color)]"
             key={game.id}
-            onClick={() =>
-              router.push(`/${locale}/games/${platform}/${game.id}`)
-            }
+            onClick={() => router.push(`/${locale}/games/${platform}/${game.id}`)}
           >
             <Image
-              className="w-full h-3/5 md:h-4/5 object-cover"
+              className="w-full h-[7rem] sm:h-[15rem] object-cover object-center"
               src={game.main_images.disc}
               alt={game.name}
-              width={250}
-              height={270}
+              width={200}
+              height={300}
             />
-            <div className="flex flex-col justify-between p-2 sm:p-[0.5rem] sm:h-full md:flex-row">
-              <div className="flex flex-col gap-1 w-[70%]">
-                <div className="w-[100%]">
-                  <h2 className="text-[0.7rem] md:text-[0.8rem] font-bold overflow-hidden overflow-ellipsis whitespace-nowrap">
-                    {game.name}
-                  </h2>
-                </div>
-                <p className="text-[0.6rem] nd:text-[0.5rem] text-[var(--accent-color)] font-bold w-90%">
-                  {game.price / 100} GEL
-                </p>
+            <div className="p-1 flex justify-between h-[100%] md:h-[100%] items-start">
+              <div className="flex justify-between flex-col h-[100%]">
+                <h3 className="text-sm font-medium">{game.name}</h3>
+                <p className="text-sm">Gel {game.price / 100}</p>
               </div>
-              <div className="flex items-center justify-end">
+              <div className="flex flex-col justify-end items-center h-[100%]">
                 <button
+                  className="mt-2 text-[1.4rem] hover:text-[var(--text-color)]"
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent card click event
+                    e.stopPropagation();
                     addToCart(game);
                   }}
-                  className="hover:text-[var(--accent-color)] [transition:0.2s_ease-in-out]"
                 >
-                  <FaShoppingCart size={20} className="sm:size-[25px]" />
+                  <FaShoppingCart />
                 </button>
               </div>
             </div>
