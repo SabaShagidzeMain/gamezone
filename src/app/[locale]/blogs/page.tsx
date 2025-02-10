@@ -1,42 +1,60 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, FormEvent } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { supabase } from "@/utilities/supabase/supabase";
 
+interface Blog {
+  id: string;
+  blog_header: string;
+  blog_text: string;
+  blog_image: string;
+  created_at: string;
+  created_by: string;
+  created_by_uuid: string;
+}
+
+interface User {
+  id: string;
+  user_metadata: {
+    username?: string;
+  };
+}
+
 const BlogPage = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [featuredBlog, setFeaturedBlog] = useState(null);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [featuredBlog, setFeaturedBlog] = useState<Blog | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [blogHeader, setBlogHeader] = useState("");
   const [blogText, setBlogText] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [currentUserId, setCurrentUserId] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
 
-  const [editingBlog, setEditingBlog] = useState(null);
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = pathname?.split("/")[1] || "";
 
-  const handleEditBlog = (blog) => {
+  const handleEditBlog = (blog: Blog) => {
     setEditingBlog(blog);
     setBlogHeader(blog.blog_header);
     setBlogText(blog.blog_text);
-    setShowCreateForm(true); // Reuse your create form for editing
+    setShowCreateForm(true);
   };
 
   useEffect(() => {
     const fetchUser = async () => {
       const {
         data: { user },
+        error,
       } = await supabase.auth.getUser();
       if (user) setCurrentUserId(user.id);
+      if (error) console.error("Error fetching user:", error);
     };
     fetchUser();
   }, []);
-
-  const router = useRouter();
-  const pathname = usePathname();
-  const locale = pathname ? pathname.split("/")[1] : "";
 
   useEffect(() => {
     fetchBlogs();
@@ -50,63 +68,55 @@ const BlogPage = () => {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setBlogs(data);
-      if (data.length > 0) {
-        setFeaturedBlog(data[0]); // Set the latest blog as featured
+      if (data) {
+        setBlogs(data as Blog[]);
+        if (data.length > 0) {
+          setFeaturedBlog(data[0] as Blog);
+        }
       }
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
   };
 
-  const handleImageUpload = async (file) => {
+  const handleImageUpload = async (file: File) => {
     try {
       const fileName = `${Date.now()}-${file.name}`;
       const { data, error } = await supabase.storage
         .from("blogs")
         .upload(fileName, file);
 
-      if (error) {
-        console.error("Upload error:", error);
-        throw error;
-      }
-
-      console.log("Upload successful:", data);
+      if (error) throw error;
       return data.path;
     } catch (error) {
-      console.error("Error in handleImageUpload:", error);
+      console.error("Error uploading image:", error);
       throw error;
     }
   };
 
-  const handleCreatePost = async (e) => {
+  const handleCreatePost = async (e: FormEvent) => {
     e.preventDefault();
-    if (!blogHeader || !blogText || !selectedImage) {
-      console.error("Missing required fields!");
-      return;
-    }
+    if (!blogHeader || !blogText || !selectedImage) return;
 
     setIsUploading(true);
     try {
-      // 1. Get user session
+      // Get the current user
       const {
         data: { user },
         error: userError,
       } = await supabase.auth.getUser();
       if (!user || userError) throw new Error("User not authenticated");
 
-      // 2. Upload image
+      // Handle image upload
       const imagePath = await handleImageUpload(selectedImage);
-
-      // 3. Get public URL
-      const { data: imageData, error: imageError } = await supabase.storage
+      const { data: imageData } = await supabase.storage
         .from("blogs")
         .getPublicUrl(imagePath);
 
-      if (imageError) throw imageError;
+      if (!imageData) throw new Error("Failed to get public URL for the image");
 
+      // Create or update blog post
       if (editingBlog) {
-        // 4. Update existing blog
         const { data, error } = await supabase
           .from("blogs")
           .update({
@@ -118,13 +128,14 @@ const BlogPage = () => {
           .select();
 
         if (error) throw error;
-
-        // 5. Update UI and reset state
-        setBlogs(blogs.map((b) => (b.id === editingBlog.id ? data[0] : b)));
+        if (data) {
+          setBlogs(
+            blogs.map((b) => (b.id === editingBlog.id ? (data[0] as Blog) : b))
+          );
+        }
         setEditingBlog(null);
       } else {
-        // 6. Insert new blog
-        const { data, error: insertError } = await supabase
+        const { data, error } = await supabase
           .from("blogs")
           .insert([
             {
@@ -132,23 +143,22 @@ const BlogPage = () => {
               blog_text: blogText,
               blog_image: imageData.publicUrl,
               created_at: new Date().toISOString(),
-              created_by: user.user_metadata.username || "Unknown User", // Set the username from metadata
+              created_by: user.user_metadata?.username || "Unknown User",
               created_by_uuid: user.id,
             },
           ])
           .select();
 
-        if (insertError) throw insertError;
-
-        // 7. Update state and reset form for new blog
-        setBlogs([data[0], ...blogs]);
+        if (error) throw error;
+        if (data) {
+          setBlogs([data[0] as Blog, ...blogs]);
+        }
       }
 
-      // 8. Hide form and reset the fields
       setShowCreateForm(false);
       resetForm();
     } catch (error) {
-      console.error("Error creating or updating post:", error);
+      console.error("Error creating/updating post:", error);
     } finally {
       setIsUploading(false);
     }
@@ -160,35 +170,24 @@ const BlogPage = () => {
     setSelectedImage(null);
   };
 
-  const handleDeleteBlog = async (blogId, imagePath) => {
+  const handleDeleteBlog = async (blogId: string, imagePath: string) => {
     try {
-      // Delete the image from the storage bucket
-      const { error: imageDeleteError } = await supabase.storage
-        .from("blogs")
-        .remove([imagePath]);
-
-      if (imageDeleteError) throw imageDeleteError;
-
-      // Delete the blog from the database
+      await supabase.storage.from("blogs").remove([imagePath]);
       const { error } = await supabase.from("blogs").delete().eq("id", blogId);
-
       if (error) throw error;
-
-      // Update UI by removing the deleted blog
       setBlogs(blogs.filter((blog) => blog.id !== blogId));
     } catch (error) {
       console.error("Error deleting blog:", error);
     }
   };
 
-  const filteredBlogs = blogs.filter((blog) => {
-    return (
+  const filteredBlogs = blogs.filter(
+    (blog) =>
       blog.blog_header.toLowerCase().includes(searchQuery.toLowerCase()) ||
       blog.blog_text.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  });
+  );
 
-  const handleBlogClick = (id) => {
+  const handleBlogClick = (id: string) => {
     router.push(`/${locale}/blogs/${id}`);
   };
 
@@ -217,7 +216,10 @@ const BlogPage = () => {
               />
               <input
                 type="file"
-                onChange={(e) => setSelectedImage(e.target.files[0])}
+                onChange={(e) => {
+                  const file = e.target.files ? e.target.files[0] : null;
+                  setSelectedImage(file);
+                }}
                 className="w-full p-2 border rounded"
                 accept="image/*"
                 required

@@ -1,21 +1,16 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
-
 import { FaRegHandshake } from "react-icons/fa";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { TbMessage2Share } from "react-icons/tb";
 import { GoUnlock } from "react-icons/go";
-
 import SubscriptionCards from "@/Components/SubscriptionCards/SubscriptionCards";
 import SubInfo from "@/Components/SubInfo/SubInfo";
 
-const SubPage = () => {
-  const router = useRouter();
-
+const SubPage: React.FC = () => {
   return (
-    <>
+    <div>
       {/* Hero Section */}
       <div className="bg-[var(--text-color)] text-[var(--background-color)] w-full h-60 p-4 flex justify-start items-center text-center mt-16">
         <div className="flex h-full w-full flex-col justify-center items-center gap-4">
@@ -117,7 +112,7 @@ const SubPage = () => {
 
       {/* Additional Info Section */}
       <SubInfo />
-    </>
+    </div>
   );
 };
 

@@ -1,41 +1,52 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/utilities/supabase/supabase"; // Assuming you have a supabase client utility set up
+import { supabase } from "@/utilities/supabase/supabase";
 import Image from "next/image";
-import { usePathname } from "next/navigation"; // Use this to get the current path and extract params
+import { usePathname } from "next/navigation";
 import "./blogsdetails.css";
 
+interface Blog {
+  id: string;
+  blog_header: string;
+  blog_text: string;
+  blog_image: string;
+  created_at: string;
+  created_by: string;
+  created_by_uuid: string;
+}
+
 const BlogDetailPage = () => {
-  const [blog, setBlog] = useState(null); // State for storing the blog
-  const pathname = usePathname(); // Get the current path
-  const blogId = pathname.split("/").pop(); // Extract the blog ID from the pathname
+  const [blog, setBlog] = useState<Blog | null>(null);
+  const pathname = usePathname();
+  const blogId = pathname?.split("/").pop() || "";
 
   useEffect(() => {
     const fetchBlog = async () => {
-      if (!blogId) return; // If no blogId is available, return early
+      if (!blogId) return;
 
       try {
-        // Fetch the specific blog from Supabase based on the ID
         const { data, error } = await supabase
           .from("blogs")
           .select("*")
-          .eq("id", blogId) // Filter by the blog ID
-          .single(); // We expect only one blog
+          .eq("id", blogId)
+          .single();
 
         if (error) {
           console.error("Error fetching blog:", error);
           return;
         }
 
-        setBlog(data); // Set the blog state
+        if (data) {
+          setBlog(data as Blog);
+        }
       } catch (error) {
         console.error("Error fetching blog:", error);
       }
     };
 
     fetchBlog();
-  }, [blogId]); // Run the effect when the `blogId` changes
+  }, [blogId]);
 
   if (!blog) {
     return <p>Loading...</p>;
@@ -49,6 +60,7 @@ const BlogDetailPage = () => {
         alt={blog.blog_header}
         width={600}
         height={400}
+        priority
       />
       <p>{blog.blog_text}</p>
     </div>
