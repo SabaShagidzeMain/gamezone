@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FC } from "react";
 import Link from "next/link";
 
-const Footer = () => {
+const Footer: FC = () => {
   return (
     <footer className="bg-[#001219] mt-[4rem] text-white shadow-[var(--box-shadow)]">
       <div className="container mx-auto px-4 py-8 md:px-8">
@@ -20,7 +20,7 @@ const Footer = () => {
                   "რეგისტრაცია",
                   "შეკვეთები",
                   "სურვილების სია",
-                ].map((item) => (
+                ].map((item: string) => (
                   <li key={item}>
                     <Link
                       href="#"
@@ -38,7 +38,7 @@ const Footer = () => {
               <h4 className="text-lg font-semibold md:text-xl">მაღაზია</h4>
               <ul className="space-y-2">
                 {["ჩვენს შესახებ", "პროდუქტები", "ბლოგი", "კონტაქტი"].map(
-                  (item) => (
+                  (item: string) => (
                     <li key={item}>
                       <Link
                         href="#"

@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-const GameImageGallery = ({ thumbnail, additionalImages }) => {
-  const [selectedImage, setSelectedImage] = useState(thumbnail);
+interface GameImageGalleryProps {
+  thumbnail: string;
+  additionalImages: string[];
+}
+
+const GameImageGallery: React.FC<GameImageGalleryProps> = ({ thumbnail, additionalImages }) => {
+  const [selectedImage, setSelectedImage] = useState<string>(thumbnail);
 
   return (
     <div className="flex flex-col items-center">
@@ -26,9 +31,7 @@ const GameImageGallery = ({ thumbnail, additionalImages }) => {
           <div
             key={index}
             className={`relative h-12 w-16 md:w-20 md:h-20 rounded-md cursor-pointer transition-transform duration-200 ease-in-out hover:scale-110 ${
-              selectedImage === image
-                ? "outline outline-3 outline-blue-600 scale-110"
-                : ""
+              selectedImage === image ? "outline outline-3 outline-blue-600 scale-110" : ""
             }`}
             onClick={() => setSelectedImage(image)}
           >

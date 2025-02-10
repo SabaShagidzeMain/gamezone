@@ -1,43 +1,49 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { fetchFeatured } from "@/utilities/fetchFeatured/fetchFeatured";
 
-const FeaturedGames = () => {
-  const [activeGame, setActiveGame] = useState(null);
-  const [featuredGames, setFeaturedGames] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+interface Game {
+  id: number;
+  name: string;
+  desc: string;
+  main_images: {
+    logo?: string;
+    thumbnail?: string;
+  };
+}
+
+const FeaturedGames: React.FC = () => {
+  const [activeGame, setActiveGame] = useState<Game | null>(null);
+  const [featuredGames, setFeaturedGames] = useState<Game[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const loadGames = async () => {
-      const games = await fetchFeatured();
+      const games: Game[] = await fetchFeatured();
       setFeaturedGames(games);
-      setActiveGame(games[0] || {});
+      setActiveGame(games[0] || null);
       setIsLoading(false);
     };
 
     loadGames();
   }, []);
 
-  const handleImageError = (name) => {
+  const handleImageError = (name: string) => {
     console.error(`Failed to load logo for: ${name}`);
   };
 
-  const { main_images, name, desc } = activeGame || {};
-  const logo = main_images?.logo || "";
-  const backgroundImage = main_images?.thumbnail || "";
+  const logo = activeGame?.main_images?.logo || "";
+  const backgroundImage = activeGame?.main_images?.thumbnail || "";
 
   return (
     <div className="gw-full text-center flex flex-col gap-[1rem] pb-3 lg:gap-[1.4rem]">
       {isLoading ? (
         <div className="gap-[1rem] flex w-full flex-col items-center relative">
-          {/* Main Card Shimmer */}
           <div className="w-full h-[33rem] relative overflow-hidden bg-[var(--text-color)]">
             <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent via-30% [animation-delay:-0.5s]" />
           </div>
 
-          {/* Thumbnails Shimmer */}
           <div className="px-3 flex justify-center gap-[10px] w-full">
             {[...Array(4)].map((_, i) => (
               <div
@@ -55,7 +61,6 @@ const FeaturedGames = () => {
         </div>
       ) : (
         <>
-          {/* Thumbnail */}
           <div
             className="w-full h-full bg-cover bg-top flex flex-col justify-center items-center text-left text-[#fff] font-bold justify-between relative"
             style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -64,22 +69,10 @@ const FeaturedGames = () => {
               <div
                 className="w-full h-[20rem] flex justify-center items-center bg-contain md:bg-cover bg-no-repeat bg-center"
                 style={{ backgroundImage: `url(${logo})` }}
-              >
-                {/* {logo ? (
-                  <Image
-                    src={logo}
-                    alt={`${name} Logo`}
-                    width={700}
-                    height={300}
-                    onError={() => handleImageError(name)}
-                  />
-                ) : (
-                  <div>No logo available</div>
-                )} */}
-              </div>
+              ></div>
               <div className="flex items-center flex-col gap-1">
-                <h2 className="text-center lg:text-[1.5rem]">{name}</h2>
-                <p className="w-4/5 text-[0.8rem]">{desc}</p>
+                <h2 className="text-center lg:text-[1.5rem]">{activeGame?.name}</h2>
+                <p className="w-4/5 text-[0.8rem]">{activeGame?.desc}</p>
                 <button className="w-36 h-12 bg-[var(--background-color)] text-[var(--text-color)] text-center border-[1px] border-solid border-[var(--text-color)] rounded-[10px] lg:cursor-pointer [transition:all_0.3s_ease-in-out] hover:bg-[var(--text-color)] hover:text-[var(--background-color)]">
                   გაიგე მეტი
                 </button>
@@ -87,7 +80,6 @@ const FeaturedGames = () => {
             </div>
           </div>
 
-          {/* Thumbnails */}
           <div className="px-3 flex justify-center gap-[10px]">
             {featuredGames.map((game) => (
               <div

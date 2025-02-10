@@ -4,10 +4,19 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "@/utilities/supabase/supabase";
 import Image from "next/image";
 
-const OrderInfo = () => {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [userId, setUserId] = useState(null);
+interface Order {
+  id: string;
+  product_image: string;
+  product_name: string;
+  product_price: number;
+  created_at: string;
+  user_id: string;
+}
+
+const OrderInfo: React.FC = () => {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -19,7 +28,7 @@ const OrderInfo = () => {
         console.error("Error fetching user:", error);
         return;
       }
-      setUserId(user?.id);
+      setUserId(user?.id ?? null);
     };
 
     fetchUser();
@@ -37,7 +46,7 @@ const OrderInfo = () => {
       if (error) {
         console.error("Error fetching orders:", error);
       } else {
-        setOrders(data);
+        setOrders(data as Order[]);
       }
 
       setLoading(false);

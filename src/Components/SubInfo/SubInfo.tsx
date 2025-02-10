@@ -2,7 +2,10 @@ import React from "react";
 import Image from "next/image";
 import handleSub from "@/utilities/handleSub/handleSub";
 
-const SubInfo = () => {
+// Define the type for the handleSub function
+type Plan = "essential" | "extra" | "premium";
+
+const SubInfo: React.FC = () => {
   return (
     <div className="flex text-center md:text-left flex-col justify-center items-center gap-8 pb-16 px-4 md:px-8">
       {/* Essential Membership */}
@@ -33,7 +36,7 @@ const SubInfo = () => {
             perks without a big commitment.
           </p>
           <button
-            onClick={() => handleSub("essential")}
+            onClick={() => handleSub("essential" as Plan)}
             className="w-full md:w-32 h-10 rounded-md bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer transition-all hover:bg-[#efbf04] mt-4"
           >
             Subscribe
@@ -69,7 +72,7 @@ const SubInfo = () => {
             games, and early access perks.
           </p>
           <button
-            onClick={() => handleSub("extra")}
+            onClick={() => handleSub("extra" as Plan)}
             className="w-full md:w-32 h-10 rounded-md bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer transition-all hover:bg-[#efbf04] mt-4 md:ml-auto"
           >
             Subscribe
@@ -108,7 +111,7 @@ const SubInfo = () => {
             discounts, premium features, and personalized support.
           </p>
           <button
-            onClick={() => handleSub("premium")}
+            onClick={() => handleSub("premium" as Plan)}
             className="w-full md:w-32 h-10 rounded-md bg-[var(--text-color)] text-[var(--background-color)] font-bold cursor-pointer transition-all hover:bg-[#efbf04] mt-4"
           >
             Subscribe

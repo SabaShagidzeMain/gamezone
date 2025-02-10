@@ -2,7 +2,7 @@ import React from "react";
 import handleSub from "@/utilities/handleSub/handleSub";
 import Image from "next/image";
 
-const SubscriptionCards = () => {
+const SubscriptionCards: React.FC = () => {
   return (
     <div className="flex flex-wrap p-4 md:p-8 justify-center items-center gap-8 mt-4">
       {/* Essential Membership Card */}

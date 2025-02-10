@@ -20,25 +20,39 @@ import {
   FaShoppingCart,
 } from "react-icons/fa";
 import { MdDensitySmall } from "react-icons/md";
-import {
-  SiXbox,
-  SiNintendoswitch,
-  SiOculus,
-} from "react-icons/si";
+import { SiXbox, SiNintendoswitch, SiOculus } from "react-icons/si";
 import { PiGameControllerLight } from "react-icons/pi";
 import { GiConsoleController } from "react-icons/gi";
 
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  main_images: {
+    disc: string;
+  };
+}
+
+interface NavLink {
+  href?: string;
+  label: string;
+}
+
+interface GameLink extends NavLink {
+  id: string;
+  icon: React.ReactNode;
+}
+
 const Navbar = () => {
   const [lockScroll, unlockScroll] = useBodyScrollLock();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const { cart, removeFromCart } = useCart();
   const t = useTranslations();
-  const pathname = usePathname();
-  const locale = pathname.split("/")[1];
-
+  const pathname = usePathname() || "/en";
+  const locale = pathname.split("/")[1] || "en";
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     setActiveDropdown(null);
@@ -62,11 +76,11 @@ const Navbar = () => {
     setIsDarkMode(newMode);
   };
 
-  const toggleDropdown = (dropdown) => {
+  const toggleDropdown = (dropdown: string) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
 
-  const gamesLinks = [
+  const gamesLinks: GameLink[] = [
     {
       id: "ps5-games",
       href: `/${locale}/games/ps5`,
@@ -105,7 +119,7 @@ const Navbar = () => {
     },
   ];
 
-  const navLinks = [
+  const navLinks: NavLink[] = [
     { href: `/${locale}/subscription`, label: t("header.sub") },
     { href: `/${locale}/blogs`, label: t("header.blogs") },
     { label: t("header.about") },
@@ -113,7 +127,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="">
+    <div>
       <nav className="fixed top-0 left-0 w-full h-16 z-50 flex justify-startsWith items-center px-2 bg-[var(--background-color)] text-[var(--text-color)] shadow-[var(--box-shadow)]">
         {/* Mobile Menu Button */}
         <button
@@ -123,7 +137,7 @@ const Navbar = () => {
           {isMenuOpen ? <FaTimes size={25} /> : <FaBars size={25} />}
         </button>
 
-        {/*Desktop Left Section */}
+        {/* Desktop Left Section */}
         <div className="hidden md:flex items-center gap-4">
           <Link href={`/${locale}`} className="text-m font-bold">
             GameZone
@@ -190,7 +204,7 @@ const Navbar = () => {
                     {gamesLinks.map((link) => (
                       <Link
                         key={link.id}
-                        href={link.href}
+                        href={link.href || "#"}
                         className="flex flex-col items-center p-2 hover:bg-[var(--text-color)] hover:text-[var(--background-color)] rounded-lg"
                         onClick={toggleMenu}
                       >
@@ -218,7 +232,7 @@ const Navbar = () => {
                       {link.label}
                     </button>
                   )}
-                </li> 
+                </li>
               ))}
             </ul>
           </div>
@@ -272,7 +286,7 @@ const Navbar = () => {
             ) : (
               <>
                 <ul className="space-y-2">
-                  {cart.map((item) => (
+                  {(cart as CartItem[]).map((item) => (
                     <li
                       key={item.id}
                       className="flex items-center justify-between gap-2"
@@ -325,25 +339,11 @@ const Navbar = () => {
         >
           <div className="container mx-auto py-4">
             <div className="flex justify-center items-center gap-4">
-              {/* Render consoles links only when activeDropdown is 'consoles' */}
-              {activeDropdown === "consoles" &&
-                consolesLinks.map((link) => (
-                  <Link
-                    key={link.id}
-                    href={link.href}
-                    className="flex w-[100%] flex-col items-center gap-2 p-4 hover:bg-[var(--text-color)] hover:text-[var(--background-color)] rounded-lg transition-colors [transition:.3s_ease-in-out]"
-                  >
-                    {link.icon}
-                    <span className="text-sm text-center">{link.label}</span>
-                  </Link>
-                ))}
-
-              {/* Render games links only when activeDropdown is 'games' */}
               {activeDropdown === "games" &&
                 gamesLinks.map((link) => (
                   <Link
                     key={link.id}
-                    href={link.href}
+                    href={link.href || "#"}
                     className="flex w-[100%] flex-col items-center gap-2 p-4 hover:bg-[var(--text-color)] hover:text-[var(--background-color)] rounded-lg transition-colors [transition:.3s_ease-in-out]"
                   >
                     {link.icon}
