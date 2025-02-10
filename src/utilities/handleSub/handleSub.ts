@@ -1,8 +1,17 @@
 import { loadStripe } from "@stripe/stripe-js";
 
-const handleSub = async (plan) => {
+// Define types for the function parameters
+interface User {
+  id: string;
+}
+
+interface Plan {
+}
+
+const handleSub = async (plan: Plan): Promise<void> => {
   try {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const userString = localStorage.getItem("user");
+    const user: User | null = userString ? JSON.parse(userString) : null;
     const userId = user?.id;
 
     if (!userId) {
@@ -25,7 +34,15 @@ const handleSub = async (plan) => {
 
     const { id: sessionId } = await response.json();
 
-    const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+    const stripe = await loadStripe(
+      process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
+    );
+
+    if (!stripe) {
+      console.error("Stripe.js failed to load");
+      return;
+    }
+
     const { error } = await stripe.redirectToCheckout({ sessionId });
 
     if (error) {

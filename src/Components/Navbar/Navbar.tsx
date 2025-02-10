@@ -30,6 +30,8 @@ interface CartItem {
   price: number;
   main_images: {
     disc: string;
+    thumbnail: string;
+    logo: string;
   };
 }
 
@@ -286,13 +288,13 @@ const Navbar = () => {
             ) : (
               <>
                 <ul className="space-y-2">
-                  {(cart as CartItem[]).map((item) => (
+                  {(cart as unknown as CartItem[]).map((item) => (
                     <li
                       key={item.id}
                       className="flex items-center justify-between gap-2"
                     >
                       <Image
-                        src={item.main_images.disc}
+                        src={item.main_images?.disc || "/fallback-image.jpg"} // Use optional chaining and fallback if main_images is undefined
                         alt={item.name}
                         width={40}
                         height={40}
@@ -305,7 +307,7 @@ const Navbar = () => {
                         </p>
                       </div>
                       <button
-                        onClick={() => removeFromCart(item.id)}
+                        onClick={() => removeFromCart(Number(item.id))}
                         className="text-red-500 hover:text-red-700 text-sm"
                       >
                         Remove
@@ -316,7 +318,7 @@ const Navbar = () => {
                 <button
                   onClick={() =>
                     handlePurchase(
-                      cart.map((item) => item.id),
+                      cart.map((item) => String(item.id)),
                       locale
                     )
                   }
