@@ -11,29 +11,38 @@ import OrderInfo from "@/Components/orderInfo/orderInfo";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 
+interface UserData {
+  id: string;
+  username: string;
+  email: string;
+  plan: "basic" | "essential" | "extra" | "premium";
+}
+
 const LoginPage = () => {
   const t = useTranslations();
-  const pathname = usePathname();
-  const locale = pathname.split("/")[1];
+  const pathname = usePathname() || "/en";
+  const locale = pathname.split("/")[1] || "en";
 
   const { user, error: authError, isLoading, signOut } = useUser();
-  const [userData, setUserData] = useState(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [repeatPassword, setRepeatPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
+
   const router = useRouter();
 
   useEffect(() => {
     if (user) {
       fetchUserData(user.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  const fetchUserData = async (userId) => {
+  const fetchUserData = async (userId: string) => {
     const { data, error } = await supabase
       .from("users")
       .select("id, username, email, plan")
@@ -92,20 +101,28 @@ const LoginPage = () => {
     if (error) {
       setError(error.message);
     } else {
-      const { user, error: insertError } = await supabase.from("users").upsert({
-        id: data.user.id,
-        username: username,
-        email: email,
-        plan: "basic",
-      });
+      // Check if the user data is present
+      const user = data?.user;
 
-      if (insertError) {
-        setError(insertError.message);
+      if (user) {
+        const { error: insertError } = await supabase.from("users").upsert({
+          id: user.id,
+          username: username,
+          email: email,
+          plan: "basic",
+        });
+
+        if (insertError) {
+          setError(insertError.message);
+        } else {
+          alert("Sign-up successful! Check your email for confirmation.");
+          setShowModal(false);
+        }
       } else {
-        alert("Sign-up successful! Check your email for confirmation.");
-        setShowModal(false);
+        setError("User data is null.");
       }
     }
+
     setLoading(false);
   };
 
@@ -223,3 +240,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+``;

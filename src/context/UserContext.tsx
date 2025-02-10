@@ -19,6 +19,8 @@ interface UserContextType {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   signOut: () => Promise<void>;
+  isLoading: boolean;
+  error: string | null;
 }
 
 // Create a UserContext to store user information globally
@@ -38,13 +40,23 @@ interface UserProviderProps {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true); // Add isLoading state
+  const [error, setError] = useState<string | null>(null); // Add error state
 
   useEffect(() => {
     const checkSession = async () => {
+      setIsLoading(true); // Set loading to true when starting to check session
       const {
         data: { session },
         error,
       } = await supabase.auth.getSession();
+
+      // Handle error if there's an issue with fetching session
+      if (error) {
+        setError(error.message);
+        setIsLoading(false); // Set loading to false if there's an error
+        return;
+      }
 
       // Safely check if session and user are available
       if (session?.user) {
@@ -53,9 +65,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           email: session.user.email || undefined, // email is optional
         };
         setUser(user);
-      } else if (error) {
-        console.error(error.message);
+      } else {
+        setUser(null); // Clear user if session is not available
       }
+      setIsLoading(false); // Set loading to false after session check
     };
 
     checkSession();
@@ -63,6 +76,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsLoading(true); // Set loading to true while updating state
       if (session?.user) {
         const user: User = {
           id: session.user.id,
@@ -72,6 +86,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       } else {
         setUser(null);
       }
+      setIsLoading(false); // Set loading to false after state change
     });
 
     return () => {
@@ -85,7 +100,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser, signOut }}>
+    <UserContext.Provider value={{ user, setUser, signOut, isLoading, error }}>
       {children}
     </UserContext.Provider>
   );
