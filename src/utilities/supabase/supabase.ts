@@ -26,7 +26,7 @@ const testConnection = async (): Promise<void> => {
       .limit(1);
       
     if (error) throw error;
-    console.log("Supabase connection test successful:", data);
+    console.log("Supabase connection test successful");
   } catch (error) {
     console.error("Supabase connection test failed:", error);
   }
