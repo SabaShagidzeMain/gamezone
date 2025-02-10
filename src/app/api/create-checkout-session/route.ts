@@ -2,11 +2,34 @@ import { supabase } from "@/utilities/supabase/supabase";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2024-12-18.acacia",
+});
 
-export async function POST(req) {
+// Type for the incoming request JSON payload
+interface CheckoutRequestBody {
+  userId: string;
+  username: string;
+  productIds: string[];
+  locale: string;
+}
+
+// Type for the product fetched from the database
+interface Product {
+  stripe_price_id: string;
+  stripe_product_id: string;
+  name: string;
+  price: number;
+  id: string;
+  main_images: string[];
+}
+
+// Type for the Next.js handler function
+export async function POST(req: Request): Promise<NextResponse> {
   try {
-    const { userId, username, productIds, locale } = await req.json();
+    // Parse the request body
+    const { userId, username, productIds, locale }: CheckoutRequestBody =
+      await req.json();
 
     // Ensure all necessary fields are present
     if (!userId || !username || !productIds || !locale) {

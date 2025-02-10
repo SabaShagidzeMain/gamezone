@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { supabase } from "@/utilities/supabase/supabase"; // Import the pre-configured client
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2020-08-27",
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2024-12-18.acacia",
 });
 
-export async function GET(req) {
+export async function GET(req: Request): Promise<NextResponse> {
   const url = new URL(req.url);
   const session_id = url.searchParams.get("session_id"); // Extract session_id from query params
 
@@ -14,7 +14,10 @@ export async function GET(req) {
 
   if (!session_id) {
     console.error("Session ID is required");
-    return new NextResponse("Session ID is required", { status: 400 });
+    return NextResponse.json(
+      { error: "Session ID is required" },
+      { status: 400 }
+    );
   }
 
   try {
@@ -26,26 +29,50 @@ export async function GET(req) {
 
     console.log("Stripe session fetched successfully:", session);
 
-    // Check if the session has line items
-    if (!session.line_items.data.length) {
+    // Check if line_items exists and contains data
+    if (!session.line_items || !session.line_items.data.length) {
       console.error("No items found in the session");
-      return new NextResponse("No items found in the session", { status: 400 });
+      return NextResponse.json(
+        { error: "No items found in the session" },
+        { status: 400 }
+      );
     }
 
-    // Extract common session data
-    const userId = session.metadata.user_id;
-    const username = session.metadata.username;
+    // Check if session.metadata is null or undefined
+    const userId = session.metadata?.user_id;
+    const username = session.metadata?.username;
+
+    if (!userId || !username) {
+      console.error("Missing user metadata");
+      return NextResponse.json(
+        { error: "Missing user metadata" },
+        { status: 400 }
+      );
+    }
+
     const purchaseTime = new Date(session.created * 1000).toLocaleString();
 
     // Map each line item to a product object.
-    // Use the Stripe product ID as 'stripeProductId'
     const rawProducts = session.line_items.data.map((item) => {
-      const prod = item.price.product;
+      const price = item.price;
+      // Check if item.price and item.price.product are valid
+      if (!price || typeof price === "string" || !isProduct(price.product)) {
+        return {
+          stripeProductId: null,
+          productName: "Unknown Product",
+          productImage: "", // Fallback image
+          productPrice: 0,
+          quantity: item.quantity,
+        };
+      }
+
+      const prod = price.product;
+
       return {
         stripeProductId: prod.id,
         productName: prod.name,
-        productImage: prod.images?.[0] || "", // Fallback image (will be replaced below)
-        productPrice: item.price.unit_amount / 100,
+        productImage: prod.images?.[0] || "", // Fallback image
+        productPrice: price.unit_amount ? price.unit_amount / 100 : 0, // Ensure unit_amount is valid
         quantity: item.quantity,
       };
     });
@@ -91,6 +118,16 @@ export async function GET(req) {
     });
   } catch (error) {
     console.error("Error fetching Stripe session:", error);
-    return new NextResponse("Error fetching session", { status: 500 });
+    return NextResponse.json(
+      { error: "Error fetching session" },
+      { status: 500 }
+    );
   }
+}
+
+// Type guard to check if product is a valid Product object
+function isProduct(
+  product: string | Stripe.Product | Stripe.DeletedProduct
+): product is Stripe.Product {
+  return (product as Stripe.Product).id !== undefined;
 }
