@@ -12,6 +12,7 @@ const EditProfile = ({ userData, onClose, onUpdate }) => {
   const handleImageChange = (e) => {
     if (e.target.files.length > 0) {
       setImage(e.target.files[0]);
+      console.log("Image selected:", e.target.files[0]); // Debugging: Log selected file
     }
   };
 
@@ -19,16 +20,47 @@ const EditProfile = ({ userData, onClose, onUpdate }) => {
     setLoading(true);
     setError("");
 
+    // Get the current session
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      setError("User is not authenticated.");
+      setLoading(false);
+      return;
+    }
+
+    // Ensure the session user is the same as the userData.id
+    if (userData.id !== session.user.id) {
+      setError("You can only update your own profile.");
+      setLoading(false);
+      return;
+    }
+
     let imageUrl = userData?.user_image;
 
-    if (image) {
-      // Upload the image directly to the 'users' bucket (no 'avatars' folder)
-      const filePath = `${image.name}`;
+    // If there's an existing image, delete it first
+    if (image && userData?.user_image) {
+      const { error: deleteError } = await supabase.storage
+        .from("users_avatars") // Bucket name
+        .remove([userData.user_image]); // Delete the previous image file
 
-      // Upload the image to the 'users' bucket
+      if (deleteError) {
+        setError(`Failed to delete old image: ${deleteError.message}`);
+        setLoading(false);
+        return;
+      }
+    }
+
+    if (image) {
+      const fileExt = image.name.split(".").pop();
+      const fileName = `${session.user.id}-avatar-${Date.now()}.${fileExt}`; // Added timestamp for uniqueness
+
+      // Upload new image to the 'users_avatars' bucket
       const { data, error: uploadError } = await supabase.storage
-        .from("users")
-        .upload(filePath, image, { upsert: true });
+        .from("users_avatars")
+        .upload(`avatars/${fileName}`, image);
 
       if (uploadError) {
         setError(`Failed to upload image: ${uploadError.message}`);
@@ -36,23 +68,25 @@ const EditProfile = ({ userData, onClose, onUpdate }) => {
         return;
       }
 
-      // Construct the image URL
-      imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/users/${filePath}`;
+      imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/users_avatars/${data.path}`;
     }
 
-    // Update the user profile with the new image URL
+    // Now use the same UUID (session.user.id) for updating the user
     const { error: updateError } = await supabase
       .from("users")
       .update({ username, user_image: imageUrl })
-      .eq("id", userData.id);
+      .eq("id", session.user.id)
+      .select()
+      .single();
 
     if (updateError) {
-      setError("Failed to update profile");
-    } else {
-      onUpdate();
-      onClose();
+      setError(updateError.message);
+      setLoading(false);
+      return;
     }
 
+    onUpdate();
+    onClose();
     setLoading(false);
   };
 

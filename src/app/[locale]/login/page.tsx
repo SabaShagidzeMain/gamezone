@@ -17,6 +17,7 @@ interface UserData {
   username: string;
   email: string;
   plan: "basic" | "essential" | "extra" | "premium";
+  user_image: "string";
 }
 
 const LoginPage = () => {
@@ -47,7 +48,7 @@ const LoginPage = () => {
   const fetchUserData = async (userId: string) => {
     const { data, error } = await supabase
       .from("users")
-      .select("id, username, email, plan")
+      .select("id, username, email, plan, user_image")
       .eq("id", userId)
       .single();
 
