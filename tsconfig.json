@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "strictNullChecks": true,
-    "baseUrl": "./src", // Add this line to set base URL to the src folder
+    "baseUrl": "./src",
     "paths": {
       "@/*": ["*"]
     },
