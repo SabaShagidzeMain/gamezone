@@ -10,6 +10,7 @@ import { PiGameControllerLight } from "react-icons/pi";
 import { GiConsoleController } from "react-icons/gi";
 import { MdDensitySmall } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
+import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
 
 import { supabase } from "@/utilities/supabase/supabase";
 import { useCart } from "@/utilities/CartContext/CartContext";
@@ -72,6 +73,10 @@ const PlatformPage = () => {
   const [sortOption, setSortOption] = useState<string>("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const { addToCart } = useCart();
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [gamesPerPage] = useState(8); // Adjust this value as needed
 
   // Platform navigation links
   const gamesLinks: PlatformLink[] = [
@@ -164,12 +169,20 @@ const PlatformPage = () => {
     setFilteredGames(updatedGames);
   }, [searchTerm, sortOption, games, selectedGenres]);
 
+  // Get the current page's games
+  const indexOfLastGame = currentPage * gamesPerPage;
+  const indexOfFirstGame = indexOfLastGame - gamesPerPage;
+  const currentGames = filteredGames.slice(indexOfFirstGame, indexOfLastGame);
+
   const handleGenreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const genre = e.target.value;
     setSelectedGenres((prev) =>
       prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
     );
   };
+
+  // Change page
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -247,28 +260,32 @@ const PlatformPage = () => {
       </div>
 
       {/* Games Grid */}
-      <div className="flex flex-wrap gap-3 p-4 md:p-8 justify-center items-center">
-        {filteredGames.map((game) => (
+      <div className="flex flex-wrap gap-3 h-[fit-content] md:h-[50rem] p-4 md:p-8 justify-center items-start">
+        {currentGames.map((game) => (
           <div
-            className="shadow-[var(--box-shadow)] w-[45%] md:w-48 h-[12rem] md:h-[20rem] cursor-pointer text-[var(--text-color)] flex flex-col gap-1 [transition:all_0.3s_ease-in-out] hover:scale-105 hover:shadow-[var(--box-shadow)] hover:bg-[var(--text-color)] hover:text-[var(--background-color)]"
+            className="shadow-[var(--box-shadow)] w-[45%] rounded-[5px] md:w-[15%] h-[17rem] md:h-[20rem] cursor-pointer text-[var(--text-color)] flex flex-col gap-1 [transition:all_0.3s_ease-in-out] hover:scale-101"
             key={game.id}
-            onClick={() => router.push(`/${locale}/games/${platform}/${game.id}`)}
+            onClick={() =>
+              router.push(`/${locale}/games/${platform}/${game.id}`)
+            }
           >
             <Image
-              className="w-full h-[7rem] sm:h-[15rem] object-cover object-center"
-              src={game.main_images.disc}
+              src={game.main_images?.disc}
               alt={game.name}
-              width={200}
-              height={300}
+              className="object-cover w-full h-[80%] rounded-tl-[5px] rounded-tr-[5px]  "
+              width={350}
+              height={150}
             />
-            <div className="p-1 flex justify-between h-[100%] md:h-[100%] items-start">
-              <div className="flex justify-between flex-col h-[100%]">
-                <h3 className="text-sm font-medium">{game.name}</h3>
-                <p className="text-sm">Gel {game.price / 100}</p>
-              </div>
-              <div className="flex flex-col justify-end items-center h-[100%]">
+            <div className="flex flex-col gap-1 p-1">
+              <h2 className="font-semibold text-[.7rem] md:text-[.8rem]">
+                {game.name}
+              </h2>
+              <div className="flex justify-between items-center text-[0.8rem]">
+                <span className="text-[.8rem] md:text-[.8rem]">
+                  {game.price / 100} Gel
+                </span>
                 <button
-                  className="mt-2 text-[1.4rem] hover:text-[var(--text-color)]"
+                  className="text-[1rem] md:text-[1.4rem] cursor-pointer rounded-sm hover:text-[var(--accent-color)]"
                   onClick={(e) => {
                     e.stopPropagation();
                     addToCart(game);
@@ -280,6 +297,29 @@ const PlatformPage = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center items-center gap-4 p-4">
+        <button
+          className="p-2 bg-[var(--text-color)] text-[var(--background-color)] rounded-sm"
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <IoIosArrowDropleft />
+        </button>
+        <span>
+          {currentPage} / {Math.ceil(filteredGames.length / gamesPerPage)}
+        </span>
+        <button
+          className="p-2 bg-[var(--text-color)] text-[var(--background-color)] rounded-sm"
+          onClick={() => paginate(currentPage + 1)}
+          disabled={
+            currentPage === Math.ceil(filteredGames.length / gamesPerPage)
+          }
+        >
+          <IoIosArrowDropright />
+        </button>
       </div>
     </div>
   );
