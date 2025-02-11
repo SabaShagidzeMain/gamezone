@@ -76,7 +76,7 @@ const PlatformPage = () => {
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const [gamesPerPage] = useState(8); // Adjust this value as needed
+  const [gamesPerPage] = useState(12);
 
   // Platform navigation links
   const gamesLinks: PlatformLink[] = [
@@ -285,7 +285,7 @@ const PlatformPage = () => {
                   {game.price / 100} Gel
                 </span>
                 <button
-                  className="text-[1rem] md:text-[1.4rem] cursor-pointer rounded-sm hover:text-[var(--accent-color)]"
+                  className="text-[1rem] [transition:.2s_ease-in-out] md:text-[1.4rem] cursor-pointer rounded-sm hover:text-[var(--accent-color)]"
                   onClick={(e) => {
                     e.stopPropagation();
                     addToCart(game);
@@ -302,7 +302,7 @@ const PlatformPage = () => {
       {/* Pagination */}
       <div className="flex justify-center items-center gap-4 p-4">
         <button
-          className="p-2 bg-[var(--text-color)] text-[var(--background-color)] rounded-sm"
+          className="p-2  [transition:.2s_ease-in-out] cursor-pointer hover:bg-[var(--accent-color)] bg-[var(--text-color)] text-[var(--background-color)] rounded-sm"
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -312,7 +312,7 @@ const PlatformPage = () => {
           {currentPage} / {Math.ceil(filteredGames.length / gamesPerPage)}
         </span>
         <button
-          className="p-2 bg-[var(--text-color)] text-[var(--background-color)] rounded-sm"
+          className="p-2  [transition:.2s_ease-in-out] cursor-pointer hover:bg-[var(--accent-color)] bg-[var(--text-color)] text-[var(--background-color)] rounded-sm"
           onClick={() => paginate(currentPage + 1)}
           disabled={
             currentPage === Math.ceil(filteredGames.length / gamesPerPage)
