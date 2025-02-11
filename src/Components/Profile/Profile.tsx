@@ -11,9 +11,10 @@ interface UserData {
 interface ProfileProps {
   userData: UserData | null;
   logOut: () => void;
+  onEdit: () => void;
 }
 
-const Profile: React.FC<ProfileProps> = ({ userData, logOut }) => {
+const Profile: React.FC<ProfileProps> = ({ userData, logOut, onEdit }) => {
   const planAssets = {
     basic: {
       background: "/images/planBanners/plan-basic.jpg",
@@ -58,6 +59,12 @@ const Profile: React.FC<ProfileProps> = ({ userData, logOut }) => {
         <p>
           <strong>Subscription Plan:</strong> {userData?.plan || "Basic"}
         </p>
+        <button
+          onClick={onEdit}
+          className="w-32 h-8 text-[0.9rem] bg-[var(--text-color)] text-[var(--background-color)] rounded-[5px] cursor-pointer [transition:all_0.2s_ease-in-out] font-bold hover:bg-[#9b2226]"
+        >
+          Edit Profile
+        </button>
         <button
           className="w-32 h-8 text-[0.9rem] bg-[var(--text-color)] text-[var(--background-color)] rounded-[5px] cursor-pointer [transition:all_0.2s_ease-in-out] font-bold hover:bg-[#9b2226]"
           onClick={logOut}
