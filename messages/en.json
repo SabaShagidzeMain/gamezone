@@ -1,0 +1,55 @@
+{
+  "header": {
+    "consoles": "Consoles",
+    "games": "Games",
+    "accessories": "Accessories",
+    "about": "About",
+    "contact": "Contact",
+    "profile": "Profile",
+    "all-games": "All Games",
+    "sub": "Subscription",
+    "blogs": "Blogs"
+  },
+  "featured-accessories": {
+    "header": "All Accessories",
+    "button-1": "Discover More",
+    "button-2": "Purchase"
+  },
+  "game-showcase": {
+    "new": "New Releases",
+    "coming": "Coming Soon"
+  },
+  "about-page": {
+    "header": "About Us",
+    "ap1": "We love video games, Esports, next-gen consoles, and everything gaming-related. GAMEZONE was founded to create the ultimate space for gamers in Georgia - a place where passion meets technology. Whether you`re a casual player or a pro-level competitor, you`ll find everything you need to elevate your gaming experience.",
+    "ah2": "Our Space",
+    "ap2": "At GAMEZONE, we bring you the latest PlayStation, Xbox, and PC gaming gear, along with a wide selection of accessories, gift and exclusive collectibles. Wether you`re looking for the newest game releases, top-tier gaming peripherals, or a community that shares your passion, this is the place to be",
+    "ah3": "Our Mission",
+    "ap3": "We aim to provide gamers with the best experience possible -from high-performance gaming seetups to expert advice on the latest gear. We collaborate with leading distributors to ensure you get authentic products straight from the source, along with special editions and limited-run gaming merchandise.",
+    "ah4": "Same Day Delivery",
+    "ap4": "Same day delivery throughout Tbilisi on orders placed before 17:00 pm",
+    "ah5": "Tax Free Shopping",
+    "ap5": "Fast and hassle-free tax-free shopping",
+    "ah6": "Card Support",
+    "ap6": "Fast and secure Visa and Master-Card payments",
+    "ah7": "Delivery & Payment",
+    "ap7": "We currently accept payments by credit/debit cards from any Georgian bank and UniPay. Orders are shipped via a local delivery company",
+    "ap8": "Please note that delays may occur due to credit card verification or incorrect billing information",
+    "ah9": "Get In Touch",
+    "ap9": "Have questions about in-store pickup, shipping, returns, or anything else? We`re always here to help! Contact us at:"
+  },
+  "contact-page": {
+    "c1": "Contact",
+    "c2": "Contact Us",
+    "c3": "Name",
+    "c4": "Email",
+    "c5": "Message",
+    "c6": "Address",
+    "c7": "Kavtaradze Str. #1 (CityMall)",
+    "c8": "Chavchavadze Ave #37 (Homemart)",
+    "c9": "2/4 Shota Rustaveli Ave (galleria Tbilisi)",
+    "c10": "Phone Number",
+    "c11": "Send Message",
+    "c12": "Sending..."
+  }
+}

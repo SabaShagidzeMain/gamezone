@@ -64,11 +64,15 @@ const OrderInfo: React.FC = () => {
       <div className="flex flex-col overflow-y-auto max-h-full shaow-[var(--box-shadow)]">
         <ul className="flex flex-col gap-2">
           {orders.map((order) => (
-            <li key={order.id} className="flex gap-2">
-              <div className="">
+            <li
+              key={order.id}
+              className="rounded-[5px] flex gap-2 shadow-[var(--box-shadow)] w-[98%] h-[5rem]"
+            >
+              <div className="flex justify-center items-center h-[100%]">
                 <Image
                   src={order.product_image}
                   alt={order.product_name}
+                  className="rounded-[50%] h-[4rem] w-[4rem] border-[2px] border-[solid] border-[var(--accent-color)]"
                   width={60}
                   height={60}
                 />

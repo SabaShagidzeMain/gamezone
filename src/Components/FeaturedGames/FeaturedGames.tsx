@@ -2,16 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { fetchFeatured } from "@/utilities/fetchFeatured/fetchFeatured";
-
-interface Game {
-  id: number;
-  name: string;
-  desc: string;
-  main_images: {
-    logo?: string;
-    thumbnail?: string;
-  };
-}
+import { Game } from "@/types";
 
 const FeaturedGames: React.FC = () => {
   const [activeGame, setActiveGame] = useState<Game | null>(null);
@@ -71,7 +62,9 @@ const FeaturedGames: React.FC = () => {
                 style={{ backgroundImage: `url(${logo})` }}
               ></div>
               <div className="flex items-center flex-col gap-1">
-                <h2 className="text-center lg:text-[1.5rem]">{activeGame?.name}</h2>
+                <h2 className="text-center lg:text-[1.5rem]">
+                  {activeGame?.name}
+                </h2>
                 <p className="w-4/5 text-[0.8rem]">{activeGame?.desc}</p>
                 <button className="w-36 h-12 bg-[var(--background-color)] text-[var(--text-color)] text-center border-[1px] border-solid border-[var(--text-color)] rounded-[10px] lg:cursor-pointer [transition:all_0.3s_ease-in-out] hover:bg-[var(--text-color)] hover:text-[var(--background-color)]">
                   გაიგე მეტი

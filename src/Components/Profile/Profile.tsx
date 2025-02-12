@@ -1,19 +1,22 @@
 import React from "react";
 import { FaRegUserCircle } from "react-icons/fa";
+import Image from "next/image"; // Import Image from next/image
 
 // Define the types for the props
 interface UserData {
   username: string;
   email: string;
   plan: "basic" | "essential" | "extra" | "premium";
+  user_image: string | null; // Add the user_image field
 }
 
 interface ProfileProps {
   userData: UserData | null;
   logOut: () => void;
+  onEdit: () => void;
 }
 
-const Profile: React.FC<ProfileProps> = ({ userData, logOut }) => {
+const Profile: React.FC<ProfileProps> = ({ userData, logOut, onEdit }) => {
   const planAssets = {
     basic: {
       background: "/images/planBanners/plan-basic.jpg",
@@ -48,7 +51,18 @@ const Profile: React.FC<ProfileProps> = ({ userData, logOut }) => {
           className="w-full flex justify-between items-center h-20 mb-4 p-4 rounded-[5px]"
         ></div>
         <div className="w-24 h-24 rounded-[50%] bg-[var(--text-color)] flex justify-center items-center mb-4">
-          <FaRegUserCircle className="w-16 h-16 text-[var(--background-color)]" />
+          {/* Conditionally render the image or the icon */}
+          {userData?.user_image ? (
+            <Image
+              src={userData.user_image}
+              alt="User Avatar"
+              className="w-[100%] h-[100%] rounded-[50%] object-cover border-[3px] border-[solid] border-[var(--accent-color)]"
+              width={100}
+              height={100}
+            />
+          ) : (
+            <FaRegUserCircle className="w-16 h-16 text-[var(--background-color)]" />
+          )}
         </div>
         <p>Hello!</p>
         <p>@{userData?.username || "Loading..."}</p>
@@ -59,7 +73,13 @@ const Profile: React.FC<ProfileProps> = ({ userData, logOut }) => {
           <strong>Subscription Plan:</strong> {userData?.plan || "Basic"}
         </p>
         <button
-          className="w-32 h-8 text-[0.9rem] bg-[var(--text-color)] text-[var(--background-color)] rounded-[5px] cursor-pointer [transition:all_0.2s_ease-in-out] font-bold hover:bg-[#9b2226]"
+          onClick={onEdit}
+          className="w-32 h-8 text-[0.9rem] bg-[var(--text-color)] text-[var(--background-color)] rounded-[5px] cursor-pointer [transition:all_0.2s_ease-in-out] font-bold hover:bg-[var(--accent-color)]"
+        >
+          Edit Profile
+        </button>
+        <button
+          className="w-32 h-8 text-[0.9rem] bg-[var(--text-color)] text-[var(--background-color)] rounded-[5px] cursor-pointer [transition:all_0.2s_ease-in-out] font-bold hover:bg-[var(--accent-color)]"
           onClick={logOut}
         >
           Logout

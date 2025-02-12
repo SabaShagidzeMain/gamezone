@@ -7,6 +7,7 @@ import { supabase } from "@/utilities/supabase/supabase";
 
 import Profile from "@/Components/Profile/Profile";
 import OrderInfo from "@/Components/orderInfo/orderInfo";
+import EditProfile from "@/Components/EditProfile/EditProfile";
 
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
@@ -16,6 +17,7 @@ interface UserData {
   username: string;
   email: string;
   plan: "basic" | "essential" | "extra" | "premium";
+  user_image: "string";
 }
 
 const LoginPage = () => {
@@ -32,6 +34,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showEditProfile, setShowEditProfile] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -45,7 +48,7 @@ const LoginPage = () => {
   const fetchUserData = async (userId: string) => {
     const { data, error } = await supabase
       .from("users")
-      .select("id, username, email, plan")
+      .select("id, username, email, plan, user_image")
       .eq("id", userId)
       .single();
 
@@ -78,6 +81,36 @@ const LoginPage = () => {
     }
 
     setLoading(false);
+  };
+
+  const handleUpdate = async () => {
+    // Check if userData is null or undefined
+    if (!userData) {
+      console.error("User data is unavailable.");
+      return;
+    }
+
+    // This is the parent update handler that gets called when the profile is updated
+    console.log("User profile updated!");
+
+    // Example: Fetch the updated user data
+    try {
+      const { data, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", userData.id)
+        .single();
+
+      if (error) {
+        console.error("Error fetching updated user data:", error);
+        return;
+      }
+
+      // Update the state with the fetched data
+      setUserData(data);
+    } catch (err) {
+      console.error("Error fetching updated user data:", err);
+    }
   };
 
   const handleSignUp = async () => {
@@ -177,9 +210,21 @@ const LoginPage = () => {
         </div>
       ) : (
         <div className="mt-8 md:mt-20 flex flex-col md:flex-row justify-start items-center gap-4 md:gap-8">
-          <Profile userData={userData} logOut={handleLogout} />
+          <Profile
+            userData={userData}
+            logOut={handleLogout}
+            onEdit={() => setShowEditProfile(true)}
+          />
           <OrderInfo />
         </div>
+      )}
+
+      {showEditProfile && (
+        <EditProfile
+          userData={userData}
+          onClose={() => setShowEditProfile(false)}
+          onUpdate={handleUpdate}
+        />
       )}
 
       {showModal && (
@@ -240,4 +285,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-``;

@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { supabase } from "@/utilities/supabase/supabase";
@@ -24,6 +24,9 @@ const CheckoutSuccessPage = () => {
   const { clearCart } = useCart();
   const [sessionData, setSessionData] = useState<SessionData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+
+  // useRef to track order insertion
+  const orderInsertedRef = useRef(false);
 
   useEffect(() => {
     const fetchSessionData = async () => {
@@ -52,7 +55,8 @@ const CheckoutSuccessPage = () => {
         setSessionData(data);
         setLoading(false);
 
-        if (data.userId && data.products) {
+        // Only insert orders if they haven't been inserted already
+        if (data.userId && data.products && !orderInsertedRef.current) {
           const orders = data.products.map((product: Product) => ({
             user_id: data.userId,
             username: data.username,
@@ -68,6 +72,7 @@ const CheckoutSuccessPage = () => {
             console.error("Error inserting orders:", error);
           } else {
             console.log("Orders inserted successfully");
+            orderInsertedRef.current = true; // Set ref to true after insertion
             clearCart();
           }
         }
@@ -84,7 +89,7 @@ const CheckoutSuccessPage = () => {
       console.error("Session ID is missing in the URL");
       setLoading(false);
     }
-  }, [searchParams, clearCart]);
+  }, [searchParams, clearCart]); // Remove orderInsertedRef from dependency array
 
   if (loading) return <p>Loading...</p>;
   if (!sessionData) return <p>Error fetching session data</p>;

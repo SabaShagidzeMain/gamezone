@@ -124,8 +124,8 @@ const Navbar = () => {
   const navLinks: NavLink[] = [
     { href: `/${locale}/subscription`, label: t("header.sub") },
     { href: `/${locale}/blogs`, label: t("header.blogs") },
-    { label: t("header.about") },
-    { label: t("header.contact") },
+    { href: `/${locale}/about`, label: t("header.about") },
+    { href: `/${locale}/contact`, label: t("header.contact") },
   ];
 
   return (
