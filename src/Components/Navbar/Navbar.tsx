@@ -125,7 +125,7 @@ const Navbar = () => {
     { href: `/${locale}/subscription`, label: t("header.sub") },
     { href: `/${locale}/blogs`, label: t("header.blogs") },
     { href: `/${locale}/about`, label: t("header.about") },
-    { label: t("header.contact") },
+    { href: `/${locale}/contact`, label: t("header.contact") },
   ];
 
   return (
