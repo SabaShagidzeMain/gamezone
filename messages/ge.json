@@ -1,0 +1,22 @@
+{
+  "header": {
+    "consoles": "კონსოლები",
+    "games": "თამაშები",
+    "accessories": "აქსესუარები",
+    "about": "ინფო",
+    "contact": "კონტაქტი",
+    "profile": "პროფილი",
+    "all-games": "ყველა თამაში",
+    "sub": "გამოწერა",
+    "blogs": "ბლოგი"
+  },
+  "featured-accessories": {
+    "header": "ყველა აქსესუარი",
+    "button-1": "გაიგე მეტი",
+    "button-2": "შეძენა"
+  },
+  "game-showcase": {
+    "new": "ახალი რელიზები",
+    "coming": "მალე დაემატება"
+  }
+}

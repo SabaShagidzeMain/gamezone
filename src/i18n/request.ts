@@ -10,9 +10,8 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale = routing.defaultLocale;
   }
 
-  // Modify the import path to point to the 'src/locales' directory
   return {
     locale,
-    messages: (await import(`../../src/locales/${locale}.json`)).default,
+    messages: (await import(`../../messages/${locale}.json`)).default,
   };
 });
