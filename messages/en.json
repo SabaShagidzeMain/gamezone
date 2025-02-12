@@ -37,5 +37,19 @@
     "ap8": "Please note that delays may occur due to credit card verification or incorrect billing information",
     "ah9": "Get In Touch",
     "ap9": "Have questions about in-store pickup, shipping, returns, or anything else? We`re always here to help! Contact us at:"
+  },
+  "contact-page": {
+    "c1": "Contact",
+    "c2": "Contact Us",
+    "c3": "Name",
+    "c4": "Email",
+    "c5": "Message",
+    "c6": "Address",
+    "c7": "Kavtaradze Str. #1 (CityMall)",
+    "c8": "Chavchavadze Ave #37 (Homemart)",
+    "c9": "2/4 Shota Rustaveli Ave (galleria Tbilisi)",
+    "c10": "Phone Number",
+    "c11": "Send Message",
+    "c12": "Sending..."
   }
 }

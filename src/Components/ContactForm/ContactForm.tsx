@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import emailjs from "emailjs-com";
+import { useTranslations } from "next-intl";
 
 const ContactForm: React.FC = () => {
+  const t = useTranslations();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -84,12 +86,12 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 border rounded-md shadow-lg">
+    <div className="max-w-lg w-[25rem] p-6 border rounded-md shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="name" className="block text-sm font-semibold mb-2">
-            Name
+            {t("contact-page.c3")}
           </label>
           <input
             type="text"
@@ -104,7 +106,7 @@ const ContactForm: React.FC = () => {
 
         <div className="mb-4">
           <label htmlFor="email" className="block text-sm font-semibold mb-2">
-            Email
+            {t("contact-page.c4")}
           </label>
           <input
             type="email"
@@ -121,7 +123,7 @@ const ContactForm: React.FC = () => {
 
         <div className="mb-4">
           <label htmlFor="message" className="block text-sm font-semibold mb-2">
-            Message
+            {t("contact-page.c5")}
           </label>
           <textarea
             id="message"
@@ -157,7 +159,9 @@ const ContactForm: React.FC = () => {
           }`}
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Sending..." : "Send Message"}
+          {isSubmitting
+            ? `${t("contact-page.c12")}`
+            : `${t("contact-page.c11")}`}
         </button>
       </form>
     </div>
