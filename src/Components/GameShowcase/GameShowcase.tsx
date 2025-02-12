@@ -1,24 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
 import { fetchShowcase } from "@/utilities/fetchShowcase/fetchShowcase";
-
-interface Game {
-  id: string;
-  name: string;
-  main_images?: {
-    disc: string;
-  };
-}
+import { Game } from "@/types";
+import { useRouter, usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const GameShowcase: React.FC = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [category, setCategory] = useState<"New" | "Coming Soon">("New");
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
+  const router = useRouter();
   const t = useTranslations();
   const pathname = usePathname() || "/en";
   const locale = pathname.split("/")[1] || "en";
@@ -80,12 +73,15 @@ const GameShowcase: React.FC = () => {
                 <div
                   key={game.id}
                   className={`cursor-pointer shadow-[var(--box-shadow)] w-[160px] md:w-[180px] aspect-[3/4] rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl m-2 ${
-                    hoveredCardId && hoveredCardId !== game.id
+                    hoveredCardId && hoveredCardId !== game.id.toString()
                       ? "opacity-50"
                       : ""
                   }`}
-                  onMouseEnter={() => setHoveredCardId(game.id)}
+                  onMouseEnter={() => setHoveredCardId(game.id.toString())}
                   onMouseLeave={() => setHoveredCardId(null)}
+                  onClick={() =>
+                    router.push(`/${locale}/games/all/${game.id}`)
+                  }
                 >
                   <div
                     className="w-full h-3/4 bg-cover bg-center"

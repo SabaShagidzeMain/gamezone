@@ -1,7 +1,7 @@
 export interface Game {
   id: number;
   name: string;
-  desc: string; // Add 'desc' property
+  desc?: string;
   tags_array: string[];
   video: string;
   rating: number;
@@ -13,6 +13,7 @@ export interface Game {
   main_images: {
     logo?: string;
     thumbnail?: string;
+    disc?: string;
   };
   additional_images: object;
 }

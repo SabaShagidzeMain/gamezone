@@ -5,7 +5,7 @@ export const fetchFeatured = async (): Promise<Game[]> => {
   try {
     const { data, error } = await supabase
       .from("games_admin")
-      .select("*") // Ensure 'desc' is included in your database
+      .select("*")
       .contains("tags_array", ["Featured"]);
 
     if (error) throw error;

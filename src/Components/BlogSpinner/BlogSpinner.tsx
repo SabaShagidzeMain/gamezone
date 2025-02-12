@@ -8,6 +8,9 @@ import { FreeMode } from "swiper/modules";
 import Image from "next/image";
 import { supabase } from "@/utilities/supabase/supabase";
 
+import { useRouter, usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+
 interface Blog {
   id: number;
   blog_image: string;
@@ -18,6 +21,11 @@ interface Blog {
 const BlogSpinner: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const router = useRouter();
+  const t = useTranslations();
+  const pathname = usePathname() || "/en";
+  const locale = pathname.split("/")[1] || "en";
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -85,8 +93,11 @@ const BlogSpinner: React.FC = () => {
                         {blog.blog_text}
                       </p>
                     </div>
-                    <button className="text-[.8rem] cursor-pointer bg-[var(--button-bg)] text-[var(--button-text)] px-4 py-1 rounded hover:shadow-[var(--box-shadow)] transition-shadow duration-300">
-                      გაიგე მეტი
+                    <button
+                      onClick={() => router.push(`/${locale}/blogs/${blog.id}`)}
+                      className="text-[.8rem] cursor-pointer bg-[var(--button-bg)] text-[var(--button-text)] px-4 py-1 rounded hover:shadow-[var(--box-shadow)] transition-shadow duration-300"
+                    >
+                      {t("game-showcase.learn")}
                     </button>
                   </div>
                 </div>
