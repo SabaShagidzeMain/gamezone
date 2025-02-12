@@ -34,6 +34,7 @@
   background-color: #001219;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  color: #fff;
 }
 
 .success_button:hover {
@@ -51,6 +52,7 @@
 }
 
 .loading_container {
+  margin: 5rem;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -49,7 +49,7 @@ const GameDetails = ({ params }: GameDetailsProps) => {
           .select("*")
           .eq("id", id)
           .single();
-        
+
         if (error) throw error;
         if (data) setGame(data as Game);
       } catch (error) {
@@ -116,7 +116,7 @@ const GameDetails = ({ params }: GameDetailsProps) => {
             <div className="flex gap-2">
               <button
                 className="rounded-[5px] h-10 sm:h-12 bg-[#001219] text-[#fff] cursor-pointer w-full hover:bg-[#003049] transition-colors"
-                onClick={() => handlePurchase(game.stripe_price_id, locale)}
+                onClick={() => handlePurchase(String(game.id), locale)}
               >
                 Buy Now
               </button>

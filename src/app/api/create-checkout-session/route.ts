@@ -31,7 +31,6 @@ export async function POST(req: Request): Promise<NextResponse> {
     const { userId, username, productIds, locale }: CheckoutRequestBody =
       await req.json();
 
-    // Ensure all necessary fields are present
     if (!userId || !username || !productIds || !locale) {
       return new NextResponse(
         "Missing userId, username, productIds, or locale",
@@ -45,13 +44,12 @@ export async function POST(req: Request): Promise<NextResponse> {
 
     console.log("Product IDs received:", productIds);
 
-    // Fetch products from the database using the productIds
     const { data: products, error } = await supabase
       .from("games_admin")
       .select(
         "stripe_price_id, stripe_product_id, name, price, id, main_images"
       )
-      .in("id", productIds); // Query using the product's 'id' field
+      .in("id", productIds);
 
     if (error || !products.length) {
       console.log("Products fetched:", products);
@@ -64,7 +62,7 @@ export async function POST(req: Request): Promise<NextResponse> {
 
     const lineItems = products.map((product) => ({
       price: product.stripe_price_id,
-      quantity: 1, // Or use the quantity from the cart if available
+      quantity: 1,
     }));
 
     const domain = process.env.NEXT_PUBLIC_DOMAIN || "http://localhost:3000";
@@ -75,7 +73,7 @@ export async function POST(req: Request): Promise<NextResponse> {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      line_items: lineItems, // No 'product_data' field here
+      line_items: lineItems,
       metadata: {
         user_id: userId,
         username: username,

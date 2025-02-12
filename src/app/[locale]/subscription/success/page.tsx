@@ -97,8 +97,6 @@ const SubscriptionSuccess = () => {
             {subscriptionData?.metadata?.plan || t("subscription.unknownPlan")}
           </span>
         </p>
-        <p>{t("subscription.thankYouMessage")}</p>
-        <p>{t("subscription.adventureMessage")}</p>
         <div className={styles.success_button_container}>
           <button className={styles.success_button}>
             <Link href={`/${locale}/`}>{t("navigation.backToHome")}</Link>

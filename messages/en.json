@@ -15,6 +15,10 @@
     "button-1": "Discover More",
     "button-2": "Purchase"
   },
+  "navigation": {
+    "backToHome": "Back To Home",
+    "profilePage": "Profile Page"
+  },
   "game-showcase": {
     "new": "New Releases",
     "coming": "Coming Soon",
@@ -52,5 +56,10 @@
     "c10": "Phone Number",
     "c11": "Send Message",
     "c12": "Sending..."
+  },
+  "subscription": {
+    "successTitle": "Successful Purchase",
+    "welcomeMessage": "Congratulations",
+    "planLabel": "Subscription"
   }
 }

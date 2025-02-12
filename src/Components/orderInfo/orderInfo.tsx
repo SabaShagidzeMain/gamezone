@@ -41,7 +41,8 @@ const OrderInfo: React.FC = () => {
       const { data, error } = await supabase
         .from("orders")
         .select("*")
-        .eq("user_id", userId);
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false });
 
       if (error) {
         console.error("Error fetching orders:", error);
@@ -80,9 +81,7 @@ const OrderInfo: React.FC = () => {
               <div className="text-[0.8rem] flex flex-col justify-center items-start">
                 <p>Product: {order.product_name}</p>
                 <p>Price: {order.product_price / 100} GEL</p>
-                <p>
-                  Purchase Date: {new Date(order.created_at).toLocaleString()}
-                </p>
+                <p>Purchase Date: {order.created_at}</p>
               </div>
             </li>
           ))}

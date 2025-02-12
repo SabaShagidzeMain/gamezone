@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
@@ -25,12 +25,10 @@ const CheckoutSuccessPage = () => {
   const [sessionData, setSessionData] = useState<SessionData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // useRef to track order insertion
   const orderInsertedRef = useRef(false);
 
   useEffect(() => {
     const fetchSessionData = async () => {
-      // Safe access with optional chaining
       const sessionId = searchParams?.get("session_id") || null;
       console.log("Session ID:", sessionId);
 
@@ -55,7 +53,6 @@ const CheckoutSuccessPage = () => {
         setSessionData(data);
         setLoading(false);
 
-        // Only insert orders if they haven't been inserted already
         if (data.userId && data.products && !orderInsertedRef.current) {
           const orders = data.products.map((product: Product) => ({
             user_id: data.userId,
@@ -72,7 +69,7 @@ const CheckoutSuccessPage = () => {
             console.error("Error inserting orders:", error);
           } else {
             console.log("Orders inserted successfully");
-            orderInsertedRef.current = true; // Set ref to true after insertion
+            orderInsertedRef.current = true;
             clearCart();
           }
         }
@@ -82,43 +79,45 @@ const CheckoutSuccessPage = () => {
       }
     };
 
-    // Add null check for searchParams
     if (searchParams?.has("session_id")) {
       fetchSessionData();
     } else {
       console.error("Session ID is missing in the URL");
       setLoading(false);
     }
-  }, [searchParams, clearCart]); // Remove orderInsertedRef from dependency array
+  }, [searchParams, clearCart]);
 
   if (loading) return <p>Loading...</p>;
   if (!sessionData) return <p>Error fetching session data</p>;
 
   return (
-    <div>
-      <h1>Purchase Successful!</h1>
-      <p>User: {sessionData.username}</p>
-      <p>User Id: {sessionData.userId}</p>
-      <p>Purchase Time: {sessionData.purchaseTime}</p>
-
-      {sessionData.products.length > 0 ? (
-        sessionData.products.map((product: Product, index: number) => (
-          <div key={index}>
-            <p>Product: {product.productName}</p>
-            <p>Price: {product.productPrice} GEL</p>
-            {product.productImage && (
-              <Image
-                src={product.productImage}
-                alt={product.productName}
-                width={100}
-                height={100}
-              />
-            )}
-          </div>
-        ))
-      ) : (
-        <p>No products found.</p>
-      )}
+    <div className="m-[10rem] flex flex-col gap-[2rem]">
+      <div>
+        <h1>Purchase Successful!</h1>
+        <p>User: {sessionData.username}</p>
+        <p>User Id: {sessionData.userId}</p>
+        <p>Purchase Time: {sessionData.purchaseTime}</p>
+      </div>
+      <div className="flex gap-2rem">
+        {sessionData.products.length > 0 ? (
+          sessionData.products.map((product: Product, index: number) => (
+            <div key={index}>
+              <p>Product: {product.productName}</p>
+              <p>Price: {product.productPrice} GEL</p>
+              {product.productImage && (
+                <Image
+                  src={product.productImage}
+                  alt={product.productName}
+                  width={100}
+                  height={100}
+                />
+              )}
+            </div>
+          ))
+        ) : (
+          <p>No products found.</p>
+        )}
+      </div>
     </div>
   );
 };
